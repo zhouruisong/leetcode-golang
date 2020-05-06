@@ -1,11 +1,12 @@
 package main
 
 import (
+	"container/list"
 	"fmt"
 	"main/model"
 )
 
-//中序遍历
+//中序遍历递归
 func InOrder(current *model.TreeNode) {
 	if current != nil {
 		InOrder(current.Left)
@@ -14,7 +15,33 @@ func InOrder(current *model.TreeNode) {
 	}
 }
 
-//先序遍历
+//中序遍历非递归(借助栈)
+func InOrder2(current *model.TreeNode) {
+	//打印节点， 将左子树全部入队，一个一个出队，再将右子树入队
+	if current == nil {
+		return
+	}
+
+	var result []int
+	nodelist := list.New()
+
+	for current != nil || nodelist.Len() != 0 {
+		for current != nil {
+			nodelist.PushFront(current)
+			current = current.Left
+		}
+
+		for nodelist.Len() != 0 {
+			current = nodelist.Remove(nodelist.Front()).(*model.TreeNode)
+			//result = append(result, current.Val)
+			current = current.Right
+		}
+	}
+
+	fmt.Println(result)
+}
+
+//先序遍历递归
 func PreOrder(current *model.TreeNode) {
 	if current != nil {
 		fmt.Printf(" %v", current.Val)
@@ -23,11 +50,137 @@ func PreOrder(current *model.TreeNode) {
 	}
 }
 
-//后序遍历
+//先序遍历非递归(借助栈)
+func PreOrder2(current *model.TreeNode) {
+	//打印节点， 将左子树全部入队，一个一个出队，再将右子树入队
+	if current == nil {
+		return
+	}
+
+	var result []int
+	nodelist := list.New()
+
+	for current != nil || nodelist.Len() != 0 {
+		for current != nil {
+			result = append(result, current.Val)
+			nodelist.PushFront(current)
+			current = current.Left
+		}
+
+		if nodelist.Len() != 0 {
+			current = nodelist.Remove(nodelist.Front()).(*model.TreeNode)
+			current = current.Right
+		}
+	}
+
+	fmt.Println(result)
+}
+
+//后序遍历递归
 func PostOrder(current *model.TreeNode) {
 	if current != nil {
 		PostOrder(current.Left)
 		PostOrder(current.Right)
 		fmt.Printf(" %v", current.Val)
 	}
+}
+
+//后序遍历非递归(借助栈)
+type record struct {
+	Node *model.TreeNode
+	Flag bool
+}
+
+func PostOrder2(current *model.TreeNode) {
+	//借助栈
+	if current == nil {
+		return
+	}
+
+	var result []int
+	nodelist := list.New()
+
+	r := record{
+		Node: current,
+		Flag: false,
+	}
+	nodelist.PushFront(r)
+
+	for nodelist.Len() != 0 {
+		node := nodelist.Remove(nodelist.Front()).(record)
+		if node.Node == nil {
+			continue
+		}
+		if node.Flag == true {
+			result = append(result, node.Node.Val)
+		} else {
+			r := record{
+				Node: node.Node,
+				Flag: true,
+			}
+			nodelist.PushFront(r)
+
+			rr := record{
+				Node: node.Node.Right,
+				Flag: false,
+			}
+			nodelist.PushFront(rr)
+
+			rl := record{
+				Node: node.Node.Left,
+				Flag: false,
+			}
+			nodelist.PushFront(rl)
+		}
+	}
+
+	fmt.Println(result)
+}
+
+//后序遍历非递归(借助栈)
+
+func PostOrder3(root *model.TreeNode) []int {
+	var res []int
+	var stack = []*model.TreeNode{root}
+	for 0 < len(stack) {
+		if root != nil {
+			//根右左
+			res = append(res, root.Val)
+			stack = append(stack, root.Left)  //左节点，因为先进 所以后出
+			stack = append(stack, root.Right) //右节点，因为后进 所以先出
+		}
+		index := len(stack) - 1 //栈顶
+		root = stack[index]     //出栈
+		stack = stack[:index]
+	}
+
+	//反转 变成后序遍历 左右根
+	l, r := 0, len(res)-1
+	for l < r {
+		res[l], res[r] = res[r], res[l]
+		l++
+		r--
+	}
+	return res
+}
+
+func main() {
+	root := &model.TreeNode{
+		Val: 3,
+	}
+	tree := model.InitBinaryTree2(root)
+	//InOrder(tree)
+	fmt.Println("\n=====")
+
+	PreOrder(tree)
+	fmt.Println("\n=====")
+	PreOrder2(tree)
+
+	fmt.Println("\n=====")
+	res := PostOrder3(tree)
+	fmt.Println(res)
+	//PostOrder(tree)
+	//fmt.Println("\n===111==")
+	//PostOrder2(tree)
+
 }

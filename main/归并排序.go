@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+//o(nlogn)
 func mergeSort(r []int) []int {
 	length := len(r)
 	if length <= 1 {
@@ -32,5 +33,5 @@ func merge(left, right []int) (result []int) {
 func main() {
 	x := []int{3, 1, 4, 6, 0, 9}
 	ret := mergeSort(x)
-	fmt.Printf("ret=%+v\n", ret)
+	fmt.Print("ret= ", ret)
 }

@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"main/model"
+)
 
 /*
 
@@ -15,25 +18,34 @@ import "fmt"
 
 如果链表不相交，那么最后会 nil == nil，返回 nil；
 
-代码
+遍历链表 A 并将每个结点的地址/引用存储在哈希表中。然后检查链表 B 中的每一个结点 ib
+i是否在哈希表中。若在，则 ibi
+​
+  为相交结点。
 
-func getIntersectionNode(headA, headB *ListNode) *ListNode {
-    curA,curB := headA,headB
-    for curA != curB {
-        if curA == nil {    // 如果第一次遍历到链表尾部，就指向另一个链表的头部，继续遍历，这样会抵消长度差。如果没有相交，因为遍历长度相等，最后会是 nil ==  nil
-            curA = headB
-        } else {
-            curA = curA.Next
-        }
-        if curB == nil {
-            curB = headA
-        } else {
-            curB = curB.Next
-        }
-    }
-    return curA
-}
+复杂度分析
+
+时间复杂度 : O(m+n)O(m+n)。
+空间复杂度 : O(m)O(m) 或 O(n)O(n)。
+代码
  */
+
+func getIntersectionNode(headA, headB *model.ListNode) *model.ListNode {
+	curA,curB := headA,headB
+	for curA != curB {
+		if curA == nil {    // 如果第一次遍历到链表尾部，就指向另一个链表的头部，继续遍历，这样会抵消长度差。如果没有相交，因为遍历长度相等，最后会是 nil ==  nil
+			curA = headB
+		} else {
+			curA = curA.Next
+		}
+		if curB == nil {
+			curB = headA
+		} else {
+			curB = curB.Next
+		}
+	}
+	return curA
+}
 
 func main(){
 	defer fmt.Printf("defer 1\n")

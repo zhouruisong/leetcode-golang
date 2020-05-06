@@ -1,5 +1,7 @@
 package main
 
+import "main/model"
+
 /*给定一个链表，旋转链表，将链表每个节点向右移动 k 个位置，其中 k 是非负数。
 
 示例 1:
@@ -23,28 +25,32 @@ package main
 1.遍历链表，保存长度
 2.找到分割点，然后构建循环链表
 3.在分割点分割，变单链表
-
-ListNode* rotateRight(ListNode* head, int k) {
-	if (!head)return NULL;
-	ListNode *p1 = head;
-	int len = 1;
-	while (p1->next) {
-		p1 = p1->next;
-		len++;
-	}
-	p1->next = head;
-	k %= len;
-	for (int i = 1; i < len - k + 1; i++) {
-		p1 = p1->next;
-		head = head->next;
-	}
-	p1->next = NULL;
-
-	return head;
-}
-
 */
 
-func main() {
+func rotateRight(head *model.ListNode, k int) *model.ListNode {
+	if head == nil {
+		return nil
+	}
+	p1 := head
+	len := 1
+	for p1.Next != nil {
+		p1 = p1.Next
+		len++
+	}
+	p1.Next = head
+	k %= len
+	for i := 1; i < len-k+1; i++ {
+		p1 = p1.Next
+		head = head.Next
+	}
+	p1.Next = nil
+	return head
+}
 
+func main() {
+	v6 := []int{1, 2, 3, 4, 5, 6, 7}
+	tmp1 := model.UnmarshalListBySlice(v6)
+	model.PrintList(tmp1)
+	tmp2 := rotateRight(tmp1, 2)
+	model.PrintList(tmp2)
 }

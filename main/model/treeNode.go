@@ -24,6 +24,7 @@ func InitBinaryTree(root *TreeNode) *TreeNode {
 	root.Right.Left = (&TreeNode{}).NewBinaryTreeNode(13)
 	root.Right.Right = (&TreeNode{}).NewBinaryTreeNode(4)
 	root.Right.Right.Right = (&TreeNode{}).NewBinaryTreeNode(1)
+	root.Right.Right.Left = (&TreeNode{}).NewBinaryTreeNode(5)
 
 	return root
 }
@@ -34,8 +35,40 @@ func InitBinaryTree2(root *TreeNode) *TreeNode {
 	root.Left = l.NewBinaryTreeNode(9)
 	root.Right = r.NewBinaryTreeNode(20)
 
+	root.Left.Left = (&TreeNode{}).NewBinaryTreeNode(1)
+	root.Left.Right = (&TreeNode{}).NewBinaryTreeNode(2)
+
 	root.Right.Left = (&TreeNode{}).NewBinaryTreeNode(15)
 	root.Right.Right = (&TreeNode{}).NewBinaryTreeNode(7)
+
+	return root
+}
+
+func InitBinaryTree3(root *TreeNode) *TreeNode {
+	l := TreeNode{}
+	r := TreeNode{}
+	root.Left = l.NewBinaryTreeNode(2)
+	root.Right = r.NewBinaryTreeNode(2)
+
+	root.Right.Left = (&TreeNode{}).NewBinaryTreeNode(3)
+	root.Right.Right = (&TreeNode{}).NewBinaryTreeNode(4)
+
+	root.Left.Left = (&TreeNode{}).NewBinaryTreeNode(4)
+	root.Left.Right = (&TreeNode{}).NewBinaryTreeNode(3)
+
+	return root
+}
+
+func InitBinaryTree4(root *TreeNode) *TreeNode {
+	l := TreeNode{}
+	r := TreeNode{}
+	root.Left = l.NewBinaryTreeNode(2)
+	root.Right = r.NewBinaryTreeNode(5)
+
+	root.Right.Right = (&TreeNode{}).NewBinaryTreeNode(6)
+
+	root.Left.Left = (&TreeNode{}).NewBinaryTreeNode(3)
+	root.Left.Right = (&TreeNode{}).NewBinaryTreeNode(4)
 
 	return root
 }

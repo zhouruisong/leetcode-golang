@@ -77,7 +77,7 @@ func rotate(nums []int, k int) {
 }
 
 //[1,2,3,4,5,6,7] 和 k = 3
-//数组最后元素向右侧移动k次
+//数组最后元素向左侧移动k次
 //o(kn)时间复杂度，空间复杂度o(1)
 func rotate2(nums []int, k int) {
 	n := len(nums)
@@ -95,5 +95,5 @@ func rotate2(nums []int, k int) {
 
 
 func main() {
-	rotate2([]int{1, 2, 3, 4, 5, 6, 7}, 2)
+	rotate2([]int{1, 2, 3, 4, 5, 6, 7}, 3)
 }

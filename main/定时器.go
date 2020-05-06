@@ -1,11 +1,11 @@
 package main
 
 import (
-	"runtime/debug"
-	"time"
-	"sync"
 	"context"
 	"fmt"
+	"runtime/debug"
+	"sync"
+	"time"
 )
 
 var mp sync.Map
@@ -36,7 +36,16 @@ func startTimer(id int, timeSecond time.Duration, f dosomething) {
 		}()
 
 		fmt.Printf("====start timer====\n")
+		//执行一次,多次执行需要执行reset
 		timer := time.NewTimer(timeSecond)
+
+		go func() {
+			time.Sleep(8)
+			timer.Stop()
+
+			fmt.Printf("====stop timer====\n")
+		}()
+
 		for {
 			select {
 			case <-ctx.Done():

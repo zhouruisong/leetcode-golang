@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"main/model"
+)
 
 /*
 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
@@ -9,55 +11,37 @@ import "fmt"
 */
 
 func main() {
-	v1 := []int{7, 7, 9}
-	var l1 *ListNode
-	var tmp *ListNode
-	tmp = nil
-	lv1 := len(v1)
-	for i := lv1 - 1; i >= 0; i-- {
-		l1 = new(ListNode)
-		l1.Val = v1[i]
-		l1.Next = tmp
-		tmp = l1
-	}
-
-	l1 = tmp
-	for l1 != nil {
-		fmt.Print(l1.Val)
-		l1 = l1.Next
-	}
-
-	fmt.Println("=======")
+	v1 := []int{7, 2, 4, 3}
 	v2 := []int{5, 6, 4}
-
-	var l2 *ListNode
-	var tmp2 *ListNode
-	tmp2 = nil
-	lv2 := len(v2)
-	for i := lv2 - 1; i >= 0; i-- {
-		l2 = new(ListNode)
-		l2.Val = v2[i]
-		l2.Next = tmp2
-		tmp2 = l2
-	}
-
-	l2 = tmp2
-	for l2 != nil {
-		fmt.Print(l2.Val)
-		l2 = l2.Next
-	}
-
-	fmt.Println("\n=======")
+	//[7,8,0,7]
+	tmp := model.UnmarshalListBySlice(v1)
+	tmp2 := model.UnmarshalListBySlice(v2)
+	model.PrintList(tmp)
+	model.PrintList(tmp2)
 
 	ret := addTwoNumbers(tmp, tmp2)
-	for ret != nil {
-		fmt.Println(ret.Val)
-		ret = ret.Next
-	}
+	model.PrintList(ret)
 }
 
-func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-	result := new(ListNode)
+func reserveLink(head *model.ListNode) *model.ListNode {
+	cur := head
+	var p *model.ListNode
+	var next *model.ListNode
+
+	for cur != nil {
+		next = cur.Next
+		cur.Next = p
+		p = cur
+		cur = next
+	}
+	return p
+}
+
+func addTwoNumbers(l1 *model.ListNode, l2 *model.ListNode) *model.ListNode {
+	l1 = reserveLink(l1)
+	l2 = reserveLink(l2)
+
+	result := new(model.ListNode)
 	head := result
 	sum := 0 //进位
 	tmp := 0
@@ -67,9 +51,9 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		v = tmp % 10                //本位数
 		//fmt.Println(tmp)
 		sum = tmp / 10 //进位
-		node := new(ListNode)
-		node.Val = v
-		node.Next = nil
+		node := &model.ListNode{
+			Val: v,
+		}
 		result.Next = node
 		result = result.Next
 		l1 = l1.Next
@@ -82,9 +66,9 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 			tmp = sum + l2.Val
 			v = tmp % 10
 			sum = tmp / 10
-			node := new(ListNode)
-			node.Val = v
-			node.Next = nil
+			node := &model.ListNode{
+				Val: v,
+			}
 			result.Next = node
 			result = result.Next
 			l2 = l2.Next
@@ -96,23 +80,23 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 			tmp = sum + l1.Val
 			v = tmp % 10
 			sum = tmp / 10
-			node := new(ListNode)
-			node.Val = v
-			node.Next = nil
+			node := &model.ListNode{
+				Val: v,
+			}
 			result.Next = node
 			result = result.Next
 			l1 = l1.Next
 		}
 	}
 
-	fmt.Printf("sum: %v\n", sum)
-
 	//最高位是1需要进位
 	if sum > 0 {
-		node := new(ListNode)
-		node.Val = sum
+		node := &model.ListNode{
+			Val: sum,
+		}
 		result.Next = node
 	}
 
+	head.Next = reserveLink(head.Next)
 	return head.Next
 }

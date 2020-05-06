@@ -82,7 +82,7 @@ func trap2(height []int) int {
 	tmp1 = height[n-1]
 	//从右侧向左侧找到第一个最大高度的位置
 	for k := n - 1; k >= 0; k-- {
-		if height[k] >= tmp1 {
+		if height[k] > tmp1 {
 			right_max_index = k
 			tmp1 = height[k]
 			//fmt.Println(right_max_index, tmp1)
