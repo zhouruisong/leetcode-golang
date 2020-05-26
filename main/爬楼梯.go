@@ -30,19 +30,19 @@ import "fmt"
  */
 
 //非递归
-func climbStairs(n int) int {
+func climbStairs(N int) int {
 	/*
 	斐波那契数列
 	自顶向下 递归思路f(n)：爬上n阶楼梯方法数 可以得出f(n) = f(n -1) + f(n-2)
 	*/
-	if n <= 2 {
-		return n
+	if N <= 1 {
+		return N
 	}
 
-	one := 1
-	two := 2
+	one := 0
+	two := 1
 	result := 0
-	for j := 3; j <= n; j++ {
+	for j := 2; j <= N; j++ {
 		result = one + two
 		one = two
 		two = result
@@ -56,7 +56,7 @@ func climbStairs2(n int) int {
 	斐波那契数列
 	自顶向下 递归思路f(n)：爬上n阶楼梯方法数 可以得出f(n) = f(n -1) + f(n-2)
 	*/
-	if n <= 2 {
+	if n <= 1 {
 		return n
 	}
 
@@ -64,6 +64,6 @@ func climbStairs2(n int) int {
 }
 
 func main() {
-	fmt.Println(climbStairs(44))
-	//fmt.Println(climbStairs2(44))
+	fmt.Println(climbStairs(3))
+	fmt.Println(climbStairs2(3))
 }

@@ -54,16 +54,16 @@ func hasPathSum2(root *model.TreeNode, sum int) bool {
 	sumStack := list.New()
 	pathStack := list.New()
 
-	nodeStack.PushFront(root)
-	sumStack.PushFront(sum - root.Val)
-	pathStack.PushFront(fmt.Sprintf("%v", root.Val))
+	nodeStack.PushBack(root)
+	sumStack.PushBack(sum - root.Val)
+	pathStack.PushBack(fmt.Sprintf("%v", root.Val))
 
 	for nodeStack.Len() > 0 {
 		currentLen := nodeStack.Len()
 		for i := 0; i < currentLen; i++ {
-			node := nodeStack.Remove(nodeStack.Back()).(*model.TreeNode)
-			val := sumStack.Remove(sumStack.Back()).(int)
-			path := pathStack.Remove(pathStack.Back()).(string)
+			node := nodeStack.Remove(nodeStack.Front()).(*model.TreeNode)
+			val := sumStack.Remove(sumStack.Front()).(int)
+			path := pathStack.Remove(pathStack.Front()).(string)
 
 			if node.Left == nil && node.Right == nil && val == 0 {
 				fmt.Printf("%v\n", path)
@@ -71,15 +71,15 @@ func hasPathSum2(root *model.TreeNode, sum int) bool {
 			}
 
 			if node.Left != nil {
-				nodeStack.PushFront(node.Left)
-				sumStack.PushFront(val - node.Left.Val)
-				pathStack.PushFront(fmt.Sprintf("%v->%v", path, node.Left.Val))
+				nodeStack.PushBack(node.Left)
+				sumStack.PushBack(val - node.Left.Val)
+				pathStack.PushBack(fmt.Sprintf("%v->%v", path, node.Left.Val))
 			}
 
 			if node.Right != nil {
-				nodeStack.PushFront(node.Right)
-				sumStack.PushFront(val - node.Right.Val)
-				pathStack.PushFront(fmt.Sprintf("%v->%v", path, node.Right.Val))
+				nodeStack.PushBack(node.Right)
+				sumStack.PushBack(val - node.Right.Val)
+				pathStack.PushBack(fmt.Sprintf("%v->%v", path, node.Right.Val))
 			}
 		}
 	}
@@ -92,5 +92,5 @@ func main() {
 		Val: 5,
 	}
 	tree := model.InitBinaryTree(root)
-	fmt.Println(hasPathSum2(tree, 18))
+	fmt.Println(hasPathSum2(tree, 27))
 }

@@ -74,6 +74,16 @@ func threeSum(nums []int) [][]int {
 	return result
 }
 
+/*
+先将数组进行排序
+从左侧开始，选定一个值为 定值 ，右侧进行求解，获取与其相加为 00 的两个值
+类似于快排，定义首和尾
+首尾与 定值 相加
+等于 00，记录这三个值
+小于 00，首部右移
+大于 00，尾部左移
+定值右移，重复该步骤
+*/
 //复杂度o(n*n),采用二分查找方法
 func threeSum2(nums []int) [][]int {
 	result := [][]int{}
@@ -85,7 +95,7 @@ func threeSum2(nums []int) [][]int {
 	sort.Ints(nums)
 
 	for i := 0; i < n-2; i++ {
-		if i > 0 && nums[i] == nums[i-1] {  //去重
+		if i > 0 && nums[i] == nums[i-1] { //去重
 			continue
 		}
 

@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 /*
  * 班上有 N 名学生。其中有些人是朋友，有些则不是。他们的友谊具有是传递性。如果已知 A 是 B 的朋友，B 是 C 的朋友，那么我们可以认为 A 也是
  * C 的朋友。所谓的朋友圈，是指所有朋友的集合。
@@ -40,44 +38,81 @@ import "fmt"
  * 如果有M[i][j] = 1，则有M[j][i] = 1。
  */
 
-func findP(s []int, p int) int {
-	for s[p] > 0 {
-		p = s[p]
+func union(s, w *[]int, count *int, p, q int) {
+	rootP := findx(s, p)
+	rootQ := findx(s, q)
+
+	if rootP == rootQ {
+		return
 	}
-	return p
+
+	// 小树接到大树下面，较平衡
+	if (*w)[rootP] > (*w)[rootQ] {
+		(*s)[rootQ] = rootP
+		(*w)[rootP] += (*w)[rootQ]
+	} else {
+		(*s)[rootP] = rootQ
+		(*w)[rootQ] += rootP
+	}
+
+	*count--
+	//fmt.Println(*count)
 }
 
+func findx(s *[]int, x int) int {
+	for (*s)[x] != x {
+		(*s)[x] = (*s)[(*s)[x]]
+		x = (*s)[x]
+	}
+
+	return x
+}
+
+//union-find方法（并查集算法） O(logN)
 func findCircleNum(M [][]int) int {
-	n := len(M) //列
-	if n == 0 {
+	m := len(M) //行
+	if m == 0 {
 		return 0
 	}
 
-	//定义n+1长度的数组并且全部初始化为-1
+	n := len(M[0]) //列
+
+	//定义n长度的数组并且全部初始化为i
 	var store []int
-	for i := 0; i < n+1; i++ {
-		store = append(store, -1)
+	var sizeWt []int
+	count := m
+	for i := 0; i < n; i++ {
+		store = append(store, i)
+		sizeWt = append(sizeWt, 1)
 	}
 
-	for i := 0; i < n; i++ {
-		sum := 0
-		p := i + 1
-		for j := 0; j < n-1; j++ {
+	for i := 0; i < m; i++ {
+		//内循环直到i就可以，因为是对称矩阵
+		for j := i + 1; j < n; j++ {
+			if M[i][j] == 0 {
+				continue
+			}
+
 			if M[i][j] == 1 {
-				p = findP(store, p)
-				sum = sum + store[p] + store[p+j]
+				union(&store, &sizeWt, &count, i, j)
 			}
 		}
-		store[p] = sum
 	}
 
-	fmt.Println(store)
-
-	return 0
+	return count
 }
 
 func main() {
-	//x := [][]int{{1, 0}, {1, 0}, {0, 1}}
-	x := [][]int{{1, 1, 0}, {1, 1, 0}, {0, 0, 1}}
+	//x := [][]int{
+	//	{1, 1, 0},
+	//	{1, 1, 0},
+	//	{0, 0, 1},
+	//}
+
+	x := [][]int{
+		{1, 1, 0},
+		{1, 1, 1},
+		{0, 1, 1},
+	}
 	findCircleNum(x)
 }

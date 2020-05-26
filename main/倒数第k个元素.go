@@ -40,5 +40,5 @@ func main() {
 	v1 := []int{1, 2, 5, 3, 6}
 	head := model.UnmarshalListBySlice(v1)
 	model.PrintList(head)
-	fmt.Println(kThNumber(head, 0))
+	fmt.Println(kThNumber(head, 4))
 }

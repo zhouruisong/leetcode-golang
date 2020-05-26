@@ -54,14 +54,14 @@ func search(nums []int, target int) bool {
 			left++
 			continue
 		}
-		//mid后面是顺序的
+		//mid后面是顺序的，mid在转折点后面
 		if nums[left] > nums[mid] {
 			if nums[mid] < target && nums[right] >= target {
 				left = mid + 1
 			} else {
 				right = mid - 1
 			}
-		} else {
+		} else { //mid在转折点前面
 			if nums[mid] > target && nums[left] <= target {
 				right = mid - 1
 			} else {

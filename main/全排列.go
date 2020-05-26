@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 )
 
 /*
@@ -93,13 +94,93 @@ func backtrace(start int, nums []int, res *[][]int) {
 	}
 }
 
+//o(n^2)
 func permute1(nums []int) [][]int {
 	res := [][]int{}
 	backtrace(0, nums, &res)
 	return res
 }
 
+//第二种方法 字典序+swap  o(n)
+func permute3(nums []int) [][]int {
+	//先将nums升序排序
+	sort.Ints(nums)
+
+	ln := len(nums)
+	if ln == 0 {
+		return [][]int{}
+	}
+
+	if ln == 1 {
+		return [][]int{{nums[0]}}
+	}
+
+	if ln == 2 {
+		return [][]int{{nums[0], nums[1]}, {nums[1], nums[0]}}
+	}
+
+	res := [][]int{}
+	//深拷贝
+	tmp1 := make([]int, ln)
+	copy(tmp1, nums)
+	res = append(res, tmp1)
+
+	for {
+		//fmt.Println(nums)
+		j := ln - 2
+		k := ln - 1
+		//从后往前找
+		for j >= 0 && nums[j] > nums[j+1] {
+			j-- //找到第一对数 nums[j]<nums[j+1]
+		}
+
+		if j < 0 {
+			break
+		}
+
+		//从后往前找，到j位置结束，找到第一个比nums[j]大的nums[k]
+		for nums[k] < nums[j] {
+			k--
+		}
+
+		//交换nums[j]和nums[k]对应的值
+		nums[j], nums[k] = nums[k], nums[j]
+
+		//j位置后，肯定是降序的，前后互换，变为升序
+		l := j + 1
+		r := ln - 1
+		for l < r {
+			nums[l], nums[r] = nums[r], nums[l]
+			r--
+			l++
+		}
+
+		//深拷贝
+		tmp := make([]int, ln)
+		copy(tmp, nums)
+		res = append(res, tmp)
+	}
+
+	return res
+}
+
 func main() {
-	x := []int{1, 1, 5}
-	fmt.Println(permute1(x))
+	x := []int{1, 2, 3}
+	//fmt.Println(permute1(x))
+	fmt.Println(permute3(x))
+
+	//相同的切片修改后，重复append会修改原来的切片
+	res := [][]int{}
+	arr := []int{1, 2, 3}
+	arr[0], arr[2] = arr[2], arr[0]
+	fmt.Println(arr) // [3 2 1]
+
+	res = append(res, arr)
+	fmt.Println(res) // [3 2 1]
+
+	arr[1], arr[2] = arr[2], arr[1]
+	fmt.Println(arr)       // [3 1 2]
+	res = append(res, arr)
+
+	fmt.Println(res) // [[3 1 2] [3 1 2]]   ?
 }

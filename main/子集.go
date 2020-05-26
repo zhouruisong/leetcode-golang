@@ -40,7 +40,7 @@ subset([1,2,3]) = A + [A[i].add(3) for i = 1..len(A)]
 base case 显然就是当输入集合为空集时，输出子集也就是一个空集。
 */
 
-//回溯法O(n2^n)
+//回溯法O(n*2^n)
 func subsets(nums []int) [][]int {
 	n := len(nums)
 	if n == 0 {
@@ -61,14 +61,15 @@ func subsets(nums []int) [][]int {
 		//fmt.Println(res)
 	}
 
+	//fmt.Println(res)
 	return res
 }
 
 func main() {
 	//x := []int{1, 2, 2}
 	start := time.Now()
-	x := []int{9, 0, 3, 5, 7}
-	subsets(x)
+	x := []int{1, 2, 3}
+	fmt.Println(subsets(x))
 
 	fmt.Println("cost time is: " + time.Since(start).String())
 	//y := [][]int{}

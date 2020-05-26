@@ -54,11 +54,14 @@ func zigzagLevelOrder(root *model.TreeNode) [][]int {
 		if count%2 == 0 {
 			ret = append(ret, tmp)
 		} else {
-			t := []int{}
-			for i := len(tmp) - 1; i >= 0; i-- {
-				t = append(t, tmp[i])
+			l := 0
+			r := len(tmp) - 1
+			for l < r {
+				tmp[l], tmp[r] = tmp[r], tmp[l]
+				l++
+				r--
 			}
-			ret = append(ret, t)
+			ret = append(ret, tmp)
 		}
 
 		count++

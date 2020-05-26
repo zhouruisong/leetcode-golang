@@ -31,14 +31,39 @@ func InOrder2(current *model.TreeNode) {
 			current = current.Left
 		}
 
-		for nodelist.Len() != 0 {
+		if nodelist.Len() != 0 {
 			current = nodelist.Remove(nodelist.Front()).(*model.TreeNode)
-			//result = append(result, current.Val)
+			result = append(result, current.Val)
 			current = current.Right
 		}
 	}
 
 	fmt.Println(result)
+}
+
+func inorderTraversal(root *model.TreeNode) []int {
+	//打印节点， 将左子树全部入队，一个一个出队，再将右子树入队
+	if root == nil {
+		return []int{}
+	}
+
+	var result []int
+	nodelist := list.New()
+
+	for root != nil || nodelist.Len() != 0 {
+		for root != nil {
+			nodelist.PushFront(root)
+			root = root.Left
+		}
+
+		if nodelist.Len() != 0 {
+			root = nodelist.Remove(nodelist.Front()).(*model.TreeNode)
+			result = append(result, root.Val)
+			root = root.Right
+		}
+	}
+
+	return result
 }
 
 //先序遍历递归
@@ -138,7 +163,6 @@ func PostOrder2(current *model.TreeNode) {
 }
 
 //后序遍历非递归(借助栈)
-
 func PostOrder3(root *model.TreeNode) []int {
 	var res []int
 	var stack = []*model.TreeNode{root}
@@ -164,21 +188,39 @@ func PostOrder3(root *model.TreeNode) []int {
 	return res
 }
 
+/* 中序遍历 inorder = [9,3,15,20,7]
+*  后序遍历 postorder=[9,15,7,20,3]
+*
+* 返回如下的二叉树：
+*
+* ⁠   3
+* ⁠  / \
+* ⁠ 9  20
+* ⁠   /  \
+* ⁠  15   7
+ */
+
 func main() {
-	root := &model.TreeNode{
+	tree := &model.TreeNode{
 		Val: 3,
 	}
-	tree := model.InitBinaryTree2(root)
-	//InOrder(tree)
+	model.InitBinaryTree3(tree)
+
+	InOrder(tree)
+	fmt.Println("\n=====")
+	InOrder2(tree)
 	fmt.Println("\n=====")
 
-	PreOrder(tree)
+	fmt.Println(inorderTraversal(tree))
 	fmt.Println("\n=====")
-	PreOrder2(tree)
 
-	fmt.Println("\n=====")
-	res := PostOrder3(tree)
-	fmt.Println(res)
+	//PreOrder(tree)
+	//fmt.Println("\n=====")
+	//PreOrder2(tree)
+	//
+	//fmt.Println("\n=====")
+	//res := PostOrder3(tree)
+	//fmt.Println(res)
 	//PostOrder(tree)
 	//fmt.Println("\n===111==")
 	//PostOrder2(tree)

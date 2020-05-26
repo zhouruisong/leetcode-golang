@@ -163,11 +163,11 @@ func Max(x, y int) int {
 }
 
 func main() {
-	//x := "pwwkew"
+	x := "pwwkew"
 	//x := "bbbbb"
-	x := "abcabcbb"
+	//x := "abcabcbb"
 	//lengthOfLongestSubstring(x)
-	zichuan(x)
+	fmt.Println(zichuan(x))
 	//fmt.Println(lengthOfLongestSubstring1(x))
 	//fmt.Println(lengthOfLongestSubstring3(x))
 }

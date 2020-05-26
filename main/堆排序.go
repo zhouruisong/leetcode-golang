@@ -35,6 +35,8 @@ func HeapSortMax(nums []int, n int) []int {
 		left := 2*i + 1  //左孩子
 		right := 2*i + 2 //右孩子
 
+		fmt.Println(i, nums[left], nums[topMax], nums)
+
 		if left <= n-1 && nums[left] > nums[topMax] { //如果左边比我大，记录最大
 			topMax = left
 		}

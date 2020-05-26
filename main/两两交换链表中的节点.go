@@ -93,7 +93,7 @@ func main() {
 	v1 := []int{1, 2, 3, 4, 5, 6}
 	head := model.UnmarshalListBySlice(v1)
 	model.PrintList(head)
-	fmt.Println("=======")
+	fmt.Println("=======================")
 	nh := swapPairs3(head)
 	model.PrintList(nh)
 }

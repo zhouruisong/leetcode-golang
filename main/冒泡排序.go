@@ -12,7 +12,7 @@ func bubbleSort(nums []int) []int {
 		for j := 0; j < n-1-i; j++ {
 			if nums[j] > nums[j+1] {
 				nums[j], nums[j+1] = nums[j+1], nums[j]
-				//fmt.Println(nums)
+				fmt.Println(nums)
 			}
 		}
 	}
@@ -33,7 +33,7 @@ func bubbleSort2(nums []int) []int {
 			if nums[j] > nums[j+1] {
 				nums[j], nums[j+1] = nums[j+1], nums[j]
 				isChange = true
-				//fmt.Println(nums)
+				fmt.Println(nums)
 			}
 			//优化
 			if isChange {

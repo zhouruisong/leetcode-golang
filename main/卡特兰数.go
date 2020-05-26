@@ -37,7 +37,7 @@ Catalan数的典型应用：
 
 func main() {
 	i, j := 2, 0
-	n := 500 //求500以内的卡特兰数
+	n := 20 //求500以内的卡特兰数
 	arr := make([]uint64, 0, 0)
 	arr = append(arr, 1)
 	arr = append(arr, 1)

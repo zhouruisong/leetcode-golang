@@ -150,6 +150,71 @@ func getPermutation3(n int, k int) string {
 	return string(result)
 }
 
+func getPermutation4(n int, k int) string {
+	nums := []int{}
+	for i := 1; i <= n; i++ {
+		nums = append(nums, i)
+	}
+
+	fmt.Println(nums)
+	//先将nums升序排序
+	//sort.Ints(nums)
+
+	ln := len(nums)
+	if ln == 0 {
+		return ""
+	}
+
+	if ln == 1 {
+		return fmt.Sprintf("%d", nums[0])
+	}
+
+	m := 1
+	res := make([]int, ln)
+
+	for m <= k {
+		//fmt.Println(nums)
+		if m == k {
+			//深拷贝
+			copy(res, nums)
+			break
+		}
+
+		j := ln - 2
+		k := ln - 1
+		//从后往前找
+		for j >= 0 && nums[j] > nums[j+1] {
+			j-- //找到第一对数 nums[j]<nums[j+1]
+		}
+
+		if j < 0 {
+			break
+		}
+
+		//从后往前找，到j位置结束，找到第一个比nums[j]大的nums[k]
+		for nums[k] < nums[j] {
+			k--
+		}
+
+		//交换nums[j]和nums[k]对应的值
+		nums[j], nums[k] = nums[k], nums[j]
+
+		//j位置后，肯定是降序的，前后互换，变为升序
+		l := j + 1
+		r := ln - 1
+		for l < r {
+			nums[l], nums[r] = nums[r], nums[l]
+			r--
+			l++
+		}
+		m++
+	}
+
+	s := fmt.Sprintf("%v", res)
+	r := strings.ReplaceAll(strings.Trim(s, "[]"), " ", "")
+	return r
+}
+
 func main() {
-	fmt.Println(getPermutation2(8, 20545))
+	fmt.Println(getPermutation4(4, 9))
 }
