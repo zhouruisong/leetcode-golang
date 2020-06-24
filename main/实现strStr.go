@@ -52,12 +52,45 @@ func strStr(haystack string, needle string) int {
 	return loc
 }
 
-//KMP算法
-func strStr2() {
+//字符串比较
+func strStr2(haystack string, needle string) int {
+	n2 := len(needle)
+	if n2 == 0 {
+		return 0
+	}
 
+	n1 := len(haystack)
+	if n1 < n2 {
+		return -1
+	}
+
+	if n1 == n2 {
+		if haystack == needle {
+			return 0
+		} else {
+			return -1
+		}
+	}
+
+	count := 0
+	for k := 0; k < n1; k++ {
+		if k+n2 > n1 {
+			return -1
+		}
+
+		if needle == string(haystack[k:k+n2]) {
+			return count
+		}
+
+		count++
+	}
+
+	return -1
 }
+
 func main() {
-	haystack := "mississippi"
-	needle := "mississippi"
+	haystack := "aaaaa"
+	needle := "bba"
 	fmt.Println(strStr(haystack, needle))
+	fmt.Println(strStr2(haystack, needle))
 }

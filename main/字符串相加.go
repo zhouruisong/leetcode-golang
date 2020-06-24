@@ -86,7 +86,7 @@ func addStrings2(num1 string, num2 string) string {
 }
 
 func main() {
-	arr1 := "123"
-	arr2 := "4567"
+	arr1 := "123445454545"
+	arr2 := "45673232332232232"
 	fmt.Println(addStrings(arr1, arr2))
 }

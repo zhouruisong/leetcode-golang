@@ -48,25 +48,24 @@ func mySqrt(x int) int {
 
 //二分查找方法
 func mySqrt2(x int) int {
-	if x == 0 {
-		return 0
+	//二分查找方法
+	if x < 2 {
+		return x
 	}
 
-	left := 0
-	right := x
-	mid := 0
-	ans := 0
+	left := 2
+	right := x/2
+
 	for left < right {
-		mid = (left + right) / 2
-		if mid <= x/mid {
-			left = mid + 1
-			ans = mid
+		mid := (right + left) / 2 + 1
+		if mid * mid <= x {
+			left = mid
 		} else {
 			right = mid - 1
 		}
 	}
 
-	return ans
+	return right
 }
 
 func main() {

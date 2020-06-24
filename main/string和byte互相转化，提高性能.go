@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 	"unsafe"
 )
 
@@ -36,16 +37,17 @@ type GatewayReqBody struct {
  Header  GatewayReqBodyHeader `json:"header"`
  Payload json.RawMessage      `json:"payload"`
 }
+
 */
 
 //压测优化string 和 byte的转换拷贝
-func String(b []byte) string {
+func Byte2Str(b []byte) string {
 	return *(*string)(unsafe.Pointer(&b))
 }
 
 func Str2Bytes(s string) []byte {
-	p := &s
-	fmt.Printf("%+v\n", p)
+	//p := &s
+	//fmt.Printf("%+v\n", p)
 
 	x := (*[2]uintptr)(unsafe.Pointer(&s))
 	h := [3]uintptr{x[0], x[1], x[1]}
@@ -54,5 +56,28 @@ func Str2Bytes(s string) []byte {
 
 func main() {
 	x := "0123"
-	fmt.Println(Str2Bytes(x))
+	s1 := time.Now()
+	for i := 0; i < 100000; i++ {
+		_ = Str2Bytes(x)
+	}
+	fmt.Println(time.Since(s1).String())
+
+	s2 := time.Now()
+	for i := 0; i < 100000; i++ {
+		_ = []byte(x)
+	}
+	fmt.Println(time.Since(s2).String())
+
+	y := []byte{'1', '2', '3'}
+	s3 := time.Now()
+	for i := 0; i < 100000; i++ {
+		Byte2Str(y)
+	}
+	fmt.Println(time.Since(s3).String())
+
+	s4 := time.Now()
+	for i := 0; i < 100000; i++ {
+		_ = string(y)
+	}
+	fmt.Println(time.Since(s4).String())
 }
