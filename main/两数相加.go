@@ -11,15 +11,18 @@ import (
 */
 
 func main() {
-	v1 := []int{7, 2, 4, 3}
-	v2 := []int{5, 6, 4}
+	v1 := []int{2,4,9}
+	v2 := []int{5,6,4,9}
 	//[7,8,0,7]
 	tmp := model.UnmarshalListBySlice(v1)
 	tmp2 := model.UnmarshalListBySlice(v2)
 	model.PrintList(tmp)
 	model.PrintList(tmp2)
 
-	ret := addTwoNumbers(tmp, tmp2)
+	//ret := addTwoNumbers(tmp, tmp2)
+	//model.PrintList(ret)
+
+	ret := addTwoNumbers2(tmp, tmp2)
 	model.PrintList(ret)
 }
 
@@ -98,5 +101,43 @@ func addTwoNumbers(l1 *model.ListNode, l2 *model.ListNode) *model.ListNode {
 	}
 
 	head.Next = reserveLink(head.Next)
+	return head.Next
+}
+
+func addTwoNumbers2(l1 *model.ListNode, l2 *model.ListNode) *model.ListNode {
+	result := &model.ListNode{}
+	head := result
+	carry := 0
+	for l1 != nil || l2 != nil {
+		node := &model.ListNode{}
+		if l1 == nil {
+			node.Val = (l2.Val + carry) % 10
+			carry = (l2.Val + carry) / 10
+			l2 = l2.Next
+		} else if l2 == nil {
+			node.Val = (l1.Val + carry) % 10
+			carry = (l1.Val + carry) / 10
+			l1 = l1.Next
+		} else {
+			node.Val = (l1.Val + l2.Val + carry) % 10
+			carry = (l1.Val + l2.Val + carry) / 10
+			l1 = l1.Next
+			l2 = l2.Next
+		}
+
+		result.Next = node
+		node.Next = nil
+		result = result.Next
+	}
+
+	if carry > 0 {
+		node := &model.ListNode{
+			Val: carry,
+		}
+		result.Next = node
+		node.Next = nil
+		result = result.Next
+	}
+
 	return head.Next
 }

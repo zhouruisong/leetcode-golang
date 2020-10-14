@@ -51,25 +51,25 @@ func binaryTreePaths(root *model.TreeNode) []string {
 		return paths
 	}
 
-	nodeLiist := list.New()
+	nodeList := list.New()
 	pathList := list.New()
 
-	nodeLiist.PushBack(root)
+	nodeList.PushBack(root)
 	pathList.PushBack(fmt.Sprintf("%v", root.Val))
 
-	for nodeLiist.Len() != 0 {
-		node := nodeLiist.Remove(nodeLiist.Front()).(*model.TreeNode)
+	for nodeList.Len() != 0 {
+		node := nodeList.Remove(nodeList.Front()).(*model.TreeNode)
 		path := pathList.Remove(pathList.Front()).(string)
 		if node.Right == nil && node.Left == nil {
 			paths = append(paths, path)
 		}
 
 		if node.Left != nil {
-			nodeLiist.PushBack(node.Left)
+			nodeList.PushBack(node.Left)
 			pathList.PushBack(fmt.Sprintf("%v->%v", path, node.Left.Val))
 		}
 		if node.Right != nil {
-			nodeLiist.PushBack(node.Right)
+			nodeList.PushBack(node.Right)
 			pathList.PushBack(fmt.Sprintf("%v->%v", path, node.Right.Val))
 		}
 	}
