@@ -94,25 +94,25 @@ func lengthOfLongestSubstring(s string) int {
 		}
 	}
 
-	//打印
-	type kv struct {
-		Key   string
-		Value int
-	}
-
-	var ss []kv
-	for k, v := range m {
-		ss = append(ss, kv{string(k), int(v)})
-	}
-
-	sort.Slice(ss, func(i, j int) bool {
-		//return ss[i].Value > ss[j].Value // 降序
-		return ss[i].Value < ss[j].Value // 升序
-	})
-
-	for _, kv := range ss {
-		fmt.Printf("%v, %d\n", kv.Key, kv.Value)
-	}
+	////打印
+	//type kv struct {
+	//	Key   string
+	//	Value int
+	//}
+	//
+	//var ss []kv
+	//for k, v := range m {
+	//	ss = append(ss, kv{string(k), int(v)})
+	//}
+	//
+	//sort.Slice(ss, func(i, j int) bool {
+	//	//return ss[i].Value > ss[j].Value // 降序
+	//	return ss[i].Value < ss[j].Value // 升序
+	//})
+	//
+	//for _, kv := range ss {
+	//	fmt.Printf("%v, %d\n", kv.Key, kv.Value)
+	//}
 
 	fmt.Printf("ans= %+v\n", ans)
 	return ans
@@ -131,24 +131,24 @@ func lengthOfLongestSubstring3(s string) int {
 		Map_tmp[s[j]] = j + 1
 	}
 
-	type kv struct {
-		Key   string
-		Value int
-	}
-
-	var ss []kv
-	for k, v := range Map_tmp {
-		ss = append(ss, kv{string(k), v})
-	}
-
-	sort.Slice(ss, func(i, j int) bool {
-		//return ss[i].Value > ss[j].Value // 降序
-		return ss[i].Value < ss[j].Value // 升序
-	})
-
-	for _, kv := range ss {
-		fmt.Printf("%v, %d\n", kv.Key, kv.Value)
-	}
+	//type kv struct {
+	//	Key   string
+	//	Value int
+	//}
+	//
+	//var ss []kv
+	//for k, v := range Map_tmp {
+	//	ss = append(ss, kv{string(k), v})
+	//}
+	//
+	//sort.Slice(ss, func(i, j int) bool {
+	//	//return ss[i].Value > ss[j].Value // 降序
+	//	return ss[i].Value < ss[j].Value // 升序
+	//})
+	//
+	//for _, kv := range ss {
+	//	fmt.Printf("%v, %d\n", kv.Key, kv.Value)
+	//}
 
 	return ans
 }

@@ -5,6 +5,7 @@ import "main/model"
 func reverseLink(head *model.ListNode) *model.ListNode {
 	cur := head
 	var tmp *model.ListNode
+
 	for cur != nil {
 		next := cur.Next
 		cur.Next = tmp
