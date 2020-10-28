@@ -1,14 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"sort"
 	"strings"
-	"fmt"
 )
 
 /*
 输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323
- */
+*/
 
 func printMin(x []string) int {
 	var num []string
@@ -36,10 +36,26 @@ func printMin(x []string) int {
 		fmt.Printf("%+v", num[i])
 	}
 	fmt.Print("\n")
-	return 0
+	s := fmt.Sprintf("%v", num)
+	fmt.Println(s)
+	r := strings.ReplaceAll(strings.Trim(s, "[]"), " ", "")
+	fmt.Printf("r=%v\n", r)
+	//ret, _ := strconv.Atoi(r)
+
+	//字符串转数字
+	var n uint64
+	for _, c := range []byte(r) {
+		d := c - '0'
+		n *= uint64(10)
+		n1:= n + uint64(d)
+		n = n1
+		fmt.Println(n1)
+	}
+
+	return int(n)
 }
 
 func main() {
 	x := []string{"3", "32", "321"}
-	printMin(x)
+	fmt.Println(printMin(x))
 }
