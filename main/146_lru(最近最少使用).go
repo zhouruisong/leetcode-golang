@@ -77,6 +77,7 @@ func (this *LRUCache) Put(key int, value int) {
 			tail.pre.pre.next = tail
 			tail.pre = tail.pre.pre
 		}
+		//插入首位
 		node.next = head.next
 		node.pre = head
 		head.next.pre = node

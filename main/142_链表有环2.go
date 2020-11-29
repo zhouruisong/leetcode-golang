@@ -91,14 +91,14 @@ func hasCycle(head *model.ListNode) *model.ListNode { // 快慢指针。假如�
 	if head == nil {
 		return nil
 	}
-	tmp := head
+
 	fastHead := head.Next // 快指针，每次走两步
-	for fastHead != nil && tmp != nil && fastHead.Next != nil {
+	for fastHead != nil && head != nil && fastHead.Next != nil {
 		if fastHead == head { // 快慢指针相遇，表示有环
 			return fastHead
 		}
 		fastHead = fastHead.Next.Next
-		tmp = tmp.Next // 慢指针，每次走一步
+		head = head.Next // 慢指针，每次走一步
 	}
 	return nil
 }
