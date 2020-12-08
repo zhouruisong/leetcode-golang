@@ -62,7 +62,7 @@ func isSushu(n int) bool {
 可能是质数了。所以循环的步长可以设为 6，然后每次只判断 6 两侧的数即可。
 */
 
-func isPrime2(n int) bool {
+func isPrime2(n uint64) bool {
 	if n <= 3 {
 		return n > 1
 	}
@@ -71,7 +71,7 @@ func isPrime2(n int) bool {
 		return false
 	}
 	s := math.Sqrt(float64(n))
-	for i := 5; i <= int(s); i += 6 {
+	for i := uint64(5); i <= uint64(s); i += 6 {
 		if n%i == 0 || n%(i+2) == 0 {
 			return false
 		}
@@ -153,10 +153,81 @@ func countPrimes() map[uint64]bool {
 	return mp
 }
 
+
+//将数写入管道中
+func getNums(getNum chan uint64) {
+	for i := 2; i < 10000000; i++ {
+		getNum <- uint64(i)
+	}
+	close(getNum)
+}
+
+//将管道中的数取出来，判断是否是素数，是的话放入新的管道中
+func prineNums(getNum chan uint64, primeNum chan uint64, exitStat chan struct{}) {
+	//通过死循环取数
+	for {
+		v, ok := <-getNum
+		if !ok {
+			break
+		}
+		//判断是否是素数
+		//flag := true //素数判断标志位
+		flag := isPrime2(v)
+		//for i := 2; i < v; i++ {
+		//	if v%i == 0 { //说明不是素数
+		//		flag = false
+		//		break
+		//	}
+		//}
+		if flag {
+			primeNum <- v //将素数存进去
+		}
+	}
+	//取数操作时多个协程共同进行的，里不能close，不知道别的协程是否取数完毕，只能判断当前取数的协程
+	//fmt.Println("这里有一个协程取数完毕~~")
+	//将完毕标志位放进去
+	exitStat <- struct{}{}
+}
+
 func main() {
+	num := 90000
 	start := time.Now()
 	//fmt.Println(primePalindrome(9989900)) //100030001
-	fmt.Println(primePalindrome(61023998))
+	//fmt.Println(primePalindrome(61023998))
+	//countPrimes()
+
+	//并发计算素数
+	//创建三个管道
+	//从8000取数放到管道
+	getNum := make(chan uint64, 100000000)
+	//从管道中取素数放到新的管道
+	primeNum := make(chan uint64, 1000000)
+	//标志位管道，判断程序协程是否执行完毕
+	exitStat := make(chan struct{}, num) //四个协程
+
+	//然后四个协程筛选素数
+	for i := 0; i < num; i++ {
+		go prineNums(getNum, primeNum, exitStat)
+	}
+
+	//首先放进去数
+	go getNums(getNum)
+
+	//判断四个协程是否全部执行完毕、
+	for i := 0; i < num; i++ {
+		<-exitStat //啥时候能取完，说明四个协程都运行结束
+	}
+
+	//关闭存素数管道，打印素数
+	close(primeNum)
+	for {
+		_, ok := <-primeNum //取数据
+		if !ok {
+			break
+		}
+		//fmt.Println(v)
+	}
+
 	end := time.Since(start)
 	fmt.Printf("countPrimes time cost = %v\n", end)
 }
