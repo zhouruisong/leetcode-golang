@@ -59,7 +59,6 @@ func (this *LRUCache) Get(key int) int {
 }
 
 func (this *LRUCache) Put(key int, value int) {
-	head := this.head
 	tail := this.tail
 	cache := this.m
 	//假若元素存在
@@ -78,10 +77,7 @@ func (this *LRUCache) Put(key int, value int) {
 			tail.pre = tail.pre.pre
 		}
 		//插入首位
-		node.next = head.next
-		node.pre = head
-		head.next.pre = node
-		head.next = node
+		this.AddNode(node)
 		cache[key] = node
 	}
 }

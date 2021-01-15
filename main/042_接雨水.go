@@ -32,17 +32,17 @@ func trap(height []int) int {
 		m_right[i] = math.Max(m_right[i+1], float64(height[i]))
 	}
 
-	fmt.Printf("m_left\n")
-
-	for i := 0; i < ln; i++ {
-		fmt.Printf("%+v,", m_left[i])
-	}
-
-	fmt.Printf("\nm_right\n")
-
-	for i := 0; i < ln; i++ {
-		fmt.Printf("%+v,", m_right[i])
-	}
+	//fmt.Printf("m_left\n")
+	//
+	//for i := 0; i < ln; i++ {
+	//	fmt.Printf("%+v,", m_left[i])
+	//}
+	//
+	//fmt.Printf("\nm_right\n")
+	//
+	//for i := 0; i < ln; i++ {
+	//	fmt.Printf("%+v,", m_right[i])
+	//}
 
 	//每个槽的水位=min(m_left[i], m_right[i]) - height[i]
 	ret := 0
@@ -58,12 +58,17 @@ func trap(height []int) int {
 //再从右向左找到第一个最大的高度的索引 b（（可能有多个相同的最大高度），从右开始到这个位置[b,n-1]，下降位置才积水
 //才考虑两个位置的中间数据从开始到这个位置[a,b]，下降位置才积水
 func trap2(height []int) int {
+	//先找到从左到右第一个最大的高度的索引 a（可能有多个相同的最大高度），从左开始到这个位置[0,a]，下降位置才积水
+	//再从右向左找到第一个最大的高度的索引 b（（可能有多个相同的最大高度），从右开始到这个位置[b,n-1]，下降位置才积水
+	//才考虑两个位置的中间数据从开始到这个位置[a,b]，下降位置才积水
 	n := len(height)
 	if n == 0 {
 		return 0
 	}
 	sum := 0 //接雨水量
 	left_max_index := 0
+	right_max_index := 0
+
 	//从左侧向右侧找到第一个最大高度的位置
 	tmp1 := height[0]
 	for i := 1; i < n; i++ {
@@ -75,10 +80,11 @@ func trap2(height []int) int {
 		}
 	}
 
+	fmt.Printf("left_max_index: %v\n", left_max_index)
+
 	tmp1 = height[n-1]
-	right_max_index := 0
 	//从右侧向左侧找到第一个最大高度的位置
-	for k := n - 2; k >= 0; k-- {
+	for k := n - 1; k >= 0; k-- {
 		if height[k] > tmp1 {
 			right_max_index = k
 			tmp1 = height[k]
@@ -86,33 +92,34 @@ func trap2(height []int) int {
 		}
 	}
 
+	fmt.Printf("right_max_index: %v\n", right_max_index)
+
 	tmp1 = height[0]
 	//从左侧开始向上爬，一直到left_max_index位置
 	for j := 1; j <= left_max_index; j++ {
 		//只有下降部分才能积水
-		if tmp1 > height[j] {
+		if height[j] < tmp1 {
 			sum = sum + tmp1 - height[j]
 		} else {
 			tmp1 = height[j]
 		}
 	}
 
-	tmp2 := height[n-1]
+	tmp1 = height[n-1]
 	//从右侧开始向上爬，一直到left_max_index位置
-	for p := n-1 ; p > right_max_index; p-- {
+	for p := n - 2; p >= right_max_index; p-- {
 		//只有下降部分才能积水
-		if tmp2 > height[p] {
-			sum = sum + tmp2 - height[p]
-			fmt.Printf("sum ==p: %v\n", sum)
+		if height[p] < tmp1 {
+			sum = sum + tmp1 - height[p]
 		}else{
-			tmp2 = height[p]
+			tmp1 = height[p]
 		}
 	}
 
 	//查看中间部分从【left_max_index right_max_index]
 	tmp1 = height[left_max_index]
-	for q := left_max_index +1; q < right_max_index; q++ {
-		if tmp1 > height[q] {
+	for q := left_max_index + 1; q <= left_max_index; q++ {
+		if height[q] < tmp1 {
 			sum = sum + tmp1 - height[q]
 		} else {
 			tmp1 = height[q]
@@ -149,10 +156,11 @@ func trap3(height []int) int {
 }
 
 func main() {
-	//x := []int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}
+	x := []int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}
 	//x := []int{4, 2, 0, 3, 2, 5}
 	//x := []int{0,1,0,2,1,0,1,3,2,1,2,1}
-	x := []int{4,2,0,3,2,5}
+	//x := []int{4,2,0,3,2,5}
 	//trap(x)
 	fmt.Println(trap(x))
+	fmt.Println(trap2(x))
 }

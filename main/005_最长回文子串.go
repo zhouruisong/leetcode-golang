@@ -63,6 +63,6 @@ func longestPalindrome(s string) string {
 }
 
 func main() {
-	fmt.Println(longestPalindrome("cbbd"))
-	//fmt.Println(longestPalindrome("bacde"))
+	//fmt.Println(longestPalindrome("cbbd"))
+	fmt.Println(longestPalindrome("babad"))
 }
