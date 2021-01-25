@@ -75,6 +75,7 @@ func minimumTotal(triangle [][]int) int {
 			fmt.Println("--------")
 		}
 
+		//对角线
 		triangle[i][i] = triangle[i][i] + triangle[i-1][i-1]
 
 		for i := 0; i < len(triangle); i++ {
