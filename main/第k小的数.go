@@ -7,16 +7,16 @@ func findKthMin(nums []int, k int) int {
 	if k > len(nums) {
 		return -1
 	}
-
+	//转换成求第len(nums)-k+1大的数
 	return findKthLargest(nums, len(nums)-k+1)
 }
 
 func findKthLargest(nums []int, k int) int {
 	//快排序思想
-	return partion(nums, k)
+	return partition(nums, k)
 }
 
-func partion(nums []int, k int) int {
+func partition(nums []int, k int) int {
 	i := 0
 	j := len(nums) - 1
 	loc := nums[i]
@@ -29,18 +29,17 @@ func partion(nums []int, k int) int {
 		for i < j && nums[i] <= loc {
 			i++
 		}
-
 		nums[i], nums[j] = nums[j], nums[i]
 	}
-
 	nums[i] = loc
+
 	if len(nums)-i == k {
 		return nums[i]
 	}
 	if len(nums)-i > k {
-		return partion(nums[i+1:], k)
+		return partition(nums[i+1:], k)
 	}
-	return partion(nums[:i], k+i-len(nums))
+	return partition(nums[:i], k+i-len(nums))
 }
 
 func main() {

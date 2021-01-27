@@ -164,23 +164,79 @@ func permute3(nums []int) [][]int {
 	return res
 }
 
+//字典序实现
+func permute4(nums []int) [][]int {
+	sort.Ints(nums)
+	ln := len(nums)
+	if ln == 0 {
+		return [][]int{}
+	}
+	if ln == 1 {
+		return [][]int{{nums[0]}}
+	}
+	if ln == 2 {
+		return [][]int{{nums[0], nums[1]}, {nums[1], nums[0]}}
+	}
+
+	res := [][]int{}
+	//深拷贝
+	tmp := make([]int, ln)
+	copy(tmp, nums)
+	res = append(res, tmp)
+
+	//123 后一个排列是132
+	for {
+		//从后到前查找第一个符合nums[j] < nums[j+1]的位置j
+		j := ln - 2
+		for j >= 0 && nums[j] > nums[j+1] {
+			j--
+		}
+		if j < 0 {
+			break
+		}
+
+		//从后到j位置查找第一个符合nums[k] > nums[j]的位置k
+		k := ln - 1
+		for k > j && nums[k] < nums[j] {
+			k--
+		}
+
+		if k == j {
+			break
+		}
+
+		//交换nums[j]和nums[k]对应的值
+		nums[j], nums[k] = nums[k], nums[j]
+
+		//从j位置到结尾一定是降序的,变为升序
+		sort.Ints(nums[j+1:])
+
+		//深拷贝结果
+		tmp := make([]int, ln)
+		copy(tmp, nums)
+		res = append(res, tmp)
+	}
+
+	return res
+}
+
 func main() {
 	x := []int{1, 2, 3}
 	//fmt.Println(permute1(x))
-	fmt.Println(permute3(x))
+	fmt.Println(permute4(x))
 
 	//相同的切片修改后，重复append会修改原来的切片
-	res := [][]int{}
-	arr := []int{1, 2, 3}
-	arr[0], arr[2] = arr[2], arr[0]
-	fmt.Println(arr) // [3 2 1]
-
-	res = append(res, arr)
-	fmt.Println(res) // [3 2 1]
-
-	arr[1], arr[2] = arr[2], arr[1]
-	fmt.Println(arr)       // [3 1 2]
-	res = append(res, arr)
-
-	fmt.Println(res) // [[3 1 2] [3 1 2]]   ?
+	//res := [][]int{}
+	//arr := []int{1, 2, 3}
+	//arr[0], arr[2] = arr[2], arr[0]
+	//fmt.Println(arr) // [3 2 1]
+	//
+	//res = append(res, arr)
+	//fmt.Println(res) // [3 2 1]
+	//
+	//arr[1], arr[2] = arr[2], arr[1]
+	//fmt.Println(arr) // [3 1 2]
+	//res = append(res, arr)
+	//
+	//fmt.Println(res) // [[3 1 2] [3 1 2]]   ?
 }

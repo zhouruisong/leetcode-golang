@@ -135,5 +135,5 @@ func main() {
 	x := []int{1, 1, 5}
 	fmt.Println(permuteUnique(x))
 	y := []int{1, 1, 5}
-	fmt.Println(permuteUnique(y))
+	fmt.Println(permuteUnique2(y))
 }

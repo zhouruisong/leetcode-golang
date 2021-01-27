@@ -127,7 +127,7 @@ func countPrimes4(n int) int {
 	count := 0
 	for k := 2; k < n; k++ {
 		if 0 == s[k] {
-			//fmt.Println(k)
+			//fmt.Print(k," ")
 			count++
 		}
 	}
