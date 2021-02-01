@@ -47,7 +47,7 @@ func printMin(x []string) int {
 	for _, c := range []byte(r) {
 		d := c - '0'
 		n *= uint64(10)
-		n1:= n + uint64(d)
+		n1 := n + uint64(d)
 		n = n1
 		fmt.Println(n1)
 	}
@@ -58,4 +58,24 @@ func printMin(x []string) int {
 func main() {
 	x := []string{"3", "32", "321"}
 	fmt.Println(printMin(x))
+
+	arr := []string{"123", "456", "789"}
+	s := fmt.Sprintf("%v", arr)
+	fmt.Println(s)
+
+	//[123 456 789] -> 123456789
+	str := strings.ReplaceAll(strings.Trim(s, "[]"), " ", "")
+	fmt.Println(str)
+
+	//字符串转成int64
+	var n uint64
+	var n1 uint64
+	for _, c := range []byte(str) {
+		d := c - '0'
+		n *= uint64(10)
+		n1 = n + uint64(d)
+		n = n1
+	}
+
+	fmt.Println(n)
 }
