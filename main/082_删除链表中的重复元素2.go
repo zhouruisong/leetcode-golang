@@ -60,10 +60,53 @@ func deleteDuplicates(head *model.ListNode) *model.ListNode {
 	return res.Next
 }
 
+func deleteDuplicates2(head *model.ListNode) *model.ListNode {
+	if head == nil {
+		return head
+	}
+
+	newHead := new(model.ListNode)
+	p := newHead
+	//双指针
+	cur := head.Next
+	pre := head
+
+	for cur != nil {
+		if pre.Val == cur.Val {
+			//查询第一个不相等的元素
+			for cur != nil && pre.Val == cur.Val {
+				cur = cur.Next
+			}
+
+			if cur == nil {
+				p.Next = nil
+				return newHead.Next
+			}
+
+			pre = cur
+			cur = cur.Next
+			continue
+		} else {
+			p.Next = pre
+			cur = cur.Next
+			pre = pre.Next
+			p = p.Next
+		}
+	}
+
+	if p.Val != pre.Val {
+		p.Next = pre
+		p = p.Next
+		p.Next = nil
+	}
+
+	return newHead.Next
+}
+
 func main() {
-	x := []int{1, 1, 2, 2, 3, 4, 5}
+	x := []int{1, 2, 3, 3, 4, 4, 5}
 	tmp1 := model.UnmarshalListBySlice(x)
 	model.PrintList(tmp1)
-	tmp2 := deleteDuplicates(tmp1)
+	tmp2 := deleteDuplicates2(tmp1)
 	model.PrintList(tmp2)
 }

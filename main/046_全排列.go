@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"reflect"
 	"sort"
 )
 
@@ -99,6 +100,110 @@ func permute1(nums []int) [][]int {
 	res := [][]int{}
 	backtrace(0, nums, &res)
 	return res
+}
+
+func permute5(nums []int) [][]int {
+	res := [][]int{}
+	path := []int{}
+	//dfs2(-1, nums, path, &res)
+	dfs3(nums, path, &res)
+	return res
+}
+
+//深度优先遍历,获取所有路径,包括重复的o(n!*n^2)
+func dfs2(index int, nums, path []int, res *[][]int) {
+	if len(path) == len(nums) {
+		return
+	}
+
+	if index != -1 {
+		path = append(path, nums[index])
+	}
+
+	if len(path) == len(nums) {
+		*res = append(*res, path)
+		return
+	}
+
+	for i := 0; i < len(nums); i++ {
+		//这里进行剪枝
+		//if isExistItem(nums[i], path) {
+		//	continue
+		//}
+		dfs2(i, nums, path, res)
+	}
+
+	//回溯的过程中，将当前的节点从 path 中删除
+	if index != -1 {
+		path = path[:len(path)-1]
+	}
+}
+
+//深度优先遍历,获取所有路径,包括重复的
+func dfs3(nums, path []int, res *[][]int) {
+	if len(path) == len(nums) {
+		temp := make([]int, len(nums))
+		copy(temp, path)
+		*res = append(*res, temp)
+		return
+	}
+
+	for i := 0; i < len(nums); i++ {
+		//这里进行剪枝
+		if isExistItem(nums[i], path) {
+			continue
+		}
+
+		path = append(path, nums[i])
+		dfs3(nums, path, res)
+		path = path[:len(path)-1]
+	}
+}
+
+//遍历array查询元素是否存在
+func isExistItem(value interface{}, array interface{}) bool {
+	switch reflect.TypeOf(array).Kind() {
+	case reflect.Slice, reflect.Array:
+		s := reflect.ValueOf(array)
+		for i := 0; i < s.Len(); i++ {
+			if s.Index(i).Interface() == value {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+//每次都排序,二分查找,查询元素是否存在
+func SortInIntSlice(haystack []int, needle int) bool {
+	sort.Ints(haystack)
+
+	index := sort.SearchInts(haystack, needle)
+	return index < len(haystack) && haystack[index] == needle
+}
+
+//如果是每次数据相同,首次排序一次,二分查找,后续不需要在排序,查询元素是否存在
+func InIntSliceSortedFunc(haystack []int) func(int) bool {
+	sort.Ints(haystack)
+
+	return func(needle int) bool {
+		index := sort.SearchInts(haystack, needle)
+		return index < len(haystack) && haystack[index] == needle
+	}
+}
+
+//如果是每次数据相同,采用map,查找,查询元素是否存在
+func InIntSliceMapKeyFunc(haystack []int) func(int) bool {
+	set := make(map[int]struct{})
+
+	for _, e := range haystack {
+		set[e] = struct{}{}
+	}
+
+	return func(needle int) bool {
+		_, ok := set[needle]
+		return ok
+	}
 }
 
 //第二种方法 字典序+swap  o(n)
@@ -221,9 +326,11 @@ func permute4(nums []int) [][]int {
 }
 
 func main() {
-	x := []int{1, 2, 3}
+	x := []int{5, 4, 6, 2}
 	//fmt.Println(permute1(x))
-	fmt.Println(permute4(x))
+	fmt.Println(permute5(x))
+
+	fmt.Println(permute1(x))
 
 	//相同的切片修改后，重复append会修改原来的切片
 	//res := [][]int{}
