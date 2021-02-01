@@ -61,6 +61,6 @@ func dfs(candidates, nums []int, target, left int, res *[][]int) {
 }
 
 func main() {
-	x := []int{2, 3, 5}
+	x := []int{2, 3, 6, 7}
 	fmt.Println(combinationSum(x, 8))
 }

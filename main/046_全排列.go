@@ -105,8 +105,8 @@ func permute1(nums []int) [][]int {
 func permute5(nums []int) [][]int {
 	res := [][]int{}
 	path := []int{}
-	//dfs2(-1, nums, path, &res)
-	dfs3(nums, path, &res)
+	used := make(map[int]struct{}, len(nums))
+	dfs3(nums, path, &res, used)
 	return res
 }
 
@@ -140,7 +140,7 @@ func dfs2(index int, nums, path []int, res *[][]int) {
 }
 
 //深度优先遍历,获取所有路径,包括重复的
-func dfs3(nums, path []int, res *[][]int) {
+func dfs3(nums, path []int, res *[][]int, used map[int]struct{}) {
 	if len(path) == len(nums) {
 		temp := make([]int, len(nums))
 		copy(temp, path)
@@ -150,13 +150,19 @@ func dfs3(nums, path []int, res *[][]int) {
 
 	for i := 0; i < len(nums); i++ {
 		//这里进行剪枝
-		if isExistItem(nums[i], path) {
+		//if isExistItem(nums[i], path) {
+		//	continue
+		//}
+		//优化
+		if _, ok := used[nums[i]]; ok {
 			continue
 		}
 
+		used[nums[i]] = struct{}{}
 		path = append(path, nums[i])
-		dfs3(nums, path, res)
+		dfs3(nums, path, res, used)
 		path = path[:len(path)-1]
+		delete(used, nums[i])
 	}
 }
 
@@ -325,12 +331,50 @@ func permute4(nums []int) [][]int {
 	return res
 }
 
-func main() {
-	x := []int{5, 4, 6, 2}
-	//fmt.Println(permute1(x))
-	fmt.Println(permute5(x))
+//深度优先遍历,获取所有路径,包括重复的o(n!*n^2)
+func dfs4(candidates, path []int, target, start int, res *[][]int) {
+	if target == 0 {
+		tmp := make([]int, len(path))
+		copy(tmp, path)
+		*res = append(*res, tmp)
+		return
+	}
 
-	fmt.Println(permute1(x))
+	for i := start; i < len(candidates); i++ {
+		//这里进行剪枝
+		//if i >= 1 && candidates[i] == candidates[i-1] { // *同层节点 数值相同，剪枝
+		//	continue
+		//}
+
+		if target < candidates[i] {
+			return
+		}
+
+		dfs4(candidates, append(path, candidates[i]), target-candidates[i], start, res)
+	}
+
+	//回溯的过程中，将当前的节点从 path 中删除
+	//if index != -1 {
+	//	path = path[:len(path)-1]
+	//}
+}
+
+func combinationSum3(candidates []int, target int) [][]int {
+	sort.Ints(candidates) //快排，懒得写
+	res := [][]int{}
+	path := []int{}
+	dfs4(candidates, path, target, 0, &res) //深度优先
+	return res
+}
+
+func main() {
+	x := []int{2, 3, 6, 7}
+	//fmt.Println(permute1(x))
+	//fmt.Println(permute5(x))
+
+	//fmt.Println(permute1(x))
+
+	fmt.Println(combinationSum3(x, 8))
 
 	//相同的切片修改后，重复append会修改原来的切片
 	//res := [][]int{}
