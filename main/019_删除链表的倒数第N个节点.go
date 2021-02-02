@@ -17,7 +17,6 @@ import (
 给定的 n 保证是有效的。
 */
 
-
 func removeNthFromEnd(head *model.ListNode, n int) *model.ListNode {
 	//新增节点，防止删除的节点为头节点，
 	newHead := &model.ListNode{
@@ -43,10 +42,40 @@ func removeNthFromEnd(head *model.ListNode, n int) *model.ListNode {
 	return pre.Next
 }
 
+func removeNthFromEnd2(head *model.ListNode, n int) *model.ListNode {
+	//先找到倒数第N个节点
+	if n == 0 {
+		return head
+	}
+
+	newHead := &model.ListNode{
+		Next: head,
+	}
+
+	pre := newHead
+	first := head
+	for first != nil && n-1 > 0 {
+		first = first.Next
+		n--
+	}
+
+	second := head
+	for first.Next != nil {
+		first = first.Next
+		second = second.Next
+		pre = pre.Next
+	}
+
+	//second就是节点位置
+	pre.Next = second.Next
+	second.Next = nil
+	return newHead.Next
+}
+
 func main() {
-	v1 := []int{1, 2}
+	v1 := []int{1, 2, 3, 4, 5}
 	head := model.UnmarshalListBySlice(v1)
 	model.PrintList(head)
-	head = removeNthFromEnd(head, 1)
+	head = removeNthFromEnd2(head, 2)
 	model.PrintList(head)
 }
