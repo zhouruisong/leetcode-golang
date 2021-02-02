@@ -44,6 +44,5 @@ func main() {
 	x := 87975123
 	ret := yinzi(x)
 	fmt.Printf("ret: %+v\n", ret)
-
 	fmt.Printf("ret: %+v\n", factor(x))
 }

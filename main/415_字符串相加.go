@@ -12,6 +12,10 @@ num1 和num2 都不包含任何前导零。
 */
 
 func addStrings(num1 string, num2 string) string {
+	if num1 == "0" && num2 == "0" {
+		return "0"
+	}
+
 	i, j, carry, temp := len(num1)-1, len(num2)-1, uint8(0), uint8(0)
 	n1, n2 := uint8(0), uint8(0)
 
@@ -86,7 +90,7 @@ func addStrings2(num1 string, num2 string) string {
 }
 
 func main() {
-	arr1 := "123445454545"
-	arr2 := "45673232332232232"
+	arr1 := "1"
+	arr2 := "1"
 	fmt.Println(addStrings(arr1, arr2))
 }
