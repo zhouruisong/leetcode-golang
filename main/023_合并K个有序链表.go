@@ -89,10 +89,13 @@ func mergeKLists2(lists []*model.ListNode) *model.ListNode {
 	heap.Init(head)
 
 	for i := 0; i < n; i++ {
-		if lists[i] == nil {
-			continue
+		//每个节点取出来,放入堆中,排序
+		for lists[i] != nil {
+			node := lists[i]
+			lists[i] = lists[i].Next
+			node.Next = nil
+			heap.Push(head, node)
 		}
-		heap.Push(head, lists[i])
 	}
 
 	res := &model.ListNode{}
@@ -101,9 +104,6 @@ func mergeKLists2(lists []*model.ListNode) *model.ListNode {
 		val := heap.Pop(head).(*model.ListNode)
 		start.Next = val
 		start = start.Next
-		if val.Next != nil {
-			heap.Push(head, val.Next)
-		}
 	}
 
 	return res.Next

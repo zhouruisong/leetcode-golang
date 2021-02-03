@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 /*
 * 给定两个字符串 text1 和 text2，返回这两个字符串的最长公共子序列的长度。
@@ -89,7 +91,6 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 			//如果末端相同
 			if text1[i-1] == text2[j-1] {
 				dp[i][j] = dp[i-1][j-1] + 1
-
 			} else { //如果末端不相同
 				dp[i][j] = findmax(dp[i-1][j], dp[i][j-1])
 			}
@@ -116,7 +117,10 @@ func findmax(a, b int) int {
 }
 
 func main() {
-	s1 := "abcd1e"
-	s2 := "acde"
+	//s1 := "abcd1e"
+	//s2 := "acde"
+
+	s1 := "abc"
+	s2 := "def"
 	fmt.Println(longestCommonSubsequence(s1, s2))
 }
