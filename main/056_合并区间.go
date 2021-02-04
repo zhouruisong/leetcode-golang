@@ -21,12 +21,13 @@ import (
 */
 
 func merge(intervals [][]int) [][]int {
+	//o(nlogn)
 	n := len(intervals)
 	if n <= 0 {
 		return [][]int{}
 	}
 
-	//intervals排序
+	//intervals排序 先按照每一列的第一个元素排序
 	sort.Slice(intervals, func(i, j int) bool {
 		return intervals[i][0] < intervals[j][0]
 	})
@@ -37,14 +38,17 @@ func merge(intervals [][]int) [][]int {
 	merged = append(merged, intervals[0])
 
 	for i := 0; i < n; i++ {
+		//merged中最后面的范围
 		m := merged[len(merged)-1]
 		c := intervals[i]
 
+		//c的最左侧元素是否大于m的最右侧元素
 		if c[0] > m[1] {
 			merged = append(merged, c)
 			continue
 		}
 
+		//取c最右侧和m最右侧的最大值作为新的右边界
 		if c[1] > m[1] {
 			m[1] = c[1]
 		}
