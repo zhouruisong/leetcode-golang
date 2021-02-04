@@ -82,15 +82,16 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 		dp[i] = make([]int, n2+1)
 	}
 
-	fmt.Println(dp)
+	//fmt.Println(dp)
 
-	str := []string{}
-	max := -1
+	str := []byte{}
+	max := 0
 	for i := 1; i <= n1; i++ {
 		for j := 1; j <= n2; j++ {
 			//如果末端相同
 			if text1[i-1] == text2[j-1] {
 				dp[i][j] = dp[i-1][j-1] + 1
+				str = append(str, text1[i-1])
 			} else { //如果末端不相同
 				dp[i][j] = findmax(dp[i-1][j], dp[i][j-1])
 			}
@@ -98,13 +99,14 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 			//记录最大值，其中i
 			if max < dp[i][j] {
 				max = dp[i][j]
-				str = append(str, string(text1[i-1]))
-				fmt.Println(i, j)
+				//fmt.Println(i, j)
 			}
 		}
 	}
 
-	fmt.Println(str)
+	fmt.Println(max)
+	fmt.Println(string(str))
+
 	return dp[n1][n2]
 }
 
@@ -120,7 +122,11 @@ func main() {
 	//s1 := "abcd1e"
 	//s2 := "acde"
 
-	s1 := "abc"
-	s2 := "def"
+	//s1 := "abc"
+	//s2 := "def"
+
+	s1 := "1A2C3D4B56"
+	s2 := "B1D23CA45B6A"
+
 	fmt.Println(longestCommonSubsequence(s1, s2))
 }

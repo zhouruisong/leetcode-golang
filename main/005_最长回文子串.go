@@ -36,6 +36,7 @@ func isPalindromeStr(s string) bool {
 	return true
 }
 
+//o(n^3)
 func longestPalindrome(s string) string {
 	n := len(s)
 	j := 0

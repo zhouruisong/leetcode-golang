@@ -21,6 +21,8 @@ func longestCommonSubstr(text1 string, text2 string) int {
 	}
 
 	max := -1
+	index := 0
+	//str := []string{}
 	for i := 1; i <= n1; i++ {
 		for j := 1; j <= n2; j++ {
 			//不相同， 为0
@@ -32,20 +34,23 @@ func longestCommonSubstr(text1 string, text2 string) int {
 
 			if max < dp[i][j] {
 				max = dp[i][j]
-				//fmt.Println(i, j)
-				//打印子串
-				fmt.Println(string(text1[i-1]))
+				index = i //记录下最长子串的末尾字符的位置
 			}
 		}
 	}
 
-	fmt.Println(dp)
+	fmt.Println(max)
+	fmt.Println(index)
 
+	fmt.Println(text1[index-max : index])
 	return max
 }
 
 func main() {
-	s1 := "abbecde"
-	s2 := "abe"
+	//s1 := "abbecde"
+	//s2 := "abe"
+
+	s1 := "1AB2345CD"
+	s2 := "12345EF"
 	fmt.Println(longestCommonSubstr(s1, s2))
 }
