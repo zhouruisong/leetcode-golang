@@ -89,8 +89,8 @@ func hasPathSum2(root *model.TreeNode, sum int) bool {
 
 func main() {
 	root := &model.TreeNode{
-		Val: 5,
+		Val: 1,
 	}
-	tree := model.InitBinaryTree(root)
-	fmt.Println(hasPathSum2(tree, 27))
+	tree := model.InitBinaryTree5(root)
+	fmt.Println(hasPathSum2(tree, 2))
 }

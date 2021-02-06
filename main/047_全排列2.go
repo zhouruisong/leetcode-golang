@@ -43,7 +43,38 @@ func backtrace(start int, nums []int, res *[][]int) {
 func permuteUnique(nums []int) [][]int {
 	res := [][]int{}
 	backtrace(0, nums, &res)
+	//path := []int{}
+	//used := make(map[int]bool)
+	//sort.Ints(nums)
+	//dfs(nums, path, used, &res)
 	return res
+}
+
+func dfs(nums, path []int, used map[int]bool, res *[][]int) {
+	if len(path) == len(nums) {
+		temp := make([]int, len(nums))
+		copy(temp, path)
+		*res = append(*res, temp)
+		return
+	}
+
+	for i := 0; i < len(nums); i++ {
+		if used[nums[i]] {
+			continue
+		}
+
+		//去重复
+		if i > 0 && nums[i] == nums[i-1] && used[nums[i-1]] == false {
+			continue
+		}
+
+		//未使用过才进行
+		used[nums[i]] = true
+		path = append(path, nums[i])
+		dfs(nums, path, used, res)
+		used[nums[i]] = false
+		path = path[:len(path)-1]
+	}
 }
 
 func permuteUnique2(nums []int) [][]int {
@@ -134,6 +165,6 @@ func permuteUnique2(nums []int) [][]int {
 func main() {
 	x := []int{1, 1, 5}
 	fmt.Println(permuteUnique(x))
-	y := []int{1, 1, 5}
-	fmt.Println(permuteUnique2(y))
+	//y := []int{1, 1, 5}
+	//fmt.Println(permuteUnique2(y))
 }

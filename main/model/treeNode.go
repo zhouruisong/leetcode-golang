@@ -59,6 +59,12 @@ func InitBinaryTree3(root *TreeNode) *TreeNode {
 	return root
 }
 
+func InitBinaryTree5(root *TreeNode) *TreeNode {
+	l := TreeNode{}
+	root.Left = l.NewBinaryTreeNode(2)
+	return root
+}
+
 func InitBinaryTree4(root *TreeNode) *TreeNode {
 	l := TreeNode{}
 	r := TreeNode{}
