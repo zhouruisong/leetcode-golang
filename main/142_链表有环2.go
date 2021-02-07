@@ -103,9 +103,37 @@ func hasCycle(head *model.ListNode) *model.ListNode { // 快慢指针。假如�
 	return nil
 }
 
+func detectCycle3(head *model.ListNode) *model.ListNode {
+	// write code here
+	if head == nil || head.Next == nil {
+		return nil
+	}
+
+	slow, fast := head, head
+	isCycle := false
+	for fast.Next != nil && fast.Next.Next != nil {
+		slow := slow.Next
+		fast = fast.Next.Next
+		if slow == fast {
+			isCycle = true
+			break
+		}
+	}
+
+	if isCycle {
+		fast = head
+		for slow != fast {
+			fast = fast.Next
+			slow = slow.Next
+		}
+		return fast
+	}
+	return nil
+}
+
 func main() {
 	v6 := []int{3, 2, 0, -4}
 	tmp1 := model.UnmarshalListBySlice(v6)
 	model.PrintList(tmp1)
-	detectCycle2(tmp1)
+	detectCycle3(tmp1)
 }

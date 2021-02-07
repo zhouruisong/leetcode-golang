@@ -46,11 +46,11 @@ func permuteUnique(nums []int) [][]int {
 	//path := []int{}
 	//used := make(map[int]bool)
 	//sort.Ints(nums)
-	//dfs(nums, path, used, &res)
+	//dfs(nums, path, &res)
 	return res
 }
 
-func dfs(nums, path []int, used map[int]bool, res *[][]int) {
+func dfs(nums, path []int, res *[][]int) {
 	if len(path) == len(nums) {
 		temp := make([]int, len(nums))
 		copy(temp, path)
@@ -58,6 +58,7 @@ func dfs(nums, path []int, used map[int]bool, res *[][]int) {
 		return
 	}
 
+	used := make(map[int]bool)
 	for i := 0; i < len(nums); i++ {
 		if used[nums[i]] {
 			continue
@@ -71,7 +72,7 @@ func dfs(nums, path []int, used map[int]bool, res *[][]int) {
 		//未使用过才进行
 		used[nums[i]] = true
 		path = append(path, nums[i])
-		dfs(nums, path, used, res)
+		dfs(nums, path, res)
 		used[nums[i]] = false
 		path = path[:len(path)-1]
 	}
