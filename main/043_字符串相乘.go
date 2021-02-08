@@ -142,7 +142,8 @@ func multiplyHelper(arr string, x byte) []uint8 {
 }
 
 func main() {
-	num1 := "123"
-	num2 := "11"
-	fmt.Println(multiply(num1, num2))
+	//num1 := "123"
+	//num2 := "11"
+
+	fmt.Println(multiply("733064366", "459309139"))
 }
