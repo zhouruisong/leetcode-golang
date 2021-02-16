@@ -11,19 +11,23 @@ import (
 */
 
 func main() {
-	v1 := []int{2,4,9}
-	v2 := []int{5,6,4,9}
+	v1 := []int{2, 4, 9}
+	v2 := []int{5, 6, 4, 9}
 	//[7,8,0,7]
 	tmp := model.UnmarshalListBySlice(v1)
 	tmp2 := model.UnmarshalListBySlice(v2)
 	model.PrintList(tmp)
 	model.PrintList(tmp2)
 
-	//ret := addTwoNumbers(tmp, tmp2)
-	//model.PrintList(ret)
-
-	ret := addTwoNumbers2(tmp, tmp2)
+	ret := addTwoNumbers(tmp, tmp2)
 	model.PrintList(ret)
+
+	tmp3 := model.UnmarshalListBySlice(v1)
+	tmp4 := model.UnmarshalListBySlice(v2)
+	model.PrintList(tmp3)
+	model.PrintList(tmp4)
+	ret2 := addTwoNumbers2(tmp3, tmp4)
+	model.PrintList(ret2)
 }
 
 func reserveLink(head *model.ListNode) *model.ListNode {
