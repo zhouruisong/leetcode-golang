@@ -4,6 +4,7 @@ import (
 	"container/heap"
 	"fmt"
 	"sort"
+	"strconv"
 )
 
 //第k小的数
@@ -135,8 +136,117 @@ func min(a, b int) int {
 	return b
 }
 
+/*
+给定String类型的数组strArr，再给定整数k，请严格按照排名顺序打印 出次数前k名的字符串。
+[要求]
+如果strArr长度为N，时间复杂度请达到O(N \log K)O(NlogK)
+
+输出K行，每行有一个字符串和一个整数（字符串表示）。
+你需要按照出现出现次数由大到小输出，若出现次数相同时字符串字典序较小的优先输出
+
+示例1
+输入
+复制
+["1","2","3","4"],2
+返回值
+复制
+[["1","1"],["2","1"]]
+示例2
+输入
+复制
+["1","1","2","3"],2
+返回值
+复制
+[["1","2"],["2","1"]]
+*/
+
+//采用堆方法(xi)
+func topKstrings(strings []string, k int) [][]string {
+	// write code here
+	if len(strings) == 0 {
+		return [][]string{}
+	}
+
+	times := make(map[string]int64)
+	for i := range strings {
+		times[strings[i]] = times[strings[i]] + 1
+	}
+
+	h := &heapString{}
+	heap.Init(h)
+
+	//遍历times
+	for key, val := range times {
+		if h.Len() < k {
+			heap.Push(h, tString{Val: key, time: val})
+		} else if (*h)[0].time < val || ((*h)[0].time == val && (*h)[0].Val > key) {
+			(*h)[0].time = val
+			(*h)[0].Val = key
+			heap.Fix(h, 0)
+		}
+	}
+
+	//fmt.Println(*h)
+	////遍历堆中的k个元素
+	//sort.Slice(*h, func(i, j int) bool {
+	//	if (*h)[i].time > (*h)[j].time {
+	//		return true
+	//	} else if (*h)[i].time == (*h)[j].time {
+	//		return (*h)[i].Val > (*h)[j].Val
+	//	}
+	//
+	//	return false
+	//})
+	//
+	//fmt.Println(*h)
+
+	//[{2 1} {1 2}]
+	ret := make([][]string, k)
+	for i := k - 1; i >= 0; i-- {
+		item := heap.Pop(h).(tString)
+		tmp := make([]string, 2)
+		tmp[0] = item.Val
+		tmp[1] = strconv.FormatInt(item.time, 10)
+		ret[i] = tmp
+	}
+
+	return ret
+}
+
+type tString struct {
+	Val  string
+	time int64
+}
+
+type heapString []tString
+
+func (h heapString) Len() int { return len(h) }
+
+// 堆顶是出现次数最多的
+func (h heapString) Less(i, j int) bool {
+	if h[i].time != h[j].time {
+		return h[i].time < h[j].time
+	}
+	return h[i].Val > h[j].Val
+}
+
+func (h heapString) Swap(i, j int) { h[i], h[j] = h[j], h[i] }
+
+func (h *heapString) Push(x interface{}) {
+	*h = append(*h, x.(tString))
+}
+
+func (h *heapString) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
+}
+
 func main() {
 	//arr := []int{9, 1, 3, 2, 4, 6}
 	//fmt.Println(findKthMin(arr, 3))
-	fmt.Println(GetLeastNumbers_Solution2([]int{4, 5, 1, 6, 2, 7, 3, 8}, 4))
+	//fmt.Println(GetLeastNumbers_Solution2([]int{4, 5, 1, 6, 2, 7, 3, 8}, 4))
+	fmt.Println(topKstrings([]string{"1", "1", "2", "3"}, 2))
 }
