@@ -66,7 +66,7 @@ func partition(nums []int, k int) int {
 [1,2,3,4]
 
 */
-
+//找出其中最小的K个数
 func GetLeastNumbers_Solution(input []int, k int) []int {
 	// write code here
 	//找出第1小的数，第2小的数...第k小的数即可
@@ -81,7 +81,7 @@ func GetLeastNumbers_Solution(input []int, k int) []int {
 	return res
 }
 
-//o(nlogk)
+//o(nlogk) 找出其中最小的K个数
 func GetLeastNumbers_Solution2(input []int, k int) []int {
 	// write code here
 	//找出第1小的数，第2小的数...第k小的数即可

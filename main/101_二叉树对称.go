@@ -76,11 +76,11 @@ func isSymmetric2(root *model.TreeNode) bool {
 }
 
 func mirrorBinary(t1 *model.TreeNode, t2 *model.TreeNode) bool {
-	if t1.Left == nil && t2.Right == nil {
+	if t1 == nil && t2 == nil {
 		return true
 	}
 
-	if t1.Left == nil || t2.Right == nil {
+	if t1 == nil || t2 == nil {
 		return false
 	}
 
