@@ -1,6 +1,7 @@
 package main
 
 import (
+	"container/list"
 	"fmt"
 	"main/model"
 )
@@ -64,6 +65,37 @@ func levelOrderBottom(root *model.TreeNode) [][]int {
 	return ret
 }
 
+func levelOrderBottom2(root *model.TreeNode) [][]int {
+	if root == nil {
+		return [][]int{}
+	}
+	res := [][]int{}
+	p := root
+	qu := list.New()
+	qu.PushBack(p)
+
+	for qu.Len() > 0 {
+		ln := qu.Len()
+		tmp := []int{}
+		for i := 0; i < ln; i++ {
+			top := qu.Remove(qu.Front()).(*model.TreeNode)
+			tmp = append(tmp, top.Val)
+			if top.Left != nil {
+				qu.PushBack(top.Left)
+			}
+			if top.Right != nil {
+				qu.PushBack(top.Right)
+			}
+		}
+
+		if len(tmp) > 0 {
+			res = append(res, tmp)
+		}
+	}
+
+	return res
+}
+
 func main() {
 	root := &model.TreeNode{
 		Val: 5,
@@ -78,4 +110,5 @@ func main() {
 	//PostOrder(tree)
 
 	fmt.Println(levelOrderBottom(tree))
+	fmt.Println(levelOrderBottom2(tree))
 }

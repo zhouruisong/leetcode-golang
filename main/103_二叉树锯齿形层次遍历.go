@@ -120,10 +120,10 @@ func main() {
 		Val: 5,
 	}
 	/*
-		     5
-		  4     8
-		11   13    4
-	  7	  2      6   1
+			     5
+			  4     8
+			11   13    4
+		  7	  2      6   1
 
 	*/
 	tree := model.InitBinaryTree(root)
