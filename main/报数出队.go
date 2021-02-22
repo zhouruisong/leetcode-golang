@@ -40,4 +40,15 @@ public class Count {
 	}
 }
 
- */
+*/
+
+//约瑟夫问题
+func ysf(n int, m int) int {
+	// write code here
+	res := 0
+	//最后一轮剩下2个人，所以从2开始反推
+	for i := 2; i <= n; i++ {
+		res = (res + m) % i
+	}
+	return res + 1
+}

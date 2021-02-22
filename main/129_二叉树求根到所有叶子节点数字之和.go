@@ -67,12 +67,11 @@ func sumNumbers(root *model.TreeNode) int {
 			tmprigth = append(tmprigth, path...)
 
 			if node.Left == nil && node.Right == nil {
-				fmt.Println(path)
+				//fmt.Println(path)
+				//字符串转数字
 				tmp := 0
-				step := 0
-				for j := len(path) - 1; j >= 0; j-- {
-					tmp += path[j] * pow10(step)
-					step++
+				for _, v := range path {
+					tmp = tmp*10 + v
 				}
 
 				max += tmp

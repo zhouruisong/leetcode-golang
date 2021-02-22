@@ -36,18 +36,21 @@ func reverseBetween(head *model.ListNode, m int, n int) *model.ListNode {
 		pre.Next = nil
 		var tmp *model.ListNode
 		//这个范围链表反转
+		//从p开始反转链表,start == n 时结束
 		for start < n && p != nil {
-			tmp = p.Next
-			add_node_head(pre, p)
-			p = tmp
+			next := p.Next
+			p.Next = tmp
+			tmp = p
+			p = next
 			start++
 		}
 
 		//追加反转后的数据
+		pre.Next = tmp
 		for pre.Next != nil {
 			pre = pre.Next
 		}
-		pre.Next = tmp
+		pre.Next = p
 		break
 	}
 
@@ -64,9 +67,9 @@ func add_node_head(head, newNode *model.ListNode) {
 }
 
 func main() {
-	v6 := []int{1,2,3,4,5,6,7}
+	v6 := []int{1, 2, 3, 4, 5, 6, 7}
 	tmp1 := model.UnmarshalListBySlice(v6)
 	model.PrintList(tmp1)
-	tmp2 := reverseBetween(tmp1, 2, 5)
+	tmp2 := reverseBetween(tmp1, 2, 4)
 	model.PrintList(tmp2)
 }
