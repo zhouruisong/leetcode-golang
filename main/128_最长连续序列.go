@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 /*
 给定一个未排序的整数数组，找出最长连续序列的长度。
@@ -41,6 +44,44 @@ func longestConsecutive(nums []int) int {
 		}
 	}
 	return longestStreak
+}
+
+/**
+ * max increasing subsequence
+ * @param arr int整型一维数组 the array
+ * @return int整型
+ */
+//o(nlogn)
+func longestConsecutive2(arr []int) int {
+	// write code here
+	if len(arr) == 0 {
+		return 0
+	}
+
+	n := len(arr)
+	sort.Ints(arr)
+	count := 1
+	result := 1
+
+	maxf := func(x, y int) int {
+		if x > y {
+			return x
+		}
+		return y
+	}
+
+	for i := 0; i < n-1; i++ {
+		if arr[i+1]-arr[i] == 1 {
+			count++
+		} else if arr[i+1]-arr[i] == 0 {
+			continue
+		} else {
+			count = 1
+		}
+
+		result = maxf(count, result)
+	}
+	return result
 }
 
 func main() {
