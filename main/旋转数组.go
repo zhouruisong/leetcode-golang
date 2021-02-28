@@ -36,13 +36,9 @@ func solve(n int, m int, a []int) []int {
 	   反转前 k 个数字后          : 5 6 7    4 3 2 1
 	   反转后 n-k 个数字后        : 5 6 7    1 2 3 4 --> 结果
 	*/
-	m = m % n
-	if m == 0 {
-		return a
-	}
-
-	reverse(a, 0, n-m-1)
-	reverse(a, n-m, n-1)
+	k := m % n
 	reverse(a, 0, n-1)
+	reverse(a, 0, k-1)
+	reverse(a, k, n-1)
 	return a
 }
