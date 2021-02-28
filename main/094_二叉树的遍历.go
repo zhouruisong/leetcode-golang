@@ -111,58 +111,6 @@ func PostOrder(current *model.TreeNode) {
 }
 
 //后序遍历非递归(借助栈)
-type record struct {
-	Node *model.TreeNode
-	Flag bool
-}
-
-func PostOrder2(current *model.TreeNode) {
-	//借助栈
-	if current == nil {
-		return
-	}
-
-	var result []int
-	nodelist := list.New()
-
-	r := record{
-		Node: current,
-		Flag: false,
-	}
-	nodelist.PushFront(r)
-
-	for nodelist.Len() != 0 {
-		node := nodelist.Remove(nodelist.Front()).(record)
-		if node.Node == nil {
-			continue
-		}
-		if node.Flag == true {
-			result = append(result, node.Node.Val)
-		} else {
-			r := record{
-				Node: node.Node,
-				Flag: true,
-			}
-			nodelist.PushFront(r)
-
-			rr := record{
-				Node: node.Node.Right,
-				Flag: false,
-			}
-			nodelist.PushFront(rr)
-
-			rl := record{
-				Node: node.Node.Left,
-				Flag: false,
-			}
-			nodelist.PushFront(rl)
-		}
-	}
-
-	fmt.Println(result)
-}
-
-//后序遍历非递归(借助栈)
 func PostOrder3(root *model.TreeNode) []int {
 	var res []int
 	var stack = []*model.TreeNode{root}

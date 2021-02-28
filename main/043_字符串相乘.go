@@ -58,7 +58,7 @@ func multiply(num1 string, num2 string) string {
 
 	//每一行累加
 	for i := 0; i < N-1; i++ {
-		fmt.Println(res[i], res[i+1])
+		//fmt.Println(res[i], res[i+1])
 		res[i+1] = addStrings(res[i], res[i+1])
 	}
 
@@ -71,7 +71,7 @@ func multiply(num1 string, num2 string) string {
 }
 
 func addStrings(num1, num2 []uint8) []uint8 {
-	fmt.Println(num1, num2)
+	//fmt.Println(num1, num2)
 	i, j, carry, temp := len(num1)-1, len(num2)-1, uint8(0), uint8(0)
 	n1, n2 := uint8(0), uint8(0)
 
