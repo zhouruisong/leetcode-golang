@@ -90,8 +90,54 @@ func lengthOfLIS(nums []int) int {
 	return ret
 }
 
+/**
+ * retrun the longest increasing subsequence
+ * @param arr int整型一维数组 the array
+ * @return int整型一维数组
+ */
+//o(nlogn)
+func LIS(arr []int) []int {
+	if len(arr) == 0 {
+		return nil
+	}
+	//记录以i结尾的最大上升子序列长度
+	maxLen := make([]int, len(arr))
+	//记录最大上升子序列
+	res := []int{arr[0]}
+	maxLen[0] = 1
+	for i := 1; i < len(arr); i++ {
+		//当前值比res的最后一个值大
+		if arr[i] > res[len(res)-1] {
+			res = append(res, arr[i])
+			maxLen[i] = len(res)
+		} else {
+			//当前值比res的最后一个值小，需要找到第一个大于等于当前值的位置, 该位置的值被当前值替换
+			l, r := 0, len(res)-1
+			for l < r {
+				mid := l + (r-l)>>1
+				if res[mid] >= arr[i] {
+					r = mid
+				} else {
+					l = mid + 1
+				}
+			}
+			res[l] = arr[i]
+			maxLen[i] = l + 1
+		}
+	}
+	//从maxLen后往前找，找到被替换过的位置的值
+	for i, j := len(maxLen)-1, len(res); j > 0; i-- {
+		if maxLen[i] == j {
+			j--
+			res[j] = arr[i]
+		}
+	}
+	return res
+}
+
 func main() {
 	//arr := []int{10, 9, 2, 5, 3, 7, 101, 18}
 	arr := []int{1, 3, 2, 3, 1, 4}
 	fmt.Println(lengthOfLIS(arr))
+	fmt.Println(LIS(arr))
 }
