@@ -89,11 +89,75 @@ func swapPairs3(head *model.ListNode) *model.ListNode {
 	return secondNode
 }
 
+func reverseKGroup(head *model.ListNode, k int) *model.ListNode {
+	/*
+		首先通过k次for循环用end指针指向翻转元素的末尾
+		此时判断一下如果翻转元素不到k个，即end==null，说明已经到达末尾，直接返回即可
+		接下来需要定义两个指针pre和pLast分别记录翻转元素的前驱和后继，以便将翻转元素前后两部分连接起来
+		之后再重置pre和end 指针，进入下一次循环
+		遍历完之后返回dummy带头结点接下来的元素即可。
+	*/
+	if head == nil {
+		return nil
+	}
+
+	if k == 0 {
+		return head
+	}
+
+	newHead := &model.ListNode{
+		Next: head,
+	}
+
+	pre := newHead
+	end := pre
+	for end != nil {
+		for i := 0; i < k && end != nil; i++ {
+			end = end.Next
+		}
+
+		if end == nil {
+			break
+		}
+
+		next := end.Next
+		end.Next = nil
+		//反转链表，范围是[pre,end]
+		cur := pre.Next
+		pre.Next = reverseLink(cur)
+		//从新连接起来
+		cur.Next = next
+		pre = cur
+		end = pre
+	}
+
+	return newHead.Next
+}
+
+func reverseLink(head *model.ListNode) *model.ListNode {
+	if head == nil {
+		return nil
+	}
+
+	cur := head
+	var tmp *model.ListNode
+	for cur != nil {
+		next := cur.Next
+		cur.Next = tmp
+		tmp = cur
+		cur = next
+	}
+
+	return tmp
+}
+
 func main() {
 	v1 := []int{1, 2, 3, 4, 5, 6}
 	head := model.UnmarshalListBySlice(v1)
 	model.PrintList(head)
 	fmt.Println("=======================")
-	nh := swapPairs3(head)
+	//nh := swapPairs3(head)
+	//借助k个一组旋转链表
+	nh := reverseKGroup(head, 2)
 	model.PrintList(nh)
 }
