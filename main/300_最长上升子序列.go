@@ -69,13 +69,13 @@ func lengthOfLIS(nums []int) int {
 	}
 
 	//dp[i]表示以i下标数值为子序列结束时最长上升子序列的长度,初始时默认为1
-	// for i := 0; i < len(dp); i++ {
-	// 	dp[i] = 1
-	// }
+	for i := 0; i < len(dp); i++ {
+		dp[i] = 1
+	}
 
 	ret := 0
 	for i := 1; i < n; i++ {
-		dp[i] = 1 //默认值
+		//找0~i-1中的最大值,然后dp[i] = 最大值+1
 		for j := 0; j < i; j++ {
 			if nums[i] > nums[j] {
 				dp[i] = max(dp[i], dp[j]+1)
