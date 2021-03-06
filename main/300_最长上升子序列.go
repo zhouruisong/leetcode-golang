@@ -137,7 +137,8 @@ func LIS(arr []int) []int {
 
 func main() {
 	//arr := []int{10, 9, 2, 5, 3, 7, 101, 18}
-	arr := []int{1, 3, 2, 3, 1, 4}
-	fmt.Println(lengthOfLIS(arr))
+	//arr := []int{1, 3, 2, 3, 1, 4}
+	arr := []int{1, 2, 8, 6, 4}
+	//fmt.Println(lengthOfLIS(arr))
 	fmt.Println(LIS(arr))
 }
