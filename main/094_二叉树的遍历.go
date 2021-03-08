@@ -114,9 +114,9 @@ func PostOrder(current *model.TreeNode) {
 func PostOrder3(root *model.TreeNode) []int {
 	var res []int
 	var stack = []*model.TreeNode{root}
-	for 0 < len(stack) {
+	for len(stack) > 0 {
 		if root != nil {
-			//根左右
+			//根右左
 			res = append(res, root.Val)
 			stack = append(stack, root.Left)  //左节点，因为先进 所以后出
 			stack = append(stack, root.Right) //右节点，因为后进 所以先出
