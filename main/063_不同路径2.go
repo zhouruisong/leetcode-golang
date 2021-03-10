@@ -29,10 +29,10 @@ import "fmt"
 
 func uniquePathsWithObstacles(obstacleGrid [][]int) int {
 	/*
-			设定初始条件。第一行中obstacleGrid第一个1之前的每个点的路径和均为1，此点之后为0；第一列同理
-			开始动态规划。遍历obstacleGrid中的每一个点。对于obstacleGrid[i][j]==1的点，说明不能到此点，
-		    dp[i][j]=0;对于obstacleGrid[i][j]==0的点，说明可以到达这一点，则使用递推公式。
-			返回dp[row-1][col-1]
+	设定初始条件。第一行中obstacleGrid第一个1之前的每个点的路径和均为1，此点之后为0；第一列同理
+	开始动态规划。遍历obstacleGrid中的每一个点。对于obstacleGrid[i][j]==1的点，说明不能到此点，
+	dp[i][j]=0;对于obstacleGrid[i][j]==0的点，说明可以到达这一点，则使用递推公式。
+	返回dp[row-1][col-1]
 	*/
 	if len(obstacleGrid) == 0 {
 		return 0

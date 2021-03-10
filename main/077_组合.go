@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 /*
 给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合。
@@ -126,6 +128,7 @@ func dfs(arr, path []int, res *[][]int, n, k, start int) {
 }
 
 func main() {
+	fmt.Println(combine(4, 2))
 	fmt.Println(combine2(4, 2))
 	fmt.Println(combine3(4, 2))
 }

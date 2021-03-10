@@ -110,7 +110,7 @@ func permute5(nums []int) [][]int {
 	return res
 }
 
-//深度优先遍历,获取所有路径,包括重复的o(n!*n^2)
+//深度优先遍历,获取所有路径,包括重复的o(n!*n)
 func dfs2(index int, nums, path []int, res *[][]int) {
 	if len(path) == len(nums) {
 		return
@@ -139,7 +139,7 @@ func dfs2(index int, nums, path []int, res *[][]int) {
 	}
 }
 
-//深度优先遍历,获取所有路径,包括重复的
+//深度优先遍历,获取所有路径,包括重复的o(n!*n)
 func dfs3(nums, path []int, res *[][]int, used map[int]struct{}) {
 	if len(path) == len(nums) {
 		temp := make([]int, len(nums))
@@ -212,69 +212,6 @@ func InIntSliceMapKeyFunc(haystack []int) func(int) bool {
 	}
 }
 
-//第二种方法 字典序+swap  o(n)
-func permute3(nums []int) [][]int {
-	//先将nums升序排序
-	sort.Ints(nums)
-
-	ln := len(nums)
-	if ln == 0 {
-		return [][]int{}
-	}
-
-	if ln == 1 {
-		return [][]int{{nums[0]}}
-	}
-
-	if ln == 2 {
-		return [][]int{{nums[0], nums[1]}, {nums[1], nums[0]}}
-	}
-
-	res := [][]int{}
-	//深拷贝
-	tmp1 := make([]int, ln)
-	copy(tmp1, nums)
-	res = append(res, tmp1)
-
-	for {
-		//fmt.Println(nums)
-		j := ln - 2
-		k := ln - 1
-		//从后往前找
-		for j >= 0 && nums[j] > nums[j+1] {
-			j-- //找到第一对数 nums[j]<nums[j+1]
-		}
-
-		if j < 0 {
-			break
-		}
-
-		//从后往前找，到j位置结束，找到第一个比nums[j]大的nums[k]
-		for nums[k] < nums[j] {
-			k--
-		}
-
-		//交换nums[j]和nums[k]对应的值
-		nums[j], nums[k] = nums[k], nums[j]
-
-		//j位置后，肯定是降序的，前后互换，变为升序
-		l := j + 1
-		r := ln - 1
-		for l < r {
-			nums[l], nums[r] = nums[r], nums[l]
-			r--
-			l++
-		}
-
-		//深拷贝
-		tmp := make([]int, ln)
-		copy(tmp, nums)
-		res = append(res, tmp)
-	}
-
-	return res
-}
-
 //字典序实现
 func permute4(nums []int) [][]int {
 	sort.Ints(nums)
@@ -331,51 +268,12 @@ func permute4(nums []int) [][]int {
 	return res
 }
 
-//深度优先遍历,获取所有路径,包括重复的o(n!*n^2)
-func dfs4(candidates, path []int, target, start int, res *[][]int) {
-	if target == 0 {
-		tmp := make([]int, len(path))
-		copy(tmp, path)
-		*res = append(*res, tmp)
-		return
-	}
-
-	for i := start; i < len(candidates); i++ {
-		//这里进行剪枝
-		//if i >= 1 && candidates[i] == candidates[i-1] { // *同层节点 数值相同，剪枝
-		//	continue
-		//}
-
-		if target < candidates[i] {
-			return
-		}
-
-		dfs4(candidates, append(path, candidates[i]), target-candidates[i], start, res)
-	}
-
-	//回溯的过程中，将当前的节点从 path 中删除
-	//if index != -1 {
-	//	path = path[:len(path)-1]
-	//}
-}
-
-func combinationSum3(candidates []int, target int) [][]int {
-	sort.Ints(candidates) //快排，懒得写
-	res := [][]int{}
-	path := []int{}
-	dfs4(candidates, path, target, 0, &res) //深度优先
-	return res
-}
-
 func main() {
-	//x := []int{2, 3, 6, 7}
-	x := []int{1,2,3,4,5,6,7,8,9}
-	//fmt.Println(permute1(x))
-	fmt.Println(permute4(x))
+	x := []int{2, 3, 6, 7}
+	fmt.Println(permute1(x))
+	//fmt.Println(permute5(x))
 
 	//fmt.Println(permute1(x))
-
-	//fmt.Println(combinationSum3(x, 8))
 
 	//相同的切片修改后，重复append会修改原来的切片
 	//res := [][]int{}
