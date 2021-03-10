@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"sort"
 )
 
 /*
@@ -129,6 +128,7 @@ func dfs(arr, path []int, res *[][]int, n, k, start int) {
 }
 
 func main() {
+	fmt.Println(combine(4, 2))
 	fmt.Println(combine2(4, 2))
 	fmt.Println(combine3(4, 2))
 }

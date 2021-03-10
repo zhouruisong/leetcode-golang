@@ -40,40 +40,39 @@ func backtrace(start int, nums []int, res *[][]int) {
 	}
 }
 
+//o(n *n!)
 func permuteUnique(nums []int) [][]int {
 	res := [][]int{}
-	backtrace(0, nums, &res)
-	//path := []int{}
-	//used := make(map[int]bool)
-	//sort.Ints(nums)
-	//dfs(nums, path, &res)
+	//backtrace(0, nums, &res)
+	path := []int{}
+	used := make(map[int]bool, len(nums))
+	sort.Ints(nums)
+	dfs22(0, len(nums), nums, path, &res, used)
 	return res
 }
 
-func dfs(nums, path []int, res *[][]int) {
-	if len(path) == len(nums) {
-		temp := make([]int, len(nums))
+func dfs22(start, n int, nums, path []int, res *[][]int, used map[int]bool) {
+	if start == n {
+		temp := make([]int, start)
 		copy(temp, path)
 		*res = append(*res, temp)
 		return
 	}
 
-	used := make(map[int]bool)
-	for i := 0; i < len(nums); i++ {
-		if used[nums[i]] {
+	for i := 0; i < n; i++ {
+		if used[i] {
 			continue
 		}
-
 		//去重复
-		if i > 0 && nums[i] == nums[i-1] && used[nums[i-1]] == false {
+		if i > 0 && nums[i] == nums[i-1] && !used[i-1] {
 			continue
 		}
 
 		//未使用过才进行
-		used[nums[i]] = true
+		used[i] = true
 		path = append(path, nums[i])
-		dfs(nums, path, res)
-		used[nums[i]] = false
+		dfs22(start+1, n, nums, path, res, used)
+		used[i] = false
 		path = path[:len(path)-1]
 	}
 }
@@ -164,7 +163,8 @@ func permuteUnique2(nums []int) [][]int {
 }
 
 func main() {
-	x := []int{1, 1, 5}
+	//x := []int{1, 1, 2}
+	x := []int{2, 2, 1, 1}
 	fmt.Println(permuteUnique(x))
 	//y := []int{1, 1, 5}
 	//fmt.Println(permuteUnique2(y))
