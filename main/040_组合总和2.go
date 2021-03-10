@@ -41,6 +41,7 @@ candidates 中的每个数字在每个组合中只能使用一次。
 4.结算
 */
 
+//o(n*2^n)
 func combinationSum2(candidates []int, target int) [][]int {
 	sort.Ints(candidates) //快排，懒得写
 	res := [][]int{}

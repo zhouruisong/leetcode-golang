@@ -139,7 +139,7 @@ func dfs2(index int, nums, path []int, res *[][]int) {
 	}
 }
 
-//深度优先遍历,获取所有路径,包括重复的
+//深度优先遍历,获取所有路径,包括重复的o(n!*n)
 func dfs3(nums, path []int, res *[][]int, used map[int]struct{}) {
 	if len(path) == len(nums) {
 		temp := make([]int, len(nums))
