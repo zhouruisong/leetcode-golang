@@ -368,13 +368,14 @@ func combinationSum3(candidates []int, target int) [][]int {
 }
 
 func main() {
-	x := []int{2, 3, 6, 7}
+	//x := []int{2, 3, 6, 7}
+	x := []int{1,2,3,4,5,6,7,8,9}
 	//fmt.Println(permute1(x))
-	//fmt.Println(permute5(x))
+	fmt.Println(permute4(x))
 
 	//fmt.Println(permute1(x))
 
-	fmt.Println(combinationSum3(x, 8))
+	//fmt.Println(combinationSum3(x, 8))
 
 	//相同的切片修改后，重复append会修改原来的切片
 	//res := [][]int{}
