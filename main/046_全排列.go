@@ -111,35 +111,6 @@ func permute5(nums []int) [][]int {
 }
 
 //深度优先遍历,获取所有路径,包括重复的o(n!*n)
-func dfs2(index int, nums, path []int, res *[][]int) {
-	if len(path) == len(nums) {
-		return
-	}
-
-	if index != -1 {
-		path = append(path, nums[index])
-	}
-
-	if len(path) == len(nums) {
-		*res = append(*res, path)
-		return
-	}
-
-	for i := 0; i < len(nums); i++ {
-		//这里进行剪枝
-		//if isExistItem(nums[i], path) {
-		//	continue
-		//}
-		dfs2(i, nums, path, res)
-	}
-
-	//回溯的过程中，将当前的节点从 path 中删除
-	if index != -1 {
-		path = path[:len(path)-1]
-	}
-}
-
-//深度优先遍历,获取所有路径,包括重复的o(n!*n)
 func dfs3(nums, path []int, res *[][]int, used map[int]struct{}) {
 	if len(path) == len(nums) {
 		temp := make([]int, len(nums))
@@ -269,9 +240,9 @@ func permute4(nums []int) [][]int {
 }
 
 func main() {
-	x := []int{2, 3, 6, 7}
+	x := []int{1, 2, 3}
 	fmt.Println(permute1(x))
-	//fmt.Println(permute5(x))
+	fmt.Println(permute5(x))
 
 	//fmt.Println(permute1(x))
 
