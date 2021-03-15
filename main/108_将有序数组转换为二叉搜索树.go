@@ -30,7 +30,7 @@ func arrayToBST(nums []int, start, end int) *model.TreeNode {
 		return nil // 返回空指针
 	}
 	// 否则计算开始下标和结束下标的中间值mid
-	mid := start + (end-start)/2
+	mid := (start + end) >> 1
 	// 并用下标mid对应的数字构建一个树节点root
 	root := &model.TreeNode{Val: nums[mid]}
 	// 然后用mid左边的子数组构建root的左子树,这里更新结束下标为mid-1即可

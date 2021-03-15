@@ -5,6 +5,12 @@ import (
 	"fmt"
 )
 
+type LinkNode struct {
+	Pre  *LinkNode
+	Next *LinkNode
+	Val  int
+}
+
 type ListNode struct {
 	Next *ListNode
 	Val  int

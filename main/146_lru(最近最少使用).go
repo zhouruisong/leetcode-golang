@@ -103,11 +103,54 @@ func (this *LRUCache) MoveToHead(node *LinkNode) {
 }
 
 /**
- * Your LRUCache object will be instantiated and called as such:
- * obj := Constructor(capacity);
- * param_1 := obj.Get(key);
- * obj.Put(key,value);
+ * lru design
+ * @param operators int整型二维数组 the ops
+ * @param k int整型 the k
+ * @return int整型一维数组
  */
+
+func LRU2(operators [][]int, k int) []int {
+	// write code here
+	//[[1,1,1],[1,2,2],[1,3,2],[2,1],[1,4,4],[2,2]],3
+	res := make([]int, 0, len(operators))
+	keys := make([]int, k)
+	values := make([]int, k)
+
+	for _, v := range operators {
+		if v[0] == 1 {
+			//插入
+			//超过容量,第一个删除
+			if len(keys) == k {
+				keys = keys[1:]
+				values = values[1:]
+			}
+			keys = append(keys, v[1])
+			values = append(values, v[2])
+		} else if v[0] == 2 {
+			//获取
+			index := -1
+			for i := 0; i < len(keys); i++ {
+				if v[1] == keys[i] {
+					index = i
+					break
+				}
+			}
+			//未查到
+			if index == -1 {
+				res = append(res, -1)
+			} else {
+				res = append(res, values[index])
+				//将获取的index对应的key和alue 放到队列尾部
+				if index < k-1 {
+					keys = append(keys[:index], append(keys[index+1:], keys[index])...)
+					values = append(values[:index], append(values[index+1:], values[index])...)
+				}
+			}
+		}
+	}
+
+	return res
+}
 
 func main() {
 	c := Constructor(2)
