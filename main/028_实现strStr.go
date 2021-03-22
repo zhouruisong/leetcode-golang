@@ -78,7 +78,7 @@ func strStr2(haystack string, needle string) int {
 			return -1
 		}
 
-		if needle == string(haystack[k:k+n2]) {
+		if needle == haystack[k:k+n2] {
 			return count
 		}
 

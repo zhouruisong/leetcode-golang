@@ -65,7 +65,11 @@ func dfs(candidates, nums []int, target, left int, res *[][]int) {
 			return
 		}
 
-		dfs(candidates, append(nums, candidates[i]), target-candidates[i], i+1, res) //*分支 i+1避免重复
+		//作选择
+		nums = append(nums, candidates[i])
+		dfs(candidates, nums, target-candidates[i], i+1, res) //*分支 i+1避免重复
+		//撤销选择
+		nums = nums[:len(nums)-1]
 	}
 }
 

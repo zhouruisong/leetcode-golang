@@ -68,6 +68,7 @@ func letterCombinations(digits string) []string {
 */
 
 var table []string = []string{"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"}
+
 func letterCombinations2(digits string) []string {
 	if len(digits) == 0 {
 		return []string{}
