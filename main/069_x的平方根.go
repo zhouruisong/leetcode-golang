@@ -54,12 +54,12 @@ func mySqrt2(x int) int {
 	}
 
 	left := 2
-	right := x/2
+	right := x / 2
 
-	for left < right {
-		mid := (right + left) / 2 + 1
-		if mid * mid <= x {
-			left = mid
+	for left <= right {
+		mid := (right + left) / 2
+		if mid*mid <= x {
+			left = mid + 1
 		} else {
 			right = mid - 1
 		}
