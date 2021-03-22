@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 /* 给定不同面额的硬币 coins 和一个总金额
  * amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。
@@ -62,6 +65,33 @@ func coinChange(coins []int, amount int) int {
 		}
 	}
 
+	return dp[amount]
+}
+
+func coinChange2(coins []int, amount int) int {
+	//dp[i]表示凑到i元,需要的最少硬币个数, c是最后一个硬币
+	dp := make([]int, amount+1)
+	dp[0] = 0
+	minF := func(x, y int) int {
+		if x > y {
+			return y
+		}
+		return x
+	}
+
+	for i := 1; i <= amount; i++ {
+		dp[i] = math.MaxInt32
+		//求范围内,dp[i]的最小值
+		for _, c := range coins {
+			if i-c >= 0 {
+				dp[i] = minF(dp[i], dp[i-c]+1)
+			}
+		}
+	}
+
+	if dp[amount] == math.MaxInt32 {
+		return -1
+	}
 	return dp[amount]
 }
 
