@@ -47,5 +47,5 @@ func generateParenthesisHelper(res *[]string, l, r int, str string) {
 }
 
 func main() {
-	fmt.Println(generateParenthesis(3))
+	fmt.Println(generateParenthesis(13))
 }

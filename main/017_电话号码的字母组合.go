@@ -91,7 +91,7 @@ func letterCombinations2(digits string) []string {
 
 func main() {
 	x := "23"
-	fmt.Println(letterCombinations(x))
+	//fmt.Println(letterCombinations(x))
 	fmt.Println(letterCombinations2(x))
 
 }

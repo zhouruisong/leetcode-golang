@@ -96,6 +96,6 @@ func main() {
 	//x := "-91283472332"
 	//x := "+-2"
 	//x := "4193 with words"
-	x:=" "
+	x:="42"
 	fmt.Println(myAtoi(x))
 }
