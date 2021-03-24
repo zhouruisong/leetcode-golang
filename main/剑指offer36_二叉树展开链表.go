@@ -39,7 +39,9 @@ func dfs(cur *model.TreeNode) {
 	} else {
 		head = cur
 	}
+	//单链表的话,注释这一行
 	cur.Left = pre
+
 	pre = cur
 
 	dfs(cur.Right)
