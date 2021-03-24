@@ -55,12 +55,18 @@ func dfs(candidates, nums []int, target, left int, res *[][]int) {
 				return
 			}
 
-			dfs(candidates, append(nums, candidates[i]), target-candidates[i], i, res) //*分支
+			//作选择
+			nums = append(nums, candidates[i])
+			dfs(candidates, nums, target-candidates[i], i, res) //*分支
+			//撤销选择
+			nums = nums[:len(nums)-1]
 		}
 	}
 }
 
 func main() {
-	x := []int{2, 3, 6, 7}
+	//x := []int{2, 3, 6, 7}
+	//fmt.Println(combinationSum(x, 7))
+	x := []int{2, 3, 5}
 	fmt.Println(combinationSum(x, 8))
 }

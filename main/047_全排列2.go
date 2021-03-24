@@ -46,34 +46,33 @@ func permuteUnique(nums []int) [][]int {
 	//backtrace(0, nums, &res)
 	path := []int{}
 	used := make(map[int]bool, len(nums))
-	sort.Ints(nums)
-	dfs22(0, len(nums), nums, path, &res, used)
+	sort.Ints(nums) //要排序
+	dfs22(nums, path, &res, used)
 	return res
 }
 
-func dfs22(start, n int, nums, path []int, res *[][]int, used map[int]bool) {
-	if start == n {
-		temp := make([]int, start)
+func dfs22(nums, path []int, res *[][]int, used map[int]bool) {
+	if len(path) == len(nums) {
+		temp := make([]int, len(nums))
 		copy(temp, path)
 		*res = append(*res, temp)
 		return
 	}
 
-	for i := 0; i < n; i++ {
-		if used[i] {
-			continue
-		}
+	for i := 0; i < len(nums); i++ {
 		//去重复
 		if i > 0 && nums[i] == nums[i-1] && !used[i-1] {
 			continue
 		}
 
-		//未使用过才进行
-		used[i] = true
-		path = append(path, nums[i])
-		dfs22(start+1, n, nums, path, res, used)
-		used[i] = false
-		path = path[:len(path)-1]
+		if !used[i] {
+			//未使用过才进行
+			used[i] = true
+			path = append(path, nums[i])
+			dfs22(nums, path, res, used)
+			used[i] = false
+			path = path[:len(path)-1]
+		}
 	}
 }
 

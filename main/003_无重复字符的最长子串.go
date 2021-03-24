@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"math"
-	"sort"
 )
 
 /*
@@ -25,54 +24,10 @@ import (
 输出: 3
 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
- */
-
-/*
-//对应官方答案思想里面的方案2,3.
-// 滑动串口解法1
-class Solution {
-public:
-    int lengthOfLongestSubstring(string s) {
-        int i = 0,j = 0, n = 0, ans= 0;
-        set<char> cont;
-        n = s.size();
-        set<char>::iterator iter;
-
-        while(i< n && j<n){
-            if( (iter=cont.find(s[j])) != cont.end() ){
-                cont.erase(s[i++]);
-            }
-            else {
-
-                cont.insert(s[j++]);
-                ans = max(ans, j-i);
-            }
-
-        }
-        return ans;
-    }
-};
-
-//滑动窗口解法2(优化了方法1)
-    int lengthOfLongestSubstring3(string s) {
-        int n = s.length();
-        map<char, int> Map_tmp;
-        map<char, int>::iterator iter;
-        int i= 0, ans = 0;
-
-        for(int j = 0; j<n; j++){
-           if( (iter = Map_tmp.find(s[j])) != Map_tmp.end() ){
-               i = max(i, iter->second);
-           }
-            ans = max(ans, j-i+1);
-            Map_tmp[(s[j])] = j+1;
-        }
-        return ans;
-    }
-
-
 */
 
+//对应官方答案思想里面的方案2,3.
+// 滑动串口解法1
 func lengthOfLongestSubstring(s string) int {
 	n := len(s)
 	i := 0
@@ -94,26 +49,6 @@ func lengthOfLongestSubstring(s string) int {
 		}
 	}
 
-	////打印
-	//type kv struct {
-	//	Key   string
-	//	Value int
-	//}
-	//
-	//var ss []kv
-	//for k, v := range m {
-	//	ss = append(ss, kv{string(k), int(v)})
-	//}
-	//
-	//sort.Slice(ss, func(i, j int) bool {
-	//	//return ss[i].Value > ss[j].Value // 降序
-	//	return ss[i].Value < ss[j].Value // 升序
-	//})
-	//
-	//for _, kv := range ss {
-	//	fmt.Printf("%v, %d\n", kv.Key, kv.Value)
-	//}
-
 	fmt.Printf("ans= %+v\n", ans)
 	return ans
 }
@@ -130,25 +65,6 @@ func lengthOfLongestSubstring3(s string) int {
 		ans = Max(ans, j-i+1)
 		Map_tmp[s[j]] = j + 1
 	}
-
-	//type kv struct {
-	//	Key   string
-	//	Value int
-	//}
-	//
-	//var ss []kv
-	//for k, v := range Map_tmp {
-	//	ss = append(ss, kv{string(k), v})
-	//}
-	//
-	//sort.Slice(ss, func(i, j int) bool {
-	//	//return ss[i].Value > ss[j].Value // 降序
-	//	return ss[i].Value < ss[j].Value // 升序
-	//})
-	//
-	//for _, kv := range ss {
-	//	fmt.Printf("%v, %d\n", kv.Key, kv.Value)
-	//}
 
 	return ans
 }

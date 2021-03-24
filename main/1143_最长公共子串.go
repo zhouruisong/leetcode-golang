@@ -50,31 +50,29 @@ func LCS(str1 string, str2 string) string {
 	// write code here
 	n1 := len(str1)
 	n2 := len(str2)
-
 	if n1 == 0 && n2 == 0 {
 		return "-1"
 	}
-
 	if n1 == 0 || n2 == 0 {
 		return "-1"
 	}
-
 	dp := make([][]int, n1+1)
-	for i := 0; i <= n1; i++ {
+	for i := range dp {
 		dp[i] = make([]int, n2+1)
 	}
 
 	max := 0
 	index := 0
+	//公共字串必须连续
 	for i := 1; i <= n1; i++ {
 		for j := 1; j <= n2; j++ {
-			//不相同， 为0
+			//末端不相等,dp[i][j] = 0
 			if str1[i-1] != str2[j-1] {
 				dp[i][j] = 0
-			} else { //如果末端相同，等于前面最长公共子串数+1
+			} else {
+				//如果末端相等
 				dp[i][j] = dp[i-1][j-1] + 1
 			}
-
 			if max < dp[i][j] {
 				max = dp[i][j]
 				index = i
@@ -82,12 +80,52 @@ func LCS(str1 string, str2 string) string {
 		}
 	}
 
-	//fmt.Println(dp)
 	if max == 0 {
 		return "-1"
 	}
-
 	return str1[index-max : index]
+
+	// write code here
+	//n1 := len(str1)
+	//n2 := len(str2)
+	//
+	//if n1 == 0 && n2 == 0 {
+	//	return "-1"
+	//}
+	//
+	//if n1 == 0 || n2 == 0 {
+	//	return "-1"
+	//}
+	//
+	//dp := make([][]int, n1+1)
+	//for i := 0; i <= n1; i++ {
+	//	dp[i] = make([]int, n2+1)
+	//}
+	//
+	//max := 0
+	//index := 0
+	//for i := 1; i <= n1; i++ {
+	//	for j := 1; j <= n2; j++ {
+	//		//不相同， 为0
+	//		if str1[i-1] != str2[j-1] {
+	//			dp[i][j] = 0
+	//		} else { //如果末端相同，等于前面最长公共子串数+1
+	//			dp[i][j] = dp[i-1][j-1] + 1
+	//		}
+	//
+	//		if max < dp[i][j] {
+	//			max = dp[i][j]
+	//			index = i
+	//		}
+	//	}
+	//}
+	//
+	////fmt.Println(dp)
+	//if max == 0 {
+	//	return "-1"
+	//}
+	//
+	//return str1[index-max : index]
 }
 
 func main() {

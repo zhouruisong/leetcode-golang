@@ -35,7 +35,7 @@ import (
 输入：nums1 = [2], nums2 = []
 输出：2.00000
 */
-//o(nlogn)
+//o(m+n)
 func merge(nums1 []int, nums2 []int) []int {
 	result := []int{}
 	n1 := len(nums1)
