@@ -125,7 +125,7 @@ func LIS(arr []int) []int {
 			maxLen[i] = l + 1
 		}
 	}
-	fmt.Println("res>>>",res)
+	fmt.Println("res>>>", res)
 	fmt.Println("maxLen>>>", maxLen)
 	//从maxLen后往前找，找到被替换过的位置的值
 	for i, j := len(maxLen)-1, len(res); j > 0; i-- {
@@ -134,14 +134,14 @@ func LIS(arr []int) []int {
 			res[j] = arr[i]
 		}
 	}
-	fmt.Println("res>>>",res)
+	fmt.Println("res>>>", res)
 	return res
 }
 
 func main() {
-	//arr := []int{10, 9, 2, 5, 3, 7, 101, 18}
+	arr := []int{10, 9, 2, 5, 3, 7, 101, 18}
 	//arr := []int{1, 3, 2, 3, 1, 4}
-	arr := []int{1, 2, 8, 6, 4}
+	//arr := []int{1, 2, 8, 6, 4}
 	//fmt.Println(lengthOfLIS(arr))
 	fmt.Println(LIS(arr))
 }
