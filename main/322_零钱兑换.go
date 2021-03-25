@@ -85,7 +85,7 @@ func coinChange(coins []int, amount int) int {
 * 2.f(x-a)为0说明,凑到x-a元没有这种方案,当它不为0时就可以用来比较是否是第二层循环中最小的f(x-a)
 
 o(n*amount)
- */
+*/
 func coinChange2(coins []int, amount int) int {
 	dp := make([]int, amount+1)
 	dp[0] = 0
@@ -96,6 +96,7 @@ func coinChange2(coins []int, amount int) int {
 		}
 		return x
 	}
+
 	for i := 1; i <= amount; i++ {
 		dp[i] = math.MaxInt32
 		for _, c := range coins {

@@ -33,7 +33,6 @@ enention -> exention (将 'n' 替换为 'x')
 exention -> exection (将 'n' 替换为 'c')
 exection -> execution (插入 'u')
 */
-
 //https://leetcode-cn.com/problems/edit-distance/solution/bian-ji-ju-chi-mian-shi-ti-xiang-jie-by-labuladong/
 func minDistance(word1 string, word2 string) int {
 	//二维数组初始化(m+1)*(n+1)
@@ -86,13 +85,8 @@ func minDistance(word1 string, word2 string) int {
 				dp[i][j] = dp[i-1][j-1]
 				//fmt.Println("啥都不做", i, j)
 			} else {
-				dp[i][j] = dp[i-1][j-1] + 1
+				dp[i][j] = min3(dp[i][j-1]+1, dp[i-1][j]+1, dp[i-1][j-1]+1)
 			}
-			// 2. word1 增加一个字符
-			dp[i][j] = min(dp[i][j], dp[i][j-1]+1)
-			// 3. word1 删除 word1[i]字符
-			dp[i][j] = min(dp[i][j], dp[i-1][j]+1)
-
 		}
 	}
 
@@ -103,11 +97,15 @@ func minDistance(word1 string, word2 string) int {
 	return dp[m][n]
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
+func min3(a, b, c int) int {
+	min := a
+	if b < min {
+		min = b
 	}
-	return b
+	if c < min {
+		min = c
+	}
+	return min
 }
 
 func main() {
