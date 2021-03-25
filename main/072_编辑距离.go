@@ -34,6 +34,7 @@ exention -> exection (将 'n' 替换为 'c')
 exection -> execution (插入 'u')
 */
 //https://leetcode-cn.com/problems/edit-distance/solution/bian-ji-ju-chi-mian-shi-ti-xiang-jie-by-labuladong/
+//o(mn)
 func minDistance(word1 string, word2 string) int {
 	//二维数组初始化(m+1)*(n+1)
 	m, n := len(word1), len(word2)
