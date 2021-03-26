@@ -57,15 +57,6 @@ func reverseBetween(head *model.ListNode, m int, n int) *model.ListNode {
 	return newHead.Next
 }
 
-func add_node_head(head, newNode *model.ListNode) {
-	if head == nil || newNode == nil {
-		return
-	}
-
-	newNode.Next = head.Next
-	head.Next = newNode
-}
-
 func main() {
 	v6 := []int{1, 2, 3, 4, 5, 6, 7}
 	tmp1 := model.UnmarshalListBySlice(v6)

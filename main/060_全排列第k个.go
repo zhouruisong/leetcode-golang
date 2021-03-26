@@ -156,7 +156,7 @@ func getPermutation4(n int, k int) string {
 		nums = append(nums, i)
 	}
 
-	fmt.Println(nums)
+	//fmt.Println(nums)
 	//先将nums升序排序
 	//sort.Ints(nums)
 

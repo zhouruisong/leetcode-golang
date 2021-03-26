@@ -36,7 +36,7 @@ func climbStairs(N int) int {
 		自顶向下 递归思路f(n)：爬上n阶楼梯方法数 可以得出f(n) = f(n -1) + f(n-2)
 	*/
 	if N <= 1 {
-		return N
+		return 1
 	}
 
 	one := 0
@@ -57,7 +57,7 @@ func climbStairs2(n int) int {
 		自顶向下 递归思路f(n)：爬上n阶楼梯方法数 可以得出f(n) = f(n -1) + f(n-2)
 	*/
 	if n <= 1 {
-		return n
+		return 1
 	}
 
 	return climbStairs2(n-1) + climbStairs2(n-2)
@@ -96,5 +96,6 @@ func climbStairs4(n int, steps []int) int {
 func main() {
 	fmt.Println(climbStairs(3))
 	fmt.Println(climbStairs2(3))
+	fmt.Println(climbStairs3(3))
 	fmt.Println(climbStairs4(3, []int{1, 2}))
 }
