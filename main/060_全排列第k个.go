@@ -200,13 +200,7 @@ func getPermutation4(n int, k int) string {
 		nums[j], nums[k] = nums[k], nums[j]
 
 		//j位置后，肯定是降序的，前后互换，变为升序
-		l := j + 1
-		r := ln - 1
-		for l < r {
-			nums[l], nums[r] = nums[r], nums[l]
-			r--
-			l++
-		}
+		sort.Ints(nums[j+1:])
 		m++
 	}
 
@@ -216,5 +210,6 @@ func getPermutation4(n int, k int) string {
 }
 
 func main() {
+	fmt.Println(getPermutation(4, 9))
 	fmt.Println(getPermutation4(4, 9))
 }

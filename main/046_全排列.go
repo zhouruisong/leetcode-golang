@@ -120,10 +120,6 @@ func dfs3(nums, path []int, res *[][]int, used map[int]struct{}) {
 	}
 
 	for i := 0; i < len(nums); i++ {
-		//这里进行剪枝
-		//if isExistItem(nums[i], path) {
-		//	continue
-		//}
 		//优化
 		if _, ok := used[nums[i]]; ok {
 			continue

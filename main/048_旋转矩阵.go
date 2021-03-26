@@ -83,19 +83,16 @@ func rotate2(matrix [][]int) {
 
 	//以左上角到右下角为对角线交换每个位置，然后每一行反转即可
 	i := 0
-	tmp := 0
 	for i < n {
 		j := i
 		for j < n {
-			tmp = matrix[i][j]
-			matrix[i][j] = matrix[j][i]
-			matrix[j][i] = tmp
+			matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 			j++
 		}
 		i++
 	}
 
-	//fmt.Println(matrix)
+	fmt.Println(matrix)
 
 	//每一行反转
 	i = 0
@@ -111,9 +108,7 @@ func sliceReserve(nums []int) {
 	j := n - 1
 	for i <= j {
 		//交换nums[i],nums[j]
-		tmp := nums[i]
-		nums[i] = nums[j]
-		nums[j] = tmp
+		nums[i], nums[j] = nums[j], nums[i]
 		i++
 		j--
 	}

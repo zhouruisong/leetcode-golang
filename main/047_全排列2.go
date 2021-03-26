@@ -76,95 +76,74 @@ func dfs22(nums, path []int, res *[][]int, used map[int]bool) {
 	}
 }
 
-func permuteUnique2(nums []int) [][]int {
-	//先将nums升序排序
+func permuteUnique3(nums []int) [][]int {
+	//字典序+map去重复
 	sort.Ints(nums)
 
-	ln := len(nums)
-	if ln == 0 {
+	n := len(nums)
+	if n == 0 {
 		return [][]int{}
 	}
-
-	if ln == 1 {
+	if n == 1 {
 		return [][]int{{nums[0]}}
 	}
-
 	res := [][]int{}
-	//深拷贝
-	tmp1 := make([]int, ln)
+	tmp1 := make([]int, len(nums))
 	copy(tmp1, nums)
 	res = append(res, tmp1)
 
-	//去重复
-	m := make(map[string][]int)
+	//map去重复
+	mp := make(map[string]struct{})
 	s := fmt.Sprintf("%v", tmp1)
-	ret := strings.ReplaceAll(strings.Trim(s, "[]"), " ", "")
-	m[ret] = tmp1
+	key := strings.ReplaceAll(strings.Trim(s, "[]"), " ", "")
+	mp[key] = struct{}{}
 
 	for {
-		//fmt.Println(nums)
-		j := ln - 1
-		k := ln - 1
-		//从后往前找
-		for j > 0 && nums[j-1] >= nums[j] {
-			j-- //找到第一对数 nums[j]<nums[j+1]
+		//从后往前找，第一个连续的nums[j]<nums[j+1]
+		j := n - 2
+		for j >= 0 {
+			if nums[j] < nums[j+1] {
+				break
+			}
+			j--
 		}
-
 		if j < 0 {
 			break
 		}
-
-		//去重复
-		if j > 0 {
-			j--
-		}
-
-		//从后往前找，到j位置结束，找到第一个比nums[j]大的nums[k]
-		for k >= j && nums[k] <= nums[j] {
+		//从后到j找，满足第一个nums[k]>nums[j]
+		k := n - 1
+		for k >= j {
+			if nums[k] > nums[j] {
+				//交换
+				nums[j], nums[k] = nums[k], nums[j]
+				break
+			}
 			k--
 		}
 
-		//去重复
-		if k < 0 {
+		if k < j {
 			break
 		}
 
-		//交换nums[j]和nums[k]对应的值
-		nums[j], nums[k] = nums[k], nums[j]
-
-		//j位置后，肯定是降序的，前后互换，变为升序
-		l := j + 1
-		r := ln - 1
-		for l < r {
-			nums[l], nums[r] = nums[r], nums[l]
-			r--
-			l++
-		}
-
-		//fmt.Printf("nums= %v\n", nums)
-
+		//j+1到最后变升序
+		sort.Ints(nums[j+1:])
+		//去重复
 		s := fmt.Sprintf("%v", nums)
-		ret = strings.ReplaceAll(strings.Trim(s, "[]"), " ", "")
-		//fmt.Printf("%v\n", ret)
-
-		//res中是否已经有了对于的[]int
-		if _, ok := m[ret]; !ok {
-			//深拷贝
-			tmp := make([]int, ln)
+		key = strings.ReplaceAll(strings.Trim(s, "[]"), " ", "")
+		if _, ok := mp[key]; !ok {
+			tmp := make([]int, len(nums))
 			copy(tmp, nums)
 			res = append(res, tmp)
-
-			m[ret] = tmp
+			mp[key] = struct{}{}
 		}
 	}
-
 	return res
 }
 
 func main() {
-	x := []int{1, 1, 2}
-	//x := []int{2, 2, 1, 1}
+	//x := []int{1, 1, 2}
+	x := []int{2, 2, 1, 1}
 	fmt.Println(permuteUnique(x))
 	//y := []int{1, 1, 5}
-	fmt.Println(permuteUnique2(x))
+	fmt.Println(permuteUnique3(x))
 }
