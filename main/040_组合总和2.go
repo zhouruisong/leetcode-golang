@@ -51,9 +51,10 @@ func combinationSum2(candidates []int, target int) [][]int {
 
 func dfs(candidates, nums []int, target, left int, res *[][]int) {
 	if target == 0 { //结算
-		tmp := make([]int, len(nums))
-		copy(tmp, nums)
-		*res = append(*res, tmp)
+		//tmp := make([]int, len(nums))
+		//copy(tmp, nums)
+		//*res = append(*res, tmp)
+		*res = append(*res, append([]int{}, nums...))
 		return
 	}
 

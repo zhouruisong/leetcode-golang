@@ -113,9 +113,10 @@ func permute5(nums []int) [][]int {
 //深度优先遍历,获取所有路径,包括重复的o(n!*n)
 func dfs3(nums, path []int, res *[][]int, used map[int]struct{}) {
 	if len(path) == len(nums) {
-		temp := make([]int, len(nums))
-		copy(temp, path)
-		*res = append(*res, temp)
+		//temp := make([]int, len(nums))
+		//copy(temp, path)
+		//*res = append(*res, temp)
+		*res = append(*res, append([]int{}, path...))
 		return
 	}
 
@@ -238,6 +239,7 @@ func permute4(nums []int) [][]int {
 func main() {
 	x := []int{1, 2, 3}
 	fmt.Println(permute1(x))
+	fmt.Println(permute4(x))
 	fmt.Println(permute5(x))
 
 	//fmt.Println(permute1(x))

@@ -73,9 +73,10 @@ func dfs(arr, path []int, res *[][]int, n, k, start int) {
 	//"终止条件" 找到一对组合
 	if k == 0 {
 		//拷贝结果
-		temp := make([]int, len(path))
-		copy(temp, path)
-		*res = append(*res, temp)
+		//temp := make([]int, len(path))
+		//copy(temp, path)
+		//*res = append(*res, temp)
+		*res = append(*res, append([]int{}, path...))
 		return
 	}
 

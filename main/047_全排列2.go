@@ -53,9 +53,10 @@ func permuteUnique(nums []int) [][]int {
 
 func dfs22(nums, path []int, res *[][]int, used map[int]bool) {
 	if len(path) == len(nums) {
-		temp := make([]int, len(nums))
-		copy(temp, path)
-		*res = append(*res, temp)
+		//temp := make([]int, len(nums))
+		//copy(temp, path)
+		//*res = append(*res, temp)
+		*res = append(*res, append([]int{}, path...))
 		return
 	}
 
@@ -90,7 +91,8 @@ func permuteUnique3(nums []int) [][]int {
 	res := [][]int{}
 	tmp1 := make([]int, len(nums))
 	copy(tmp1, nums)
-	res = append(res, tmp1)
+	//res = append(res, tmp1)
+	res = append(res, append([]int{}, nums...))
 
 	//map去重复
 	mp := make(map[string]struct{})
@@ -131,9 +133,10 @@ func permuteUnique3(nums []int) [][]int {
 		s := fmt.Sprintf("%v", nums)
 		key = strings.ReplaceAll(strings.Trim(s, "[]"), " ", "")
 		if _, ok := mp[key]; !ok {
-			tmp := make([]int, len(nums))
-			copy(tmp, nums)
-			res = append(res, tmp)
+			//tmp := make([]int, len(nums))
+			//copy(tmp, nums)
+			//res = append(res, tmp)
+			res = append(res, append([]int{}, nums...))
 			mp[key] = struct{}{}
 		}
 	}

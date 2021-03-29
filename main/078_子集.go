@@ -54,10 +54,11 @@ func subsets(nums []int) [][]int {
 	ln := len(res) //提前计算出ln，后面res的len会发生变化,防止出现死循环
 	for i := 0; i < ln; i++ {
 		//此处要深拷贝
-		tmp := make([]int, len(res[i]))
-		copy(tmp, res[i])
-		tmp = append(tmp, item)
-		res = append(res, tmp)
+		//tmp := make([]int, len(res[i]))
+		//copy(tmp, res[i])
+		//tmp = append(tmp, item)
+		//res = append(res, tmp)
+		res = append(res, append(append([]int{}, res[i]...), item))
 		//fmt.Println(res)
 	}
 
