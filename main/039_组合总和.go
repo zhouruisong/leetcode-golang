@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"sort"
 )
 
 /*
@@ -33,36 +32,35 @@ candidates 中的数字可以无限制重复被选取。
 ]
 */
 
-//o(n*2^n)
+//时间复杂度：O(S)，其中 SS 为所有可行解的长度之和， 上届是o(n*2^n)
 func combinationSum(candidates []int, target int) [][]int {
-	sort.Ints(candidates) //快排，懒得写
+	// https://leetcode-cn.com/problems/combination-sum/solution/shou-hua-tu-jie-zu-he-zong-he-combination-sum-by-x/
+	// 未排序
+
 	res := [][]int{}
-	dfs(candidates, nil, target, 0, &res) //深度优先
-	return res
-}
+	var dfs func(start int, temp []int, sum int)
 
-func dfs(candidates, nums []int, target, left int, res *[][]int) {
-	if target == 0 { //结算
-		//tmp := make([]int, len(nums))
-		//copy(tmp, nums)
-		//*res = append(*res, tmp)
-		*res = append(*res, append([]int{}, nums...))
-		return
-	} else if target < 0 {
-		return
-	} else {
-		for i := left; i < len(candidates); i++ { // left限定，形成分支
-			if target < candidates[i] { //剪枝
-				return
+	dfs = func(start int, temp []int, sum int) {
+		if sum >= target {
+			if sum == target {
+				//深拷贝
+				//newTmp := make([]int, len(temp))
+				//copy(newTmp, temp)
+				//res = append(res, newTmp)
+				res = append(res, append([]int{}, temp...))
 			}
+			return
+		}
 
-			//作选择
-			nums = append(nums, candidates[i])
-			dfs(candidates, nums, target-candidates[i], i, res) //*分支
-			//撤销选择
-			nums = nums[:len(nums)-1]
+		//子递归传了 i 而不是 i+1 ，因为元素可以重复选入集合，如果传 i+1 就不重复了。
+		for i := start; i < len(candidates); i++ {
+			temp = append(temp, candidates[i])
+			dfs(i, temp, sum+candidates[i])
+			temp = temp[:len(temp)-1]
 		}
 	}
+	dfs(0, []int{}, 0)
+	return res
 }
 
 func main() {

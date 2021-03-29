@@ -20,30 +20,9 @@ import (
 ]
 */
 
-func backtrace(start int, nums []int, res *[][]int) {
-	if start == len(nums) {
-		temp := make([]int, len(nums))
-		copy(temp, nums)
-		*res = append(*res, temp)
-	}
-
-	//去重复
-	m := map[int]bool{}
-	for i := start; i < len(nums); i++ {
-		if m[nums[i]] {
-			continue
-		}
-		m[nums[i]] = true
-		nums[start], nums[i] = nums[i], nums[start]
-		backtrace(start+1, nums, res)
-		nums[start], nums[i] = nums[i], nums[start]
-	}
-}
-
 //o(n *n!)
 func permuteUnique(nums []int) [][]int {
 	res := [][]int{}
-	//backtrace(0, nums, &res)
 	path := []int{}
 	used := make(map[int]bool, len(nums))
 	sort.Ints(nums) //要排序

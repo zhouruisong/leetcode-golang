@@ -41,37 +41,57 @@ candidates 中的每个数字在每个组合中只能使用一次。
 4.结算
 */
 
-//o(n*2^n)
+//时间复杂度：O(S)，其中 SS 为所有可行解的长度之和， 上届是o(n*2^n)
+// https://leetcode-cn.com/problems/combination-sum-ii/solution/man-tan-wo-li-jie-de-hui-su-chang-wen-shou-hua-tu-/
+// 排序
 func combinationSum2(candidates []int, target int) [][]int {
-	sort.Ints(candidates) //快排，懒得写
-	res := [][]int{}
-	dfs(candidates, nil, target, 0, &res) //深度优先
-	return res
-}
+	/*
+		通39题比较只需改动三点：
+		给定的数组可能有重复的元素，先排序，使得重复的数字相邻，方便去重。
+		for 枚举出选项时，加入下面判断，从而忽略掉同一层重复的选项，避免产生重复的组合。比如[1,2,2,2,5]，选了第一个 2，变成 [1,2]，
+		它的下一选项也是 2，跳过它，因为如果选它，就还是 [1,2]。
 
-func dfs(candidates, nums []int, target, left int, res *[][]int) {
-	if target == 0 { //结算
-		//tmp := make([]int, len(nums))
-		//copy(tmp, nums)
-		//*res = append(*res, tmp)
-		*res = append(*res, append([]int{}, nums...))
-		return
-	}
-
-	for i := left; i < len(candidates); i++ { // left限定，形成分支
-		if i != left && candidates[i] == candidates[i-1] { // *同层节点 数值相同，剪枝
-			continue
+		if (i - 1 >= start && candidates[i - 1] == candidates[i]) {
+			continue;
 		}
-		if target < candidates[i] { //剪枝
+		当前选择的数字不能和下一个选择的数字重复，给子递归传i+1，避免与当前选的i重复。
+		dfs(i + 1, temp, sum + candidates[i]);
+	*/
+	sort.Ints(candidates)
+	res := [][]int{}
+	var dfs func(start int, temp []int, sum int)
+
+	dfs = func(start int, temp []int, sum int) {
+		if sum >= target {
+			if sum == target {
+				//深拷贝
+				//newTmp := make([]int, len(temp))
+				//copy(newTmp, temp)
+				//res = append(res, newTmp)
+				res = append(res, append([]int{}, temp...))
+			}
 			return
 		}
 
-		//作选择
-		nums = append(nums, candidates[i])
-		dfs(candidates, nums, target-candidates[i], i+1, res) //*分支 i+1避免重复
-		//撤销选择
-		nums = nums[:len(nums)-1]
+		//
+		for i := start; i < len(candidates); i++ {
+			//去重复
+			if i-1 >= start && candidates[i-1] == candidates[i] {
+				continue
+			}
+
+			if target < candidates[i] { //剪枝
+				return
+			}
+
+			temp = append(temp, candidates[i])
+			//当前选择的数字不能和下一个选择的数字重复，给子递归传i+1，避免与当前选的i重复
+			dfs(i+1, temp, sum+candidates[i])
+			temp = temp[:len(temp)-1]
+		}
 	}
+	dfs(0, []int{}, 0)
+	return res
 }
 
 func main() {

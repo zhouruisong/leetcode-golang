@@ -52,57 +52,8 @@ import (
 求N个元素全排列最终就变成求2的元素的全排列了
 */
 
-func permute2(nums []int) [][]int {
-	ln := len(nums)
-	if ln == 0 {
-		return [][]int{}
-	}
-
-	if ln == 1 {
-		return [][]int{{nums[0]}}
-	}
-
-	if ln == 2 {
-		return [][]int{{nums[0], nums[1]}, {nums[1], nums[0]}}
-	}
-
-	result := [][]int{}
-	for i := 0; i < len(nums); i++ {
-		var numsCopy = make([]int, len(nums))
-		copy(numsCopy, nums)
-		numsSubOne := append(numsCopy[:i], numsCopy[i+1:]...)
-		valueSlice := []int{nums[i]}
-		newSubSlice := permute2(numsSubOne)
-		for _, newValue := range newSubSlice {
-			result = append(result, append(valueSlice, newValue...))
-		}
-	}
-
-	return result
-}
-
-func backtrace(start int, nums []int, res *[][]int) {
-	if start == len(nums) {
-		temp := make([]int, len(nums))
-		copy(temp, nums)
-		*res = append(*res, temp)
-	}
-
-	for i := start; i < len(nums); i++ {
-		nums[start], nums[i] = nums[i], nums[start]
-		backtrace(start+1, nums, res)
-		nums[start], nums[i] = nums[i], nums[start]
-	}
-}
-
 //o(n^2)
-func permute1(nums []int) [][]int {
-	res := [][]int{}
-	backtrace(0, nums, &res)
-	return res
-}
-
-func permute5(nums []int) [][]int {
+func permute(nums []int) [][]int {
 	res := [][]int{}
 	path := []int{}
 	used := make(map[int]struct{}, len(nums))
@@ -132,6 +83,34 @@ func dfs3(nums, path []int, res *[][]int, used map[int]struct{}) {
 		path = path[:len(path)-1]
 		delete(used, nums[i])
 	}
+}
+
+func permute2(nums []int) [][]int {
+	res := [][]int{}
+	visited := map[int]bool{}
+
+	var dfs func(path []int)
+	dfs = func(path []int) {
+		if len(path) == len(nums) {
+			temp := make([]int, len(path))
+			copy(temp, path)
+			res = append(res, temp)
+			return
+		}
+		for _, n := range nums {
+			if visited[n] {
+				continue
+			}
+			path = append(path, n)
+			visited[n] = true
+			dfs(path)
+			path = path[:len(path)-1]
+			visited[n] = false
+		}
+	}
+
+	dfs([]int{})
+	return res
 }
 
 //遍历array查询元素是否存在
@@ -238,9 +217,8 @@ func permute4(nums []int) [][]int {
 
 func main() {
 	x := []int{1, 2, 3}
-	fmt.Println(permute1(x))
+	fmt.Println(permute(x))
 	fmt.Println(permute4(x))
-	fmt.Println(permute5(x))
 
 	//fmt.Println(permute1(x))
 
