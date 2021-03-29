@@ -54,9 +54,6 @@ func trap(height []int) int {
 	return ret
 }
 
-//先找到从左到右第一个最大的高度的索引 a（可能有多个相同的最大高度），从左开始到这个位置[0,a]，下降位置才积水
-//再从右向左找到第一个最大的高度的索引 b（（可能有多个相同的最大高度），从右开始到这个位置[b,n-1]，下降位置才积水
-//才考虑两个位置的中间数据从开始到这个位置[a,b]，下降位置才积水
 func trap2(height []int) int {
 	//先找到从左到右第一个最大的高度的索引 a（可能有多个相同的最大高度），从左开始到这个位置[0,a]，下降位置才积水
 	//再从右向左找到第一个最大的高度的索引 b（（可能有多个相同的最大高度），从右开始到这个位置[b,n-1]，下降位置才积水
@@ -67,7 +64,6 @@ func trap2(height []int) int {
 	}
 	sum := 0 //接雨水量
 	left_max_index := 0
-	right_max_index := 0
 
 	//从左侧向右侧找到第一个最大高度的位置
 	tmp1 := height[0]
@@ -83,8 +79,9 @@ func trap2(height []int) int {
 	fmt.Printf("left_max_index: %v\n", left_max_index)
 
 	tmp1 = height[n-1]
+	right_max_index := n-1
 	//从右侧向左侧找到第一个最大高度的位置
-	for k := n - 1; k >= 0; k-- {
+	for k := n - 2; k >= 0; k-- {
 		if height[k] > tmp1 {
 			right_max_index = k
 			tmp1 = height[k]
@@ -96,7 +93,7 @@ func trap2(height []int) int {
 
 	tmp1 = height[0]
 	//从左侧开始向上爬，一直到left_max_index位置
-	for j := 1; j <= left_max_index; j++ {
+	for j := 1; j < left_max_index; j++ {
 		//只有下降部分才能积水
 		if height[j] < tmp1 {
 			sum = sum + tmp1 - height[j]
@@ -105,9 +102,11 @@ func trap2(height []int) int {
 		}
 	}
 
+	fmt.Printf("sum: %v\n", sum)
+
 	tmp1 = height[n-1]
 	//从右侧开始向上爬，一直到left_max_index位置
-	for p := n - 2; p >= right_max_index; p-- {
+	for p := n - 2; p > right_max_index; p-- {
 		//只有下降部分才能积水
 		if height[p] < tmp1 {
 			sum = sum + tmp1 - height[p]
@@ -116,9 +115,11 @@ func trap2(height []int) int {
 		}
 	}
 
+	fmt.Printf("--sum: %v\n", sum)
+
 	//查看中间部分从【left_max_index right_max_index]
 	tmp1 = height[left_max_index]
-	for q := left_max_index + 1; q <= left_max_index; q++ {
+	for q := left_max_index; q <= right_max_index; q++ {
 		if height[q] < tmp1 {
 			sum = sum + tmp1 - height[q]
 		} else {
@@ -128,31 +129,6 @@ func trap2(height []int) int {
 
 	//fmt.Println(sum)
 	return sum
-}
-
-func trap3(height []int) int {
-	l := len(height)
-	water := 0
-	left := 0
-	for i := 1; i < l; i++ {
-		if height[i] >= height[left] {
-			for j := left + 1; j < i; j++ {
-				water += height[left] - height[j]
-			}
-			left = i
-		}
-	}
-
-	right := l - 1
-	for i := right - 1; i >= left; i-- {
-		if height[i] >= height[right] {
-			for j := right - 1; j > i; j-- {
-				water += height[right] - height[j]
-			}
-			right = i
-		}
-	}
-	return water
 }
 
 func main() {
