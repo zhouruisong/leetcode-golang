@@ -71,17 +71,17 @@ func dfs3(nums, path []int, res *[][]int, used map[int]struct{}) {
 		return
 	}
 
-	for i := 0; i < len(nums); i++ {
+	for _, v := range nums {
 		//优化
-		if _, ok := used[nums[i]]; ok {
+		if _, ok := used[v]; ok {
 			continue
 		}
 
-		used[nums[i]] = struct{}{}
-		path = append(path, nums[i])
+		used[v] = struct{}{}
+		path = append(path, v)
 		dfs3(nums, path, res, used)
 		path = path[:len(path)-1]
-		delete(used, nums[i])
+		delete(used, v)
 	}
 }
 
