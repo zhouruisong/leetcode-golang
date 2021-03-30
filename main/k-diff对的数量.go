@@ -50,7 +50,7 @@ func findPairs(nums []int, k int) int {
 		mp[v] = true
 	}
 
-	fmt.Println(mp)
+	//fmt.Println(mp)
 
 	//去重使用
 	used := make(map[string]bool, 0)
@@ -60,14 +60,14 @@ func findPairs(nums []int, k int) int {
 
 		if _, ok := mp[other1]; ok {
 			key := fmt.Sprintf("%v%v", v-k, v)
-			if _, ok := used[key]; !ok {
+			if !used[key] {
 				res = append(res, []int{v - k, v})
 				used[key] = true
 			}
 
 		} else if _, ok := mp[other2]; ok {
 			key := fmt.Sprintf("%v%v", v, v+k)
-			if _, ok := used[key]; !ok {
+			if !used[key] {
 				res = append(res, []int{v, v + k})
 				used[key] = true
 			}
@@ -85,11 +85,11 @@ func main() {
 	//nums := []int{3, 1, 4, 1, 5}
 	//k := 2
 
-	//nums := []int{1, 2, 4, 4, 3, 3, 0, 9, 2, 3}
-	//k := 3
+	nums := []int{1, 2, 4, 4, 3, 3, 0, 9, 2, 3}
+	k := 3
 
-	nums := []int{-1, -2, -3}
-	k := 1
+	//nums := []int{-1, -2, -3}
+	//k := 1
 
 	fmt.Println(findPairs(nums, k))
 }
