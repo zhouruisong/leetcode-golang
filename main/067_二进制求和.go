@@ -36,35 +36,29 @@ func addBinary(a string, b string) string {
 	s := ""
 	i := n1 - 1
 	j := n2 - 1
-	//pre:=uint8(0)
 	jinwei := uint8(0)
 	sum := uint8(0)
 	for i >= 0 && j >= 0 {
 		//这里还有优化的地方，
 		sum = jinwei + (a[i] - '0') + (b[j] - '0')
-		//cur := (a[i] - '0') ^ (b[j] - '0') ^ pre
 		jinwei = sum / 2
 		s = fmt.Sprintf("%v", sum%2) + s
 		i--
 		j--
 	}
 
-	if j >= 0 {
-		for j >= 0 {
-			sum = jinwei + (b[j] - '0')
-			jinwei = sum / 2
-			s = fmt.Sprintf("%v", sum%2) + s
-			j--
-		}
+	for j >= 0 {
+		sum = jinwei + (b[j] - '0')
+		jinwei = sum / 2
+		s = fmt.Sprintf("%v", sum%2) + s
+		j--
 	}
 
-	if i >= 0 {
-		for i >= 0 {
-			sum = jinwei + (a[i] - '0')
-			jinwei = sum / 2
-			s = fmt.Sprintf("%v", sum%2) + s
-			i--
-		}
+	for i >= 0 {
+		sum = jinwei + (a[i] - '0')
+		jinwei = sum / 2
+		s = fmt.Sprintf("%v", sum%2) + s
+		i--
 	}
 
 	if jinwei > 0 {
