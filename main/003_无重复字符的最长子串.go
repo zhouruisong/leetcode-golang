@@ -33,7 +33,7 @@ func lengthOfLongestSubstring(s string) int {
 	i := 0
 	j := 0
 	ans := 0
-	m := make(map[uint8]uint8)
+	m := make(map[uint8]bool)
 
 	for j < n {
 		// try to extend the range [i, j]
@@ -44,7 +44,7 @@ func lengthOfLongestSubstring(s string) int {
 			//startPos = int(math.Max(float64(i), float64(startPos))) //不重复的起始位置
 		} else {
 			ans = int(math.Max(float64(ans), float64(j-i+1))) //字符串长度
-			m[s[j]] = s[j]
+			m[s[j]] = true
 			j += 1
 		}
 	}
@@ -53,24 +53,8 @@ func lengthOfLongestSubstring(s string) int {
 	return ans
 }
 
-func lengthOfLongestSubstring3(s string) int {
-	n := len(s)
-	Map_tmp := make(map[uint8]int)
-	i, ans := 0, 0
-
-	for j := 0; j < n; j++ {
-		if _, ok := Map_tmp[s[j]]; ok {
-			i = Max(i, Map_tmp[s[j]])
-		}
-		ans = Max(ans, j-i+1)
-		Map_tmp[s[j]] = j + 1
-	}
-
-	return ans
-}
-
 func zichuan(s string) int {
-	mp := make(map[uint8]uint8)
+	mp := make(map[uint8]bool)
 	ln := len(s)
 
 	ans := 0
@@ -83,7 +67,7 @@ func zichuan(s string) int {
 			i++
 		} else {
 			ans = Max(ans, j-i+1)
-			mp[s[j]] = s[j]
+			mp[s[j]] = true
 			j++
 		}
 	}
