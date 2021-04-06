@@ -103,10 +103,32 @@ func deleteDuplicates2(head *model.ListNode) *model.ListNode {
 	return newHead.Next
 }
 
+func deleteDuplicates3(head *model.ListNode) *model.ListNode {
+	dummy := &model.ListNode{Next: head}
+	tmp := dummy
+	slow, fast := head, head
+	for fast != nil {
+		for fast.Next != nil && fast.Next.Val == fast.Val {
+			fast = fast.Next
+		}
+		if slow == fast {
+			tmp.Next = slow
+			tmp = tmp.Next
+		}
+		fast = fast.Next
+		slow = fast
+	}
+
+	tmp.Next = nil
+	return dummy.Next
+}
+
 func main() {
 	x := []int{1, 2, 3, 3, 4, 4, 5}
 	tmp1 := model.UnmarshalListBySlice(x)
 	model.PrintList(tmp1)
 	tmp2 := deleteDuplicates2(tmp1)
 	model.PrintList(tmp2)
+	tmp3 := deleteDuplicates3(tmp1)
+	model.PrintList(tmp3)
 }
