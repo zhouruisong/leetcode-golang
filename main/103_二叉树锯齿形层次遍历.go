@@ -52,9 +52,7 @@ func zigzagLevelOrder(root *model.TreeNode) [][]int {
 			}
 		}
 
-		if count%2 == 0 {
-			ret = append(ret, tmp)
-		} else {
+		if count%2 != 0 {
 			l := 0
 			r := len(tmp) - 1
 			for l < r {
@@ -62,8 +60,8 @@ func zigzagLevelOrder(root *model.TreeNode) [][]int {
 				l++
 				r--
 			}
-			ret = append(ret, tmp)
 		}
+		ret = append(ret, tmp)
 
 		count++
 	}
@@ -82,7 +80,7 @@ func zlevelOrder(root *model.TreeNode) [][]int {
 	queueNodes.PushBack(root)
 	res := [][]int{}
 
-	count := 1
+	count := 2
 	for queueNodes.Len() > 0 {
 		n := queueNodes.Len()
 		tmp := []int{}
@@ -96,19 +94,17 @@ func zlevelOrder(root *model.TreeNode) [][]int {
 				queueNodes.PushBack(node.Right)
 			}
 		}
-		if len(tmp) > 0 {
-			if count%2 == 0 {
-				i := 0
-				j := len(tmp) - 1
-				for i < j {
-					tmp[i], tmp[j] = tmp[j], tmp[i]
-					i++
-					j--
-				}
+		if count%2 != 0 {
+			i := 0
+			j := len(tmp) - 1
+			for i < j {
+				tmp[i], tmp[j] = tmp[j], tmp[i]
+				i++
+				j--
 			}
-
-			res = append(res, tmp)
 		}
+
+		res = append(res, tmp)
 		count++
 	}
 
