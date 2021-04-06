@@ -92,9 +92,9 @@ func permute2(nums []int) [][]int {
 	var dfs func(path []int)
 	dfs = func(path []int) {
 		if len(path) == len(nums) {
-			temp := make([]int, len(path))
-			copy(temp, path)
-			res = append(res, temp)
+			//temp := make([]int, len(path))
+			//copy(temp, path)
+			res = append(res, append([]int{}, path...))
 			return
 		}
 		for _, n := range nums {
@@ -175,9 +175,9 @@ func permute4(nums []int) [][]int {
 
 	res := [][]int{}
 	//深拷贝
-	tmp := make([]int, ln)
-	copy(tmp, nums)
-	res = append(res, tmp)
+	//tmp := make([]int, ln)
+	//copy(tmp, nums)
+	res = append(res, append([]int{}, nums...))
 
 	//123 后一个排列是132
 	for {
@@ -207,9 +207,10 @@ func permute4(nums []int) [][]int {
 		sort.Ints(nums[j+1:])
 
 		//深拷贝结果
-		tmp := make([]int, ln)
-		copy(tmp, nums)
-		res = append(res, tmp)
+		//tmp := make([]int, ln)
+		//copy(tmp, nums)
+		//res = append(res, tmp)
+		res = append(res, append([]int{}, nums...))
 	}
 
 	return res

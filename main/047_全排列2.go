@@ -70,8 +70,8 @@ func permuteUnique3(nums []int) [][]int {
 	res := [][]int{}
 	tmp1 := make([]int, len(nums))
 	copy(tmp1, nums)
-	//res = append(res, tmp1)
-	res = append(res, append([]int{}, nums...))
+	res = append(res, tmp1)
+	//res = append(res, append([]int{}, nums...))
 
 	//map去重复
 	mp := make(map[string]struct{})
