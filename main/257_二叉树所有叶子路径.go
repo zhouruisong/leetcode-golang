@@ -1,7 +1,6 @@
 package main
 
 import (
-	"container/list"
 	"fmt"
 	"main/model"
 )
@@ -51,26 +50,27 @@ func binaryTreePaths(root *model.TreeNode) []string {
 		return paths
 	}
 
-	nodeList := list.New()
-	pathList := list.New()
+	//队列
+	nodeList := []*model.TreeNode{root}
+	pathList := []string{fmt.Sprintf("%v", root.Val)}
 
-	nodeList.PushBack(root)
-	pathList.PushBack(fmt.Sprintf("%v", root.Val))
+	for len(nodeList) != 0 {
+		node := nodeList[0]
+		nodeList = nodeList[1:]
+		path := pathList[0]
+		pathList = pathList[1:]
 
-	for nodeList.Len() != 0 {
-		node := nodeList.Remove(nodeList.Front()).(*model.TreeNode)
-		path := pathList.Remove(pathList.Front()).(string)
-		if node.Right == nil && node.Left == nil {
+		if node.Left == nil && node.Right == nil {
 			paths = append(paths, path)
 		}
 
 		if node.Left != nil {
-			nodeList.PushBack(node.Left)
-			pathList.PushBack(fmt.Sprintf("%v->%v", path, node.Left.Val))
+			nodeList = append(nodeList, node.Left)
+			pathList = append(pathList, fmt.Sprintf("%v->%v", path, node.Left.Val))
 		}
 		if node.Right != nil {
-			nodeList.PushBack(node.Right)
-			pathList.PushBack(fmt.Sprintf("%v->%v", path, node.Right.Val))
+			nodeList = append(nodeList, node.Right)
+			pathList = append(pathList, fmt.Sprintf("%v->%v", path, node.Right.Val))
 		}
 	}
 

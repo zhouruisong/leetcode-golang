@@ -80,10 +80,59 @@ func pathSum(root *model.TreeNode, sum int) [][]int {
 	return result
 }
 
+func pathSum2(root *model.TreeNode, sum int) [][]int {
+	if root == nil {
+		return [][]int{}
+	}
+
+	nodeList := []*model.TreeNode{root}
+	sumList := []int{sum - root.Val}
+	pathList := [][]int{}
+	pathList = append(pathList, []int{root.Val})
+
+	result := [][]int{}
+	for len(nodeList) > 0 {
+		n := len(nodeList)
+		for i := 0; i < n; i++ {
+			node := nodeList[0]
+			nodeList = nodeList[1:]
+			sumLeft := sumList[0]
+			sumList = sumList[1:]
+			path := pathList[0]
+			pathList = pathList[1:]
+
+			tmp1 := append([]int{}, path...)
+			tmp2 := append([]int{}, path...)
+
+			if node.Left == nil && node.Right == nil && sumLeft == 0 {
+				result = append(result, path)
+			}
+
+			if node.Left != nil {
+				nodeList = append(nodeList, node.Left)
+				sumList = append(sumList, sumLeft-node.Left.Val)
+				tmp1 = append(tmp1, node.Left.Val)
+				pathList = append(pathList, tmp1)
+			}
+
+			if node.Right != nil {
+				nodeList = append(nodeList, node.Right)
+				sumList = append(sumList, sumLeft-node.Right.Val)
+				tmp2 = append(tmp2, node.Right.Val)
+				pathList = append(pathList, tmp2)
+			}
+
+		}
+	}
+
+	return result
+}
+
 func main() {
 	root := &model.TreeNode{
 		Val: 5,
 	}
 	tree := model.InitBinaryTree(root)
 	fmt.Println(pathSum(tree, 22))
+	fmt.Println(pathSum2(tree, 22))
 }

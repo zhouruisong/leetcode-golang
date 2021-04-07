@@ -47,16 +47,6 @@ func dfs(cur *model.TreeNode) {
 	dfs(cur.Right)
 }
 
-/*
-       5
-      / \
-     3   6
-    / \
-   2   4
-  /
- 1
-*/
-
 func InOrder(current *model.TreeNode) {
 	if current != nil {
 		InOrder(current.Left)
@@ -73,52 +63,156 @@ func printDoubleLink(current *model.TreeNode, n int) {
 	}
 }
 
-//非循环双链表
-func Convert(pRootOfTree *model.TreeNode) *model.TreeNode {
+//单链表,使用中序遍历
+func treeToList2(root *model.TreeNode) {
 	// write code here
-	var pre *model.TreeNode
-	var head *model.TreeNode
+	head := new(model.TreeNode)
+	pre = head
+
 	var f func(cur *model.TreeNode)
+
 	f = func(cur *model.TreeNode) {
 		if cur == nil {
 			return
 		}
 
-		f(cur.Left)
+		//清除left、right，构建单链表形式
+		left, right := cur.Left, cur.Right
+		cur.Left, cur.Right = nil, nil
 
-		if pre != nil {
-			pre.Right = cur
-		} else {
-			head = cur
-		}
-		cur.Left = pre
-		pre = cur
+		pre.Right = cur
+		pre = pre.Right
 
-		f(cur.Right)
+		f(left)
+		f(right)
 	}
 
-	f(pRootOfTree)
-	//如何要求双链表首尾连接,下面两行代码注释掉
-	//head.Left = pre
-	//pre.Right = head
-	return head
+	f(root)
+
+	return
 }
 
+//循环双链表,使用中序遍历
+func treeToDoublyList2(root *model.TreeNode) {
+	// write code here
+	head := new(model.TreeNode)
+	pre = head
+
+	var f func(cur *model.TreeNode)
+
+	f = func(cur *model.TreeNode) {
+		if cur == nil {
+			return
+		}
+
+		//清除left、right，构建单链表形式
+		left, right := cur.Left, cur.Right
+		cur.Left, cur.Right = nil, nil
+
+		pre.Right = cur
+		cur.Left = pre
+		pre = pre.Right
+
+		f(left)
+		f(right)
+	}
+
+	f(root)
+	head.Left = pre
+	pre.Right = head
+	return
+}
+
+//使用水平遍历
+func treeToList(root *model.TreeNode) {
+	if root == nil {
+		return
+	}
+
+	stack := []*model.TreeNode{root}
+	var pre *model.TreeNode
+	for len(stack) > 0 {
+		curr := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+
+		if pre != nil {
+			pre.Left, pre.Right = nil, curr
+		}
+		//前序遍历,右边节点先入栈,后出栈
+		if curr.Right != nil {
+			stack = append(stack, curr.Right)
+		}
+		if curr.Left != nil {
+			stack = append(stack, curr.Left)
+		}
+		pre = curr
+	}
+}
+
+/*
+       1              1
+      / \              \
+     2   5       ->     2
+    / \   \              \
+   3   4   6              3
+                           \
+                            4
+                             \
+                              5
+                               \
+                                6
+
+输入：root = [1,2,5,3,4,null,6]
+输出：[1,null,2,null,3,null,4,null,5,null,6]
+*/
 func main() {
 	root := &model.TreeNode{
-		Val: 5,
+		Val: 1,
 	}
-	root.Left = &model.TreeNode{Val: 3}
-	root.Right = &model.TreeNode{Val: 6}
-
-	root.Left.Left = &model.TreeNode{Val: 2}
+	root.Left = &model.TreeNode{Val: 2}
+	root.Left.Left = &model.TreeNode{Val: 3}
 	root.Left.Right = &model.TreeNode{Val: 4}
 
-	root.Left.Left.Left = &model.TreeNode{Val: 1}
+	root.Right = &model.TreeNode{Val: 5}
+	root.Right.Right = &model.TreeNode{Val: 6}
 
-	//InOrder(root)
+	fmt.Println("循环双链表")
+	InOrder(root)
+	fmt.Println("")
+	//head := treeToDoublyList(root) //循环双链表
+	treeToDoublyList2(root)
+	//Convert(root)
+	printDoubleLink(root, 7)
 
-	//head2 := treeToDoublyList(root)
-	head2 := Convert(root)
-	printDoubleLink(head2, 7)
+	root2 := &model.TreeNode{
+		Val: 1,
+	}
+	root2.Left = &model.TreeNode{Val: 2}
+	root2.Left.Left = &model.TreeNode{Val: 3}
+	root2.Left.Right = &model.TreeNode{Val: 4}
+
+	root2.Right = &model.TreeNode{Val: 5}
+	root2.Right.Right = &model.TreeNode{Val: 6}
+
+	fmt.Println("\n单链表1")
+	InOrder(root2)
+	fmt.Println("")
+	treeToList(root2) //单链表
+	InOrder(root2)
+
+	root3 := &model.TreeNode{
+		Val: 1,
+	}
+	root3.Left = &model.TreeNode{Val: 2}
+	root3.Left.Left = &model.TreeNode{Val: 3}
+	root3.Left.Right = &model.TreeNode{Val: 4}
+
+	root3.Right = &model.TreeNode{Val: 5}
+	root3.Right.Right = &model.TreeNode{Val: 6}
+
+	fmt.Println("\n单链表2")
+	InOrder(root3)
+	fmt.Println("")
+	treeToList2(root3) //单链表2
+	InOrder(root3)
 }

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"container/list"
 	"fmt"
 )
 
@@ -54,33 +53,34 @@ func isValid(s string) bool {
 		return true
 	}
 
-	qu := list.New()
+	//栈
+	qu := []string{}
 	str := ""
 	for i := 0; i < n; i++ {
 		str = string(s[i])
-		fmt.Println("str: ", str)
+		//fmt.Println("str: ", str)
 
 		if str == "(" || str == "[" || str == "{" {
-			qu.PushFront(str)
+			qu = append(qu, str)
 			//fmt.Println("push str: ", str)
 			continue
 		}
 
-		if qu.Len() > 0 {
-			top := qu.Front().Value.(string)
-			fmt.Println("top: ", top)
+		if len(qu) > 0 {
+			top := qu[len(qu)-1]
+			//fmt.Println("top: ", top)
 
 			if str == ")" && top == "(" {
 				//fmt.Println("Remove str: ", str)
-				qu.Remove(qu.Front())
+				qu = qu[:len(qu)-1]
 				continue
 			} else if str == "]" && top == "[" {
 				//fmt.Println("Remove str: ", str)
-				qu.Remove(qu.Front())
+				qu = qu[:len(qu)-1]
 				continue
 			} else if str == "}" && top == "{" {
 				//fmt.Println("Remove str: ", str)
-				qu.Remove(qu.Front())
+				qu = qu[:len(qu)-1]
 				continue
 			}
 		}
@@ -88,16 +88,16 @@ func isValid(s string) bool {
 		return false
 	}
 
-	if qu.Len() > 0 {
+	if len(qu) > 0 {
 		return false
 	}
 	return true
 }
 
 func main() {
-	//x := "([)]"
+	x := "([)]"
 	//x := "()[]{}"
-	x := "]"
+	//x := "]"
 	//x := "["
 	fmt.Println(isValid(x))
 }

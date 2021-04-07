@@ -39,21 +39,21 @@ func levelOrderBottom(root *model.TreeNode) [][]int {
 	}
 
 	p := root
-	var nodes []*model.TreeNode
-	nodes = append(nodes, p)
+	nodes := []*model.TreeNode{p} //队列
 
 	for len(nodes) != 0 {
 		var tmp []int
-		old := nodes
-		nodes = []*model.TreeNode{}
+		n := len(nodes)
 
-		for i := 0; i < len(old); i++ {
-			tmp = append(tmp, old[i].Val)
-			if old[i].Left != nil {
-				nodes = append(nodes, old[i].Left)
+		for i := 0; i < n; i++ {
+			node := nodes[0]
+			nodes = nodes[1:]
+			tmp = append(tmp, node.Val)
+			if node.Left != nil {
+				nodes = append(nodes, node.Left)
 			}
-			if old[i].Right != nil {
-				nodes = append(nodes, old[i].Right)
+			if node.Right != nil {
+				nodes = append(nodes, node.Right)
 			}
 		}
 
@@ -73,13 +73,5 @@ func main() {
 		Val: 5,
 	}
 	tree := model.InitBinaryTree(root)
-
-	//PreOrder(tree)
-	fmt.Println("\n=====")
-	//InOrder(tree)
-	fmt.Println("\n=====")
-	//
-	//PostOrder(tree)
-
 	fmt.Println(levelOrderBottom(tree))
 }

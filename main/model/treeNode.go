@@ -24,7 +24,7 @@ func InitBinaryTree(root *TreeNode) *TreeNode {
 	root.Right.Left = (&TreeNode{}).NewBinaryTreeNode(13)
 	root.Right.Right = (&TreeNode{}).NewBinaryTreeNode(4)
 	root.Right.Right.Right = (&TreeNode{}).NewBinaryTreeNode(1)
-	root.Right.Right.Left = (&TreeNode{}).NewBinaryTreeNode(5)
+	root.Right.Right.Left = (&TreeNode{}).NewBinaryTreeNode(6)
 
 	return root
 }

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"container/list"
 	"fmt"
 	"main/model"
 )
@@ -32,23 +31,22 @@ func zigzagLevelOrder(root *model.TreeNode) [][]int {
 	}
 
 	p := root
-	nodeList := []*model.TreeNode{}
-	nodeList = append(nodeList, p)
-
+	nodeList := []*model.TreeNode{p}
 	var ret [][]int
 	count := 2
+
 	for len(nodeList) > 0 {
 		var tmp []int
-		old := nodeList
-		nodeList = []*model.TreeNode{}
-
-		for i := 0; i < len(old); i++ {
-			tmp = append(tmp, old[i].Val)
-			if old[i].Left != nil {
-				nodeList = append(nodeList, old[i].Left)
+		n := len(nodeList)
+		for i := 0; i < n; i++ {
+			node := nodeList[0]
+			nodeList = nodeList[1:]
+			tmp = append(tmp, node.Val)
+			if node.Left != nil {
+				nodeList = append(nodeList, node.Left)
 			}
-			if old[i].Right != nil {
-				nodeList = append(nodeList, old[i].Right)
+			if node.Right != nil {
+				nodeList = append(nodeList, node.Right)
 			}
 		}
 
@@ -76,22 +74,22 @@ func zlevelOrder(root *model.TreeNode) [][]int {
 		return [][]int{}
 	}
 
-	queueNodes := list.New()
-	queueNodes.PushBack(root)
+	queueNodes := []*model.TreeNode{root}
 	res := [][]int{}
 
 	count := 2
-	for queueNodes.Len() > 0 {
-		n := queueNodes.Len()
+	for len(queueNodes) > 0 {
+		n := len(queueNodes)
 		tmp := []int{}
 		for i := 0; i < n; i++ {
-			node := queueNodes.Remove(queueNodes.Front()).(*model.TreeNode)
+			node := queueNodes[0]
+			queueNodes = queueNodes[1:]
 			tmp = append(tmp, node.Val)
 			if node.Left != nil {
-				queueNodes.PushBack(node.Left)
+				queueNodes = append(queueNodes, node.Left)
 			}
 			if node.Right != nil {
-				queueNodes.PushBack(node.Right)
+				queueNodes = append(queueNodes, node.Right)
 			}
 		}
 		if count%2 != 0 {
