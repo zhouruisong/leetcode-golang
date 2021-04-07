@@ -93,5 +93,6 @@ func main() {
 	}
 	tree := model.InitBinaryTree(root)
 	//PreOrder(tree)
+	fmt.Println(binaryTreePaths(tree))
 	fmt.Println(binaryTreePaths2(tree))
 }
