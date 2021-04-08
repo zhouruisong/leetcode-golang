@@ -20,7 +20,7 @@ import (
 本题目因为要计算三个数，如果靠暴力枚举的话时间复杂度会到 O(n^3)O(n
 3
  )，需要降低时间复杂度
-首先进行数组排序，时间复杂度 O(nlogn)O(nlogn)
+首先进行数组排序，时间复杂度 O(nlogn)
 在数组 nums 中，进行遍历，每遍历一个值利用其下标i，形成一个固定值 nums[i]
 再使用前指针指向 start = i + 1 处，后指针指向 end = nums.length - 1 处，也就是结尾处
 根据 sum = nums[i] + nums[start] + nums[end] 的结果，判断 sum 与目标 target 的距离，如果更近则更新结果 ans
