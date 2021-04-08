@@ -28,36 +28,34 @@ s 表示一个 有效表达式
 func calculate(s string) int {
 	//采用栈存放每个符号和值,遇到*和/时,当前值和栈顶元素作运算将结果入栈,遇到-号,当前值变为负数入栈
 	stack := []int{}
-	//sign := "+"
+	sign := "+" //记录之前的符号
 	num := 0
+	s = s + "+" //在末尾加一个+,防止漏掉最后一个数字
 	for _, ch := range s {
 		if ch == ' ' {
 			continue
 		}
 
-		//"123+5"这样的数变为123 + 5 = 128
+		//"123+5"这样的数变为123
 		if '0' <= ch && ch <= '9' {
 			num = num*10 + int(ch-'0')
 			continue
 		}
 
-		switch ch {
-		case '+':
+		if sign == "+" {
 			stack = append(stack, num)
-		case '-':
+		} else if sign == "-" {
 			stack = append(stack, -num)
-		case '*':
-			n := stack[len(stack)-1] * num
-			stack[len(stack)-1] = n
-		case '/':
-			n := stack[len(stack)-1] / num
-			stack[len(stack)-1] = n
-		default:
-			stack = append(stack, num)
+		} else if sign == "*" {
+			stack[len(stack)-1] = stack[len(stack)-1] * num
+		} else if sign == "/" {
+			stack[len(stack)-1] = stack[len(stack)-1] / num
 		}
+		sign = string(ch) //记录之前的符号
 		num = 0
 	}
 
+	//遍历栈累加结果
 	result := 0
 	for _, v := range stack {
 		result += v
