@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"main/model"
+	"math"
 )
 
 /*
@@ -30,67 +31,39 @@ import (
    15   7
 
 输出: 42
-*/
 
-/*
-解题思路：
-简化一棵树：根，左子树，右子树
-发明一个词：“根的单边路径”：从根节点出发的路径（此路径中每个节点深度都不同）
-那么一个树的“最大路径和”可能的情况有这么几种：
-
-只有根
-完全在左子树中
-完全在右子树中
-根 + 以 根.left 为根的最大单边路径和
-根 + 以 根.right 为根的最大单边路径和
-根 + 以 根.left 为根的最大单边路径和 + 以 根.right 为根的最大单边路径和
-如上，一棵树，只要知道如下4值，即可求得其最大路径和：
-
-左子树最大路径和
-右子树最大路径和
-左子树的单边最大路径和
-右子树的单边最大路径和
-以上4个值可以递归计算，递归截止于叶子节点，4个值都是节点本身的值
+叶节点 9、15、7 的最大贡献值分别为 9、15、7。
+得到叶节点的最大贡献值之后，再计算非叶节点的最大贡献值。节点 20 的最大贡献值等于20+max(15,7)=35，
+节点-10的最大贡献值等于−10+max(9,35)=25。
 */
 
 func maxPathSum(root *model.TreeNode) int {
-	max, _ := maxPathSumImpl(root)
-	return max
-}
+	max := math.MinInt32
+	var dfs func(root *model.TreeNode) int
 
-// 返回值意义：最大路径和，根的单边最大路径和
-func maxPathSumImpl(root *model.TreeNode) (int, int) {
-	if root == nil {
-		return 0, 0
-	}
-
-	if root.Left == nil && root.Right == nil {
-		return root.Val, root.Val
-	}
-
-	if root.Left != nil && root.Right != nil {
-		maxL, maxSideL := maxPathSumImpl(root.Left)
-		maxR, maxSideR := maxPathSumImpl(root.Right)
-		maxSide := maxInt(maxSideL+root.Val, maxSideR+root.Val, root.Val)
-		return maxInt(maxL, maxR, root.Val+maxSideL+maxSideR, maxSide), maxSide
-	} else if root.Left != nil {
-		maxL, maxSideL := maxPathSumImpl(root.Left)
-		return maxInt(maxL, root.Val+maxSideL, root.Val), maxInt(maxSideL+root.Val, root.Val)
-	}
-	maxR, maxSideR := maxPathSumImpl(root.Right)
-	return maxInt(maxR, root.Val+maxSideR, root.Val), maxInt(maxSideR+root.Val, root.Val)
-}
-
-func maxInt(a, b int, cs ...int) int {
-	if a < b {
-		a = b
-	}
-	for _, each := range cs {
-		if a < each {
-			a = each
+	f := func(x, y int) int {
+		if x > y {
+			return x
 		}
+		return y
 	}
-	return a
+
+	dfs = func(root *model.TreeNode) int {
+		if root == nil {
+			return 0
+		}
+
+		//当前节点的左孩子节点的最大子路径和（注意舍弃掉和小于0的路径
+		leftSum := f(0, dfs(root.Left))
+		rightSum := f(0, dfs(root.Right))
+		//更新最大路径和（最大左路径和+最大右路径和+当前节点值）
+		max = f(leftSum+rightSum+root.Val, max)
+		//返回从当前节点出发的最大左/右路径和
+		return f(leftSum, rightSum) + root.Val
+	}
+
+	dfs(root)
+	return max
 }
 
 func main() {

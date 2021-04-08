@@ -67,6 +67,8 @@ func numSquaresHelper(n int) int {
 }
 
 //动态规划
+//动态转移方程为：dp[i] = MIN(dp[i], dp[i - j * j] + 1)，i 表示当前数字，j*j 表示平方数
+//时间复杂度：O(n*sqrt(n))，sqrt 为平方根
 func numSquares2(n int) int {
 	dp := make([]int, n+1)
 	dp[0] = 0

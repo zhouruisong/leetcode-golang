@@ -47,48 +47,6 @@ func addStrings(num1 string, num2 string) string {
 	return res
 }
 
-func reverse(nums []byte) {
-	for i := 0; i < len(nums)/2; i++ {
-		nums[i], nums[len(nums)-i-1] = nums[len(nums)-i-1], nums[i]
-	}
-}
-
-func addStrings2(num1 string, num2 string) string {
-	var maxSlice, minSlice []byte
-	if len(num1) > len(num2) {
-		maxSlice = []byte(num1)
-		minSlice = []byte(num2)
-	} else {
-		maxSlice = []byte(num2)
-		minSlice = []byte(num1)
-	}
-	reverse(maxSlice)
-	reverse(minSlice)
-	var tag byte = 0
-	var temp, tempMin byte
-	for i := 0; i < len(maxSlice); i++ {
-		if i >= len(minSlice) {
-			tempMin = '0'
-		} else {
-			tempMin = minSlice[i]
-		}
-		temp = maxSlice[i] + tempMin - '0' + tag
-		if temp > '9' {
-			maxSlice[i] = temp - 10
-			tag = 1
-		} else {
-			maxSlice[i] = temp
-			tag = 0
-		}
-	}
-	if tag == 1 {
-		maxSlice = append(maxSlice, '1')
-	}
-
-	reverse(maxSlice)
-	return string(maxSlice)
-}
-
 func main() {
 	arr1 := "1"
 	arr2 := "1"
