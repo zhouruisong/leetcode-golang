@@ -38,17 +38,14 @@ func isCompleteTree(root *model.TreeNode) bool {
 	//完全二叉树在遇到空节点之后剩余的应当全是空节点
 	qu := list.New()
 	qu.PushBack(root)
-	//top := qu.Front().Value.(*TreeNode)
 	for qu.Front().Value.(*model.TreeNode) != nil {
 		node := qu.Remove(qu.Front()).(*model.TreeNode)
 		qu.PushBack(node.Left)
 		qu.PushBack(node.Right)
-		//top = qu.Front().Value.(*TreeNode)
 	}
-	//top = qu.Front().Value.(*TreeNode)
+
 	for qu.Len() != 0 && qu.Front().Value.(*model.TreeNode) == nil {
 		qu.Remove(qu.Front())
-		//top = qu.Front().Value.(*TreeNode)
 	}
 
 	return qu.Len() == 0

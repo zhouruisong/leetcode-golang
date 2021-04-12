@@ -1,7 +1,6 @@
 package main
 
 import (
-	"container/list"
 	"fmt"
 	"main/model"
 )
@@ -39,14 +38,14 @@ func isSymmetric(root *model.TreeNode) bool {
 		return true
 	}
 
-	node := list.New()
-	//两个root在里面
-	node.PushBack(root)
-	node.PushBack(root)
+	//两个root在里面,采用栈
+	node := []*model.TreeNode{root, root}
 
-	for node.Len() != 0 {
-		node1 := node.Remove(node.Back()).(*model.TreeNode)
-		node2 := node.Remove(node.Back()).(*model.TreeNode)
+	for len(node) != 0 {
+		node1 := node[len(node)-1]
+		node = node[:len(node)-1]
+		node2 := node[len(node)-1]
+		node = node[:len(node)-1]
 
 		if node1 == nil && node2 == nil {
 			continue
@@ -60,10 +59,10 @@ func isSymmetric(root *model.TreeNode) bool {
 			return false
 		}
 
-		node.PushBack(node1.Left)
-		node.PushBack(node2.Right)
-		node.PushBack(node1.Right)
-		node.PushBack(node2.Left)
+		node = append(node, node1.Left)
+		node = append(node, node2.Right)
+		node = append(node, node1.Right)
+		node = append(node, node2.Left)
 	}
 
 	return true
@@ -94,5 +93,5 @@ func main() {
 		Val: 1,
 	}
 	tree := model.InitBinaryTree3(root)
-	fmt.Println(isSymmetric2(tree))
+	fmt.Println(isSymmetric(tree), isSymmetric2(tree))
 }

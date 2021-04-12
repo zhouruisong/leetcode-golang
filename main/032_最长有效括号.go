@@ -1,7 +1,6 @@
 package main
 
 import (
-	"container/list"
 	"fmt"
 	"sort"
 )
@@ -26,20 +25,21 @@ func longestValidParentheses(s string) int {
 		return 0
 	}
 
-	stack := list.New()
+	stack := []int{} //栈
 	res := []int{}
 
 	//  )(()())
 	for k, v := range s {
 		//为 '('的字符,将位置入栈,后面匹配使用
 		if v == '(' {
-			stack.PushFront(k)
+			stack = append(stack, k)
 			continue
 		}
 
 		//匹配stack的栈顶为 '(',存储位置和当前')'的位置
-		if v == ')' && stack.Len() > 0 {
-			res = append(res, stack.Remove(stack.Front()).(int))
+		if v == ')' && len(stack) > 0 {
+			res = append(res, stack[len(stack)-1])
+			stack = stack[:len(stack)-1]
 			res = append(res, k)
 		}
 	}

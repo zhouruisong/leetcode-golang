@@ -1,7 +1,6 @@
 package main
 
 import (
-	"container/list"
 	"fmt"
 	"main/model"
 )
@@ -24,15 +23,16 @@ func swapPairs(head *model.ListNode) *model.ListNode {
 
 	first := head
 	count := 0
-	nodeList := list.New()
+	nodeList := []*model.ListNode{}
 
 	for first != nil {
-		nodeList.PushBack(first)
+		nodeList = append(nodeList, first)
 		first = first.Next
 		count++
 		if count%2 == 0 {
-			for nodeList.Len() > 0 {
-				b := nodeList.Remove(nodeList.Back()).(*model.ListNode)
+			for len(nodeList) > 0 {
+				b := nodeList[len(nodeList)-1]
+				nodeList = nodeList[:len(nodeList)-1]
 				//fmt.Println(b.Val)
 				tmp.Next = b
 				tmp = tmp.Next
@@ -40,9 +40,10 @@ func swapPairs(head *model.ListNode) *model.ListNode {
 		}
 	}
 
-	for nodeList.Len() > 0 {
-		b := nodeList.Remove(nodeList.Back()).(*model.ListNode)
+	for len(nodeList) > 0 {
 		//fmt.Println(b.Val)
+		b := nodeList[len(nodeList)-1]
+		nodeList = nodeList[:len(nodeList)-1]
 		tmp.Next = b
 		tmp = tmp.Next
 	}
