@@ -93,3 +93,12 @@ docker exec ceph-mgr ceph mgr services
 
 //创建用户
 radosgw-admin user create --uid=test01 --display-name=test01 --access-key=test01 --secret-key=test01 --email=test01@qq.com
+
+//查询pool
+ceph osd lspools
+//查询对象在那些osd上
+osd map zrs myobject
+//查询指定pool下的对象
+ceph osd map zrs
+//往指定pool打入数据压侧
+rados -p zrs bench 20 write --no-cleanup
