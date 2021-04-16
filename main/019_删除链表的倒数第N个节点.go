@@ -54,9 +54,12 @@ func removeNthFromEnd2(head *model.ListNode, n int) *model.ListNode {
 
 	pre := newHead
 	first := head
-	for first != nil && n-1 > 0 {
+	for i := 0; i < n; i++ {
+		if first == nil {
+			return nil
+		}
+
 		first = first.Next
-		n--
 	}
 
 	second := head
