@@ -19,16 +19,14 @@ func printMin(x []string) int {
 	fmt.Printf("num: %+v\n", num)
 
 	ln := len(num)
-	for i := 0; i < ln; i++ {
-		sort.Slice(num, func(i, j int) bool {
-			num1 := num[i] + num[j]
-			num2 := num[j] + num[i]
-			if strings.Compare(num1, num2) < 0 {
-				return true
-			}
-			return false
-		})
-	}
+	sort.Slice(num, func(i, j int) bool {
+		num1 := num[i] + num[j]
+		num2 := num[j] + num[i]
+		if strings.Compare(num1, num2) < 0 {
+			return true
+		}
+		return false
+	})
 
 	fmt.Printf("num: %+v\n", num)
 
