@@ -88,7 +88,7 @@
     docker exec ceph-mgr ceph mgr services
     -------------------------------------------
     {
-       "dashboard": "http://10.10.85.38:7000"
+       "dashboard": "http://10.00.00.00:7000"
     }
     
     //创建用户
