@@ -121,4 +121,4 @@
    
 excel生成图表
 
-    ![avatar](./excel.png)
+    ![avatar](https://github.com/zhouruisong/leetcode-golang/blob/master/excel.png)
