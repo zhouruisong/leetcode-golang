@@ -10,63 +10,7 @@ import (
 	"fmt"
 )
 
-type hashNode struct {
-	Id    int
-	Index int
-}
-
-func twoSum(input []int, target int) map[int]int {
-	m := make(map[int]hashNode)
-	ret := make(map[int]int, 2)
-	for k, v := range input {
-		other := target - v
-		val, ok := m[other]
-		if !ok {
-			h := hashNode{
-				Id:    v,
-				Index: k,
-			}
-			m[v] = h
-			continue
-		}
-
-		ret[0] = k
-		ret[1] = val.Index
-
-		return ret
-	}
-
-	return ret
-}
-
-type Kv struct {
-	Key int
-	Val int
-}
-
-func twoSum2(nums []int, target int) []int {
-	var result []int
-	mp := make(map[int]Kv)
-	for k, v := range nums {
-		other := target - v
-		val, ok := mp[other]
-		if ok {
-			result = append(result, k)
-			result = append(result, val.Val)
-			break
-		} else {
-			t := Kv{
-				Key: v,
-				Val: k,
-			}
-			mp[v] = t
-		}
-	}
-
-	return result
-}
-
-func twoSum3(nums []int, target int) []int {
+func twoSum(nums []int, target int) []int {
 	mp := make(map[int]int)
 	for k, v := range nums {
 		other := target - v
@@ -83,12 +27,7 @@ func twoSum3(nums []int, target int) []int {
 func main() {
 	input := []int{2, 7, 11, 15}
 	target := 22
-	//ret := twoSum(input, target)
-	//for _, v := range ret {
-	//	fmt.Printf("ret=%+v\n", v)
-	//}
-
-	ret2 := twoSum3(input, target)
+	ret2 := twoSum(input, target)
 	for _, v := range ret2 {
 		fmt.Printf("ret2=%+v\n", v)
 	}

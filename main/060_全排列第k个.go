@@ -151,6 +151,10 @@ func getPermutation3(n int, k int) string {
 }
 
 func getPermutation4(n int, k int) string {
+	if n > 9 || n <= 0 {
+		return ""
+	}
+
 	nums := []int{}
 	for i := 1; i <= n; i++ {
 		nums = append(nums, i)
