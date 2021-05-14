@@ -8,7 +8,6 @@ import (
 
 func testFunc(p1 map[string]bool, p2 []int) {
 	//fmt.Println(cap(p2)) //长度1 容量1
-
 	//sliece扩容是新分配空间,空间长度是原来长度的两倍,空间地址变了
 
 	x := (*[3]uintptr)(unsafe.Pointer(&p2))
@@ -81,13 +80,11 @@ func main() {
 	testFunc(mp, list)
 
 	fmt.Println(x1[0])
-
 	//这里slice的地址指向的还是原来的空间地址
 	fmt.Println(len(list), cap(list))
 
-	fmt.Println(list)
-	fmt.Println(list[1:2]) //未扩容的数据,地址还是原来的地址,可以发现第二个切片的值是2
-	fmt.Println(list[2:3]) //未扩容的数据,地址还是原来的地址, 可以发现第二个切片的值是3
-
+	fmt.Println(list, list[1:2], list[2:3])
+	//fmt.Println(list[1:2]) //未扩容的数据,地址还是原来的地址,可以发现第二个切片的值是2
+	//fmt.Println(list[2:3]) //未扩容的数据,地址还是原来的地址, 可以发现第二个切片的值是3
 	fmt.Println(mp)
 }
