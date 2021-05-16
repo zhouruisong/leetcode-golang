@@ -86,7 +86,7 @@ func findMedianSortedArrays2(nums1 []int, nums2 []int) float64 {
 	// 在 nums1 的区间 [0, m] 里查找恰当的分割线，
 	// 使得 nums1[i - 1] <= nums2[j] && nums2[j - 1] <= nums1[i]
 	left := 0
-	right := m
+	right := m - 1
 	for left < right {
 		i := left + (right-left+1)/2
 		j := totalLeft - i
@@ -102,31 +102,58 @@ func findMedianSortedArrays2(nums1 []int, nums2 []int) float64 {
 	i := left
 	j := totalLeft - i
 
-	nums1LeftMax := math.MinInt32
-	if i > 0 {
-		nums1LeftMax = nums1[i-1]
+	fmt.Println(i, j)
+
+	/*
+	   实现三元表达式的功能
+	*/
+	threeFunc := func(condition bool, trueVal int32, falseVal int) int {
+		if condition {
+			return int(trueVal)
+		} else {
+			return falseVal
+		}
 	}
 
-	nums1RightMin := math.MaxInt32
-	if i != m {
-		nums1RightMin = nums1[i]
-	}
-
-	nums2LeftMax := math.MinInt32
-	if j > 0 {
-		nums2LeftMax = nums2[j-1]
-	}
-
-	nums2RightMin := math.MaxInt32
-	if j != n {
-		nums2RightMin = nums2[j]
-	}
-
+	nums1LeftMax := threeFunc(i == 0, math.MinInt32, nums1[i-1])
+	nums1RightMin := threeFunc(i == m, math.MaxInt32, nums1[i])
+	nums2LeftMax := threeFunc(j == 0, math.MinInt32, nums2[j-1])
+	nums2RightMin := threeFunc(j == n, math.MaxInt32, nums2[j])
 	if ((m + n) % 2) == 1 {
 		return math.Max(float64(nums1LeftMax), float64(nums2LeftMax))
 	} else {
 		return (math.Max(float64(nums1LeftMax), float64(nums2LeftMax)) + math.Min(float64(nums1RightMin), float64(nums2RightMin))) / 2
 	}
+
+	////i=0 没有意义，nums1LeftMax设置为最小值，为了不被选中
+	//nums1LeftMax := math.MinInt32
+	//if i > 0 {
+	//	nums1LeftMax = nums1[i-1]
+	//}
+	//
+	////i=m 没有意义，nums1RightMin设置为最大值，为了不被选中
+	//nums1RightMin := math.MaxInt32
+	//if i != m {
+	//	nums1RightMin = nums1[i]
+	//}
+	//
+	////j=0 没有意义，nums2LeftMax设置为最小值，为了不被选中
+	//nums2LeftMax := math.MinInt32
+	//if j > 0 {
+	//	nums2LeftMax = nums2[j-1]
+	//}
+	//
+	////j=n 没有意义，nums2RightMin设置为最大值，为了不被选中
+	//nums2RightMin := math.MaxInt32
+	//if j != n {
+	//	nums2RightMin = nums2[j]
+	//}
+	//
+	//if ((m + n) % 2) == 1 {
+	//	return math.Max(float64(nums1LeftMax), float64(nums2LeftMax))
+	//} else {
+	//	return (math.Max(float64(nums1LeftMax), float64(nums2LeftMax)) + math.Min(float64(nums1RightMin), float64(nums2RightMin))) / 2
+	//}
 }
 
 func main() {
