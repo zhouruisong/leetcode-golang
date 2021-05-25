@@ -1,8 +1,6 @@
 package main
 
-import (
-	"main/model"
-)
+import "leetcode-golang/main/model"
 
 /*
 给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
@@ -79,6 +77,7 @@ func main() {
 	v1 := []int{1, 2, 3, 4, 5}
 	head := model.UnmarshalListBySlice(v1)
 	model.PrintList(head)
-	head = removeNthFromEnd2(head, 2)
+	//head = removeNthFromEnd2(head, 2)
+	head = removeNthFromEnd(head, 2)
 	model.PrintList(head)
 }
