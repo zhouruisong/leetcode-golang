@@ -102,9 +102,9 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 	}
 
 	//打印dp
-	for i := 0; i <= n1; i++ {
-		//fmt.Println(dp[i])
-	}
+	//for i := 0; i <= n1; i++ {
+	//fmt.Println(dp[i])
+	//}
 
 	//求子序列内容
 	// 求LCS

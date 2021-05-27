@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"main/model"
+	"leetcode-golang/main/model"
 )
 
 /*

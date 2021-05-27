@@ -2,7 +2,7 @@ package main
 
 import (
 	"container/heap"
-	"main/model"
+	"leetcode-golang/main/model"
 )
 
 /*

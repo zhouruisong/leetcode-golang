@@ -2,17 +2,18 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	//"strings"
 )
 
 /*
 实现strings.ReplaceAll函数
-s:="abcabd" 中所有"ab"替换为"1"，返回结果"cd"
+s:="abcabd" 中所有"ab"替换为"1"，返回结果"1c1d"
 */
 
-func substr2(dest, s1, s2 string) []string {
+func substr2(dest, s1, s2 string) string {
 	if len(dest) == 0 {
-		return []string{}
+		return ""
 	}
 
 	n1 := len(dest)
@@ -22,31 +23,27 @@ func substr2(dest, s1, s2 string) []string {
 	i := 0
 	for i < n1 {
 		if i+n2 > n1 {
+			res = append(res, dest[i:])
 			break
 		}
 		s := dest[i : i+n2]
 		if s == s1 {
 			i = i + n2
-			for j := 0; j < n2; j++ {
-				res = append(res, s2)
-			}
+			res = append(res, s2)
 		} else {
-			res = append(res, s)
+			res = append(res, string(dest[i]))
 			i++
 		}
 	}
 
-	fmt.Println(res)
-	result := []string{}
+	result := ""
 	for i := 0; i < len(res); i++ {
-		if res[i] != s2 {
-			result = append(result, res[i])
-		}
+		result = result + res[i]
 	}
 	return result
-	//return strings.ReplaceAll(dest, s1, s2)
 }
 
 func main() {
+	fmt.Println(strings.ReplaceAll("abcabd", "ab", "1"))
 	fmt.Println(substr2("abcabd", "ab", "1"))
 }
