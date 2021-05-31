@@ -32,7 +32,7 @@ candidates 中的数字可以无限制重复被选取。
 ]
 */
 
-//时间复杂度：O(S)，其中 SS 为所有可行解的长度之和， 上届是o(n*2^n)
+//时间复杂度：O(S)，其中 S 为所有可行解的长度之和， 上届是o(n*2^n)
 func combinationSum(candidates []int, target int) [][]int {
 	// https://leetcode-cn.com/problems/combination-sum/solution/shou-hua-tu-jie-zu-he-zong-he-combination-sum-by-x/
 	// 未排序

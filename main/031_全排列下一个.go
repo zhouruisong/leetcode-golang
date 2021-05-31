@@ -62,16 +62,16 @@ func nextPermutation(nums []int) {
 		return
 	}
 
-	//先从后向前第一个相邻元素升序的位置i，j
-	I := 0
-	J := 0
+	I, J := 0, 0
+	//从后向前找，第一个满足nums[i-1] < nums[i]
 	i := n - 1
-	for ; i >= 1; i-- {
+	for i >= 1 {
 		if nums[i-1] < nums[i] {
 			I = i - 1
 			J = i
 			break
 		}
+		i--
 	}
 
 	if i < 1 {
@@ -80,24 +80,26 @@ func nextPermutation(nums []int) {
 		return
 	}
 
-	//从查找[J,n)范围内从后向前查找第一个nums[I] < nums[K]的K，将nums[I] 和 nums[K]交换
-	for i := n - 1; i >= J; i-- {
-		//从后向前查找第一个满足 A[i] < A[k] 的 k
-		if nums[I] < nums[i] {
-			//交换
-			nums[i], nums[I] = nums[I], nums[i]
+	//从[J,n-1]从后往前找，满足nums[k] > nums[I]
+	k := n - 1
+	for k >= J {
+		if nums[k] > nums[I] {
+			//交换k和I位置对应的值
+			nums[k], nums[I] = nums[I], nums[k]
 			break
 		}
+		k--
 	}
 
 	//逆置 [J,n)，使其升序
 	sort.Ints(nums[J:])
+	return
 }
 
 func main() {
-	//x := []int{1, 2, 3} // 132
+	x := []int{1, 2, 3} // 132
 	//x := []int{3, 2, 1} // 123
-	x := []int{1, 2, 3, 4, 6, 5} // 123546
+	//x := []int{1, 2, 3, 4, 6, 5} // 123546
 	nextPermutation(x)
 	fmt.Println(x)
 }
